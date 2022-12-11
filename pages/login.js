@@ -13,6 +13,7 @@ import login_validate from "../lib/validate";
 export default function Login() {
   const [show, setShow] = useState(false);
   const router = useRouter();
+  console.log(process.env.PROD_URL, "PROD");
 
   // formik hook
   const formik = useFormik({
@@ -36,7 +37,11 @@ export default function Login() {
   }
   // Google Handler function
   async function handleGoogleSignin() {
-    signIn("google", { callbackUrl: "http://localhost:3000" });
+    signIn("google", {
+      callbackUrl: process.env.PROD_URL
+        ? process.env.PROD_URL
+        : "http://localhost:3000",
+    });
   }
 
   // Github Login
