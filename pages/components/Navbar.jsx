@@ -5,6 +5,9 @@ import Link from "next/link";
 import {
   WrenchScrewdriverIcon,
   ArrowRightOnRectangleIcon,
+  ServerIcon,
+  UserIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
 function Navbar() {
@@ -15,9 +18,22 @@ function Navbar() {
     signOut();
   }
   return (
-    <nav className="flex flex-col p-5 w-50 bg-slate-200 items-center">
-      <div className="">Navbar Menu</div>
-      <div className="flex flex-grow"></div>
+    <nav className="flex flex-col p-2 w-50 bg-slate-200 items-center border-l-2 shadow-md">
+      <div className="text-gray-700 font-bold p-5">Navbar Menu</div>
+      <div className="flex flex-grow flex-col items-start w-full text-gray-600">
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <UserGroupIcon className="w-6 h-6" />
+          <Link href="/crm">CRM</Link>
+        </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <ServerIcon className="w-6 h-6" />
+          <Link href="/projects">Projekty</Link>
+        </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <UserIcon className="w-6 h-6" />
+          <Link href="/employees">Zaměstnanci</Link>
+        </div>
+      </div>
 
       <div className="flex flex-row">
         <Link

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Layout from "../layout/layout";
+import LoginLayout from "../layout/LoginLayout";
 import Link from "next/link";
 import styles from "../styles/Form.module.css";
 import Image from "next/image";
@@ -39,7 +39,7 @@ export default function Registr() {
   }
 
   return (
-    <Layout>
+    <LoginLayout>
       <Head>
         <title>Registr</title>
       </Head>
@@ -166,6 +166,6 @@ export default function Registr() {
           Have an account? <Link href={"/login"}>Sign In</Link>
         </p>
       </section>
-    </Layout>
+    </LoginLayout>
   );
 }

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Layout from "../layout/layout";
+import LoginLayout from "../layout/LoginLayout";
 import Link from "next/link";
 import styles from "../styles/Form.module.css";
 import Image from "next/image";
@@ -48,7 +48,7 @@ export default function Login() {
   }
 
   return (
-    <Layout>
+    <LoginLayout>
       <Head>
         <title>Login</title>
       </Head>
@@ -131,6 +131,6 @@ export default function Login() {
           nemáte účet? <Link href={"/register"}>Zaregistrovat </Link>
         </p>
       </section>
-    </Layout>
+    </LoginLayout>
   );
 }
