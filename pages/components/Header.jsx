@@ -18,7 +18,7 @@ function Header() {
               className="rounded-full w-16 h-16"
               src={session.user.image}
               alt="User img"
-              referrerpolicy="no-referrer"
+              referrerPolicy="no-referrer"
             />
           ) : (
             <img

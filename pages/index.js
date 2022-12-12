@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 
 const Home = () => {
   const { data: session } = useSession();
+  // console.log(session);
 
   //Sign Out function
   function handleSignOut() {
@@ -48,7 +49,7 @@ function Guest() {
 
 // Authorize User
 function User({ session, handleSignOut }) {
-  console.log(session);
+  //console.log(session);
   return (
     <main className="container mx-auto text-center h-full">
       <Header />

@@ -14,6 +14,7 @@ export default function Registr() {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
+      name: "",
       username: "",
       email: "",
       password: "",
@@ -30,10 +31,10 @@ export default function Registr() {
       body: JSON.stringify(values),
     };
 
-    await fetch("http://localhost:3000/api/auth/signup", options)
+    await fetch("/api/auth/signup", options)
       .then((res) => res.json())
       .then((data) => {
-        if (data) router.push("http://localhost:3000");
+        if (data) router.push(process.env.APP_URL);
       });
   }
 
@@ -53,6 +54,22 @@ export default function Registr() {
 
         {/* form */}
         <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
+          <div
+            className={`${styles.input_group} ${
+              formik.errors.name && formik.touched.name ? "border-rose-600" : ""
+            }`}
+          >
+            <input
+              type="text"
+              name="Name"
+              placeholder="Name"
+              className={styles.input_text}
+              {...formik.getFieldProps("name")}
+            />
+            <span className="icon flex items-center px-4">
+              <HiOutlineUser size={25} />
+            </span>
+          </div>
           <div
             className={`${styles.input_group} ${
               formik.errors.username && formik.touched.username
