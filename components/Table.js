@@ -1,7 +1,14 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
-import data from "../database/data.json";
+//import data from "../database/data.json";
+import { getEmployee } from "./employee/fetchEmployee";
+import { useQuery } from "react-query";
 
 export default function Table() {
+  //getEmployee().then((res) => console.log(res));
+  const { isLoading, isError, data, error } = useQuery("employee", getEmployee);
+  if (isLoading) return <div>Loading ...</div>;
+  if (isError) return <div>Error: {error}</div>;
+
   return (
     <table className="min-w-full table-auto">
       <thead>
@@ -39,7 +46,11 @@ function Tr({ id, name, avatar, email, salary, date, status }) {
   return (
     <tr className="bg-gray-50 text-center">
       <td className="px-16 py-2 flex flex-row items-center">
-        <img src={avatar || "#"} alt="" />
+        <img
+          src={avatar || "#"}
+          alt=""
+          className="w-8 h-8 rounded-full object-cover"
+        />
         <span className="text-center ml-2 font-semibold">
           {name || "Neznámé"}
         </span>

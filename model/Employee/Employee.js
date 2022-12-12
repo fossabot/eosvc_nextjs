@@ -12,6 +12,6 @@ const employeeSchema = new Schema(
   { collection: "Employees" }
 );
 
-const Employee = models.employee || model("user", employeeSchema);
+const Employee = models.employee || model("employee", employeeSchema);
 
 export default Employee;

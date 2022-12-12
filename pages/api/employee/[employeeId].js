@@ -1,5 +1,5 @@
 import connectMongo from "../../../database/conn";
-import { getEmployees } from "../../../database/controllers/employee/getEmployees";
+import { getEmployee } from "../../../database/controllers/employee/getEmployee";
 import { addEmployee } from "../../../database/controllers/employee/addEmployee";
 import { editEmployee } from "../../../database/controllers/employee/editEmployee";
 import { deleteEmployee } from "../../../database/controllers/employee/deleteEmployee";
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   switch (method) {
     case "GET":
-      getEmployees(req, res);
+      getEmployee(req, res);
       break;
     case "POST":
       addEmployee(req, res);
