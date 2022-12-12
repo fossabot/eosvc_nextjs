@@ -45,10 +45,9 @@ export default function Registr() {
       </Head>
       <section className="w-3/4 mx-auto flex flex-col gap-10">
         <div className="title">
-          <h1 className="text-gray-800 text-4xl font-bold py-4">Register</h1>
+          <h1 className="text-gray-800 text-4xl font-bold py-4">Registrace</h1>
           <p className="w-3/4 mx-auto text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
-            officia?
+            Chcete začít používat aplikaci eOSVC stačí se zaregistrovat.
           </p>
         </div>
 
@@ -62,7 +61,7 @@ export default function Registr() {
             <input
               type="text"
               name="Name"
-              placeholder="Name"
+              placeholder="Jméno"
               className={styles.input_text}
               {...formik.getFieldProps("name")}
             />
@@ -99,7 +98,7 @@ export default function Registr() {
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="E-mail"
               className={styles.input_text}
               {...formik.getFieldProps("email")}
             />
@@ -118,7 +117,7 @@ export default function Registr() {
             <input
               type={`${show.password ? "text" : "password"}`}
               name="password"
-              placeholder="password"
+              placeholder="Heslo"
               className={styles.input_text}
               {...formik.getFieldProps("password")}
             />
@@ -141,7 +140,7 @@ export default function Registr() {
             <input
               type={`${show.cpassword ? "text" : "password"}`}
               name="cpassword"
-              placeholder="Confirm Password"
+              placeholder="Potvrdit Heslo"
               className={styles.input_text}
               {...formik.getFieldProps("cpassword")}
             />

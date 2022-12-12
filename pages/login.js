@@ -54,10 +54,9 @@ export default function Login() {
       </Head>
       <section className="w-3/4 mx-auto flex flex-col gap-10">
         <div className="title">
-          <h1 className="text-gray-800 text-4xl font-bold py-4">Explore</h1>
+          <h1 className="text-gray-800 text-4xl font-bold py-4">eOSVC</h1>
           <p className="w-3/4 mx-auto text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
-            officia?
+            Vstup do nejlepší aplikace pro živnostníky na světě.
           </p>
         </div>
         <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
@@ -96,7 +95,7 @@ export default function Login() {
           </div>
           <div className="input-button">
             <button type="submit" className={styles.button}>
-              Login
+              Přihlásit
             </button>
           </div>
           <div>
@@ -104,7 +103,7 @@ export default function Login() {
               className={styles.button_custom}
               onClick={handleGoogleSignin}
             >
-              Sign In with Google
+              Přihlásit pomocí
               <Image
                 src={"/assets/google.svg"}
                 width="20"
@@ -118,7 +117,7 @@ export default function Login() {
               className={styles.button_custom}
               onClick={handleGithubSignin}
             >
-              Sign In with GitHub
+              Přihlásit pomocí
               <Image
                 src={"/assets/github.svg"}
                 width={25}
@@ -129,7 +128,7 @@ export default function Login() {
           </div>
         </form>
         <p className="text-center text-gray-400 ">
-          don't have an account yet? <Link href={"/register"}>Sign Up </Link>
+          nemáte účet? <Link href={"/register"}>Zaregistrovat </Link>
         </p>
       </section>
     </Layout>
