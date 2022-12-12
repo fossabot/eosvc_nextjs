@@ -62,7 +62,7 @@ function Tr({ id, name, avatar, email, salary, date, status }) {
         <button className="cursor">
           <span
             className={`${
-              status === active ? "bg-green-500" : "bg-red-500"
+              status === "Active" ? "bg-green-500" : "bg-red-500"
             } text-white px-5 py-1 rounded-full`}
           >
             {status || "Neznámé"}
