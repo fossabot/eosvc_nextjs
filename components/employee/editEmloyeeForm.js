@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { BiPlus } from "react-icons/bi";
+import { BiBrush } from "react-icons/bi";
 import Success from "../success";
 
 const formReducer = (state, event) => {
@@ -9,7 +9,7 @@ const formReducer = (state, event) => {
   };
 };
 
-function editEmployeeForm() {
+function EditEmployeeForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
   console.log(formData);
 
@@ -100,11 +100,11 @@ function editEmployeeForm() {
         onClick={handleSubmit}
         className="flex justify-center items-center text-md w-2/6 bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500 gap-2"
       >
-        Přidat
-        <BiPlus size={18} className="" />
+        Upravit
+        <BiBrush size={18} className="" />
       </button>
     </form>
   );
 }
 
-export default editEmployeeForm;
+export default EditEmployeeForm;

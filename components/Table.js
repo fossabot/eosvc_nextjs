@@ -1,4 +1,5 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
+import data from "../database/data.json";
 
 export default function Table() {
   return (
@@ -26,33 +27,41 @@ export default function Table() {
         </tr>
       </thead>
       <tbody className="bg-gray-200">
-        <tr className="bg-gray-50 text-center">
-          <td className="px-16 py-2 flex flex-row items-center">
-            <img src="#" alt="" />
-            <span className="text-center ml-2 font-semibold">
-              Pavel Dovhomilja
-            </span>
-          </td>
-          <td>pavel@dovhomilja.cz</td>
-          <td>200.000CZK</td>
-          <td>4.8.1981</td>
-          <td>
-            <button className="cursor">
-              <span className="bg-green-500 text-white px-5 py-1 rounded-full">
-                Aktivní
-              </span>
-            </button>
-          </td>
-          <td className="px-16 py-2 justify-around gap-4">
-            <button className="cursor px-2">
-              <BiEdit size={25} color="green" />
-            </button>
-            <button className="curso px-2">
-              <BiTrashAlt size={25} color="red" />
-            </button>
-          </td>
-        </tr>
+        {data.map((item, i) => (
+          <Tr {...item} key={i} />
+        ))}
       </tbody>
     </table>
+  );
+}
+
+function Tr({ id, name, avatar, email, salary, date, status }) {
+  return (
+    <tr className="bg-gray-50 text-center">
+      <td className="px-16 py-2 flex flex-row items-center">
+        <img src={avatar || "#"} alt="" />
+        <span className="text-center ml-2 font-semibold">
+          {name || "Neznámé"}
+        </span>
+      </td>
+      <td>{email || "Neznámé"}</td>
+      <td>{salary || "Neznámé"}</td>
+      <td>{date || "Neznámé"}</td>
+      <td>
+        <button className="cursor">
+          <span className="bg-green-500 text-white px-5 py-1 rounded-full">
+            {status || "Neznámé"}
+          </span>
+        </button>
+      </td>
+      <td className="px-16 py-2 justify-around gap-4">
+        <button className="cursor px-2">
+          <BiEdit size={25} color="green" />
+        </button>
+        <button className="curso px-2">
+          <BiTrashAlt size={25} color="red" />
+        </button>
+      </td>
+    </tr>
   );
 }
