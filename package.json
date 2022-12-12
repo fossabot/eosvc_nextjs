@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.13",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "formik": "^2.2.9",

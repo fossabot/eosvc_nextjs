@@ -2,6 +2,10 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import {
+  WrenchScrewdriverIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 function Navbar() {
   //Sign Out function
@@ -11,25 +15,23 @@ function Navbar() {
     signOut();
   }
   return (
-    <nav className="w-[300px] bg-slate-200">
-      <div>Navbar Menu</div>
-      <div className="flex justify-center ">
+    <nav className="flex flex-col p-5 w-50 bg-slate-200 items-center">
+      <div className="">Navbar Menu</div>
+      <div className="flex flex-grow"></div>
+
+      <div className="flex flex-row">
         <Link
           href={"/profile"}
-          className="mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50"
+          className="mt-5 px-10 py-1 rounded-sm text-gray-600"
         >
-          Profile Page
+          <WrenchScrewdriverIcon className="w-6 h-6" />
         </Link>
-      </div>
-      <div>
-        <div className="flex justify-center">
-          <button
-            onClick={handleSignOut}
-            className="mt-5 px-10 py-1 rounded-sm bg-indigo-500"
-          >
-            Sign Out
-          </button>
-        </div>
+        <button
+          onClick={handleSignOut}
+          className="mt-5 px-10 py-1 text-gray-600"
+        >
+          <ArrowRightOnRectangleIcon className="w-6 h-6" />
+        </button>
       </div>
     </nav>
   );

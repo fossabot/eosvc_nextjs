@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { getSession, useSession, signOut } from "next-auth/react";
+import AppLayout from "../layout/AppLayout";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Main from "./components/Main";
@@ -51,14 +52,9 @@ function Guest() {
 function User({ session, handleSignOut }) {
   //console.log(session);
   return (
-    <main className="container mx-auto text-center h-full">
-      <Header />
-      <div className="flex flex-row mx-auto h-full">
-        <Navbar />
-        <Main />
-      </div>
-      <Footer />
-    </main>
+    <AppLayout>
+      <Main />
+    </AppLayout>
   );
 }
 
