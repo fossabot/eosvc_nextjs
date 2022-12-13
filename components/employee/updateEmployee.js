@@ -1,11 +1,11 @@
-export async function addEmployee(employeeId, formData) {
+export async function updateEmployee(employeeId, formData) {
   try {
     const Option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     };
-    const response = await fetch(`/api/employees/${employeeId}`, Option);
+    const response = await fetch(`/api/employee/${employeeId}`, Option);
     const json = await response.json();
     return json;
   } catch (error) {

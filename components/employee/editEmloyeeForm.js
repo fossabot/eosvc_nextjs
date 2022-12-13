@@ -1,17 +1,28 @@
-import { useReducer } from "react";
 import { BiBrush } from "react-icons/bi";
 import Success from "../success";
+import { useQuery } from "react-query";
+import { getEmployee } from "./getEmployee";
+import Error from "../error";
 
-const formReducer = (state, event) => {
-  return {
-    ...state,
-    [event.target.name]: event.target.value,
-  };
-};
+function EditEmployeeForm({ formId, formData, setFormData }) {
+  //Fetch data with React Query
+  const { isLoading, isError, data, error } = useQuery(
+    ["employee", formId],
+    () => getEmployee(formId)
+  );
 
-function EditEmployeeForm() {
-  const [formData, setFormData] = useReducer(formReducer, {});
-  console.log(formData);
+  console.log(data, "editEmployee data");
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <Error>Error</Error>;
+
+  if (data) {
+    const { name, avatar, salary, date, email, status } = data;
+    const [firstname, lastname] = name ? name.split(" ") : formData;
+    console.log(name, "name");
+    console.log(firstname, "firstname");
+    console.log(lastname, "lastname");
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +33,8 @@ function EditEmployeeForm() {
     return <Success message="Data úspěšně přidána" />;
   return (
     <form className="grid lg:grid-cols-2 gap-4">
+      <h1>Edit Employee</h1>
+      <h1></h1>
       <div className="input-type">
         <input
           type="text"

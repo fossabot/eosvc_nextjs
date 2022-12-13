@@ -1,54 +1,56 @@
-import { useReducer } from "react";
 import { BiPlus } from "react-icons/bi";
 import Success from "../success";
 import Error from "../error";
 import { useQueryClient, useMutation } from "react-query";
 import { addEmployee } from "../employee/addEmployee";
+import { getEmployees } from "./getEmployees";
 
-const formReducer = (state, event) => {
-  return {
-    ...state,
-    [event.target.name]: event.target.value,
-  };
-};
-
-function AddEmployeeForm() {
+function AddEmployeeForm({ formData, setFormData }) {
   const queryClient = useQueryClient();
-  const [formData, setFormData] = useReducer(formReducer, {});
+
   const addMutation = useMutation(addEmployee, {
     onSuccess: () => {
+      //Auto refetch data from database instead of use cached data
+      queryClient.prefetchQuery("employee", getEmployees);
       console.log("Employee inserted successfully!");
     },
   });
 
   const handleSubmit = (e) => {
+    //Prevent page reloading when update form
     e.preventDefault();
+    //Check if form is not empty
     if (Object.keys(formData).length == 0)
       return console.log("Don't have Form Data");
+    //Destractioning the data from form to single variable
     let { firstname, lastname, email, salary, date, status } = formData;
 
     const model = {
+      //Join First Name and Last Name
       name: `${firstname} ${lastname}`,
+      //Use random user image
       avatar: `https://randomuser.me/api/portraits/men/${Math.floor(
         Math.random() * 10
       )}.jpg`,
       email,
       salary,
       date,
+      //If empty set as Active
       status: status ?? "Active",
     };
-
+    //Store data to MongoDB using reactQuery with addEmployee function using variables store in variable model
     addMutation.mutate(model);
   };
-
+  //If Loading, Success or Error show message
   if (addMutation.isLoading) return <div>Loading!</div>;
   if (addMutation.isError)
     return <Error message={addMutation.error.message}></Error>;
   if (addMutation.isSuccess)
-    return <Success message={"Added Successfully"}></Success>;
+    return <Success message={"Nový zaměstnanec byl přidán"}></Success>;
 
   return (
     <form className="grid lg:grid-cols-2 gap-4">
+      <h1>Add employee</h1>
       <div className="input-type">
         <input
           type="text"

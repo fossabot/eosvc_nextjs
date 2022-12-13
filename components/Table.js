@@ -1,8 +1,8 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
-import { getEmployees } from "./employee/fetchEmployees";
+import { getEmployees } from "./employee/getEmployees";
 import { useQuery } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction } from "../redux/reducer";
+import { toggleChangeAction, updateAction } from "../redux/reducer";
 
 export default function Table() {
   //Fetch data from API and store in cache
@@ -46,15 +46,21 @@ export default function Table() {
   );
 }
 
-function Tr({ id, name, avatar, email, salary, date, status }) {
-  //Get global state from React Redux Toolkit
+function Tr({ _id, name, avatar, email, salary, date, status }) {
   const visible = useSelector((state) => state.app.client.toggleForm);
   const dispatch = useDispatch();
 
   const onUpdate = () => {
-    dispatch(toggleChangeAction());
-    console.log(visible, "click");
+    dispatch(toggleChangeAction(_id));
+    if (visible) {
+      dispatch(updateAction(_id));
+    }
   };
+
+  const onDelete = () => {
+    console.log("Delete action");
+  };
+
   return (
     <tr className="bg-gray-50 text-center">
       <td className="px-16 py-2 flex flex-row items-center">
@@ -85,7 +91,7 @@ function Tr({ id, name, avatar, email, salary, date, status }) {
         <button className="cursor px-2" onClick={onUpdate}>
           <BiEdit size={25} color="green" />
         </button>
-        <button className="curso px-2">
+        <button className="curso px-2" onClick={onDelete}>
           <BiTrashAlt size={25} color="red" />
         </button>
       </td>

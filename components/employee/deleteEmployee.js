@@ -4,7 +4,7 @@ export async function addEmployee(employeeId) {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
-    const response = await fetch(`/api/employees/${employeeId}`, Option);
+    const response = await fetch(`/api/employee/${employeeId}`, Option);
     const json = await response.json();
     return json;
   } catch (error) {
