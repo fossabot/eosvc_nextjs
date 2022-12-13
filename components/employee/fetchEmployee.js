@@ -1,7 +1,7 @@
-export const getEmployee = async () => {
-  console.log(process.env.APP_URL, "APP_URL");
-  console.log(process.env.VERCEL_URL, "NEXT_PUBLIC_VERCEL_URL");
-  const response = await fetch(`/api/employee`);
+export const getEmployees = async (employeeId) => {
+  const response = await fetch(`/api/employee/${employeeId}`);
   const json = response.json();
-  return json;
+
+  if (json) return json;
+  return {};
 };

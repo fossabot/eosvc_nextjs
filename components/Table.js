@@ -1,11 +1,15 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
-//import data from "../database/data.json";
-import { getEmployee } from "./employee/fetchEmployee";
+import { getEmployees } from "./employee/fetchEmployees";
 import { useQuery } from "react-query";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleChangeAction } from "../redux/reducer";
 
 export default function Table() {
-  //getEmployee().then((res) => console.log(res));
-  const { isLoading, isError, data, error } = useQuery("employee", getEmployee);
+  //Fetch data from API and store in cache
+  const { isLoading, isError, data, error } = useQuery(
+    "employee",
+    getEmployees
+  );
   if (isLoading) return <div>Loading ...</div>;
   if (isError) return <div>Error: {error}</div>;
 
@@ -43,6 +47,14 @@ export default function Table() {
 }
 
 function Tr({ id, name, avatar, email, salary, date, status }) {
+  //Get global state from React Redux Toolkit
+  const visible = useSelector((state) => state.app.client.toggleForm);
+  const dispatch = useDispatch();
+
+  const onUpdate = () => {
+    dispatch(toggleChangeAction());
+    console.log(visible, "click");
+  };
   return (
     <tr className="bg-gray-50 text-center">
       <td className="px-16 py-2 flex flex-row items-center">
@@ -70,7 +82,7 @@ function Tr({ id, name, avatar, email, salary, date, status }) {
         </button>
       </td>
       <td className="px-16 py-2 justify-around gap-4">
-        <button className="cursor px-2">
+        <button className="cursor px-2" onClick={onUpdate}>
           <BiEdit size={25} color="green" />
         </button>
         <button className="curso px-2">
