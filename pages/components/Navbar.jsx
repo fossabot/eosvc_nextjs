@@ -8,6 +8,10 @@ import {
   ServerIcon,
   UserIcon,
   UserGroupIcon,
+  DocumentIcon,
+  DocumentChartBarIcon,
+  DocumentCheckIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/outline";
 
 function Navbar() {
@@ -32,6 +36,22 @@ function Navbar() {
         <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
           <UserIcon className="w-6 h-6" />
           <Link href="/employees">Zaměstnanci</Link>
+        </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <DocumentCheckIcon className="w-6 h-6" />
+          <Link href="/employees">Fakturace</Link>
+        </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <DocumentChartBarIcon className="w-6 h-6" />
+          <Link href="/employees">Reporty</Link>
+        </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <DocumentIcon className="w-6 h-6" />
+          <Link href="/employees">Dokumenty</Link>
+        </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <ClipboardDocumentListIcon className="w-6 h-6" />
+          <Link href="/employees">Datá schránka</Link>
         </div>
       </div>
 

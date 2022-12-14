@@ -3,12 +3,14 @@ import Success from "../success";
 import { getEmployee } from "./getEmployee";
 import Error from "../error";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-
+import { toggleChangeAction } from "../../redux/reducer";
 import { getEmployees } from "./getEmployees";
 import { updateEmployee } from "./updateEmployee";
+import { useDispatch } from "react-redux";
 
 function EditEmployeeForm({ formId, formData, setFormData }) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   //Fetch data using React Query
   const { isLoading, isError, data, error } = useQuery(
     ["employee", formId],
@@ -21,6 +23,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
       onSuccess: async (data) => {
         // queryClient.setQueryData('users', (old) => [data])
         queryClient.prefetchQuery("employee", getEmployees);
+        dispatch(toggleChangeAction());
       },
     }
   );

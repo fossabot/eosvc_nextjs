@@ -1,4 +1,4 @@
-export async function addEmployee(employeeId) {
+export async function deleteEmployee(employeeId) {
   try {
     const Option = {
       method: "DELETE",

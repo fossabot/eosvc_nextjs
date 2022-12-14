@@ -2,7 +2,11 @@ import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import { getEmployees } from "./employee/getEmployees";
 import { useQuery } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction, updateAction } from "../redux/reducer";
+import {
+  toggleChangeAction,
+  updateAction,
+  deleteAction,
+} from "../redux/reducer";
 
 export default function Table() {
   //Fetch data from API and store in cache
@@ -54,15 +58,16 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
 
   const onUpdate = () => {
     dispatch(toggleChangeAction(_id));
-    //console.log(visible, "Visible ");
     if (visible) {
-      console.log("I am visible!");
       dispatch(updateAction(_id));
     }
   };
 
   const onDelete = () => {
     console.log("Delete action");
+    if (!visible) {
+      dispatch(deleteAction(_id));
+    }
   };
 
   return (
