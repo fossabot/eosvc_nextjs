@@ -5,6 +5,7 @@ export async function getEmployees(req, res) {
     const employee = await Employee.find({});
     if (!employee) return res.status(404).json({ error: "Dta not found" });
     res.status(200).json(employee);
+    res.end();
   } catch (error) {
     res.status(404).json({ error: "Error While Fetching Data" });
   }

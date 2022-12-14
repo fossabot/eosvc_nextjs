@@ -1,7 +1,11 @@
 export const getEmployee = async (employeeId) => {
-  const response = await fetch(`/api/employee/${employeeId}`);
-  const json = response.json();
-
-  if (json) return json;
-  return {};
+  try {
+    const response = await fetch(`/api/employee/${employeeId}`);
+    const json = await response.json();
+    console.log("Fetch single employee");
+    if (json) return json;
+    return {};
+  } catch (error) {
+    return error;
+  }
 };

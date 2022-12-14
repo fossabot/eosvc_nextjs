@@ -8,9 +8,9 @@ import { toggleChangeAction } from "../../redux/reducer";
 function Employees() {
   //Get state from Global redux store /redux/store
   const visible = useSelector((state) => state.app.client.toggleForm);
+
   console.log(visible, "Employees.jsx visible");
 
-  //Change global state using useDispatch
   const dispatch = useDispatch();
 
   const handler = () => {
@@ -30,9 +30,7 @@ function Employees() {
           </button>
         </div>
         {/* Collapsable form */}
-
         {visible ? <Form /> : <></>}
-
         {/* Table with data */}
         <div className="containter">
           <Table />

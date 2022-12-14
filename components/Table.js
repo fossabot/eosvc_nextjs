@@ -10,6 +10,7 @@ export default function Table() {
     "employee",
     getEmployees
   );
+
   if (isLoading) return <div>Loading ...</div>;
   if (isError) return <div>Error: {error}</div>;
 
@@ -48,11 +49,14 @@ export default function Table() {
 
 function Tr({ _id, name, avatar, email, salary, date, status }) {
   const visible = useSelector((state) => state.app.client.toggleForm);
+  //console.log(visible, "Table out of function");
   const dispatch = useDispatch();
 
   const onUpdate = () => {
     dispatch(toggleChangeAction(_id));
+    //console.log(visible, "Visible ");
     if (visible) {
+      console.log("I am visible!");
       dispatch(updateAction(_id));
     }
   };

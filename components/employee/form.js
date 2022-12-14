@@ -13,7 +13,6 @@ const formReducer = (state, event) => {
 export default function Form() {
   const [formData, setFormData] = useReducer(formReducer, {});
   const formId = useSelector((state) => state.app.client.formId);
-
   console.log(formId, "form.js formId");
 
   return (

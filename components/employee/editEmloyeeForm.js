@@ -1,36 +1,45 @@
 import { BiBrush } from "react-icons/bi";
 import Success from "../success";
-import { useQuery } from "react-query";
 import { getEmployee } from "./getEmployee";
 import Error from "../error";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+
+import { getEmployees } from "./getEmployees";
+import { updateEmployee } from "./updateEmployee";
 
 function EditEmployeeForm({ formId, formData, setFormData }) {
-  //Fetch data with React Query
+  const queryClient = useQueryClient();
+  //Fetch data using React Query
   const { isLoading, isError, data, error } = useQuery(
     ["employee", formId],
     () => getEmployee(formId)
   );
 
-  console.log(data, "editEmployee data");
+  const UpdateMutation = useMutation(
+    (newData) => updateEmployee(formId, newData),
+    {
+      onSuccess: async (data) => {
+        // queryClient.setQueryData('users', (old) => [data])
+        queryClient.prefetchQuery("employee", getEmployees);
+      },
+    }
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <Error>Error</Error>;
 
-  if (data) {
-    const { name, avatar, salary, date, email, status } = data;
-    const [firstname, lastname] = name ? name.split(" ") : formData;
-    console.log(name, "name");
-    console.log(firstname, "firstname");
-    console.log(lastname, "lastname");
-  }
+  const { name, avatar, salary, date, email, status } = data;
+  const [firstname, lastname] = name ? name.split(" ") : formData;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData, "handleSubmit");
+    let employeeName = `${formData.firstname ?? firstname} ${
+      formData.lastname ?? lastname
+    }`;
+    let updated = Object.assign({}, data, formData, { name: employeeName });
+    await UpdateMutation.mutate(updated);
   };
 
-  if (Object.keys(formData).length > 0)
-    return <Success message="Data úspěšně přidána" />;
   return (
     <form className="grid lg:grid-cols-2 gap-4">
       <h1>Edit Employee</h1>
@@ -40,6 +49,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
           type="text"
           onChange={setFormData}
           name="firstname"
+          defaultValue={firstname}
           placeholder="Jméno"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
         />
@@ -49,6 +59,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
           type="text"
           onChange={setFormData}
           name="lastname"
+          defaultValue={lastname}
           placeholder="Příjmení"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
         />
@@ -58,6 +69,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
           type="email"
           onChange={setFormData}
           name="email"
+          defaultValue={email}
           placeholder="E-mail"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
         />
@@ -67,6 +79,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
           type="text"
           onChange={setFormData}
           name="salary"
+          defaultValue={salary}
           placeholder="Plat"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
         />
@@ -76,7 +89,8 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
           type="date"
           onChange={setFormData}
           name="dateOfBirth"
-          placeholder="Plat"
+          defaultValue={date}
+          placeholder="Datum narození"
           className="border px-5 py-3 focus:outline-none rounded-md"
         />
       </div>
@@ -88,6 +102,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
             onChange={setFormData}
             name="status"
             value="Active"
+            defaultChecked={status === "Active"}
             id="radioDefault1"
             className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
           />
@@ -101,6 +116,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
             onChange={setFormData}
             name="status"
             value="Inactive"
+            defaultChecked={status === "Inactive"}
             id="radioDefault2"
             className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
           />

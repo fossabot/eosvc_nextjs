@@ -3,7 +3,7 @@ import React from "react";
 
 function Header() {
   const { data: session } = useSession();
-  console.log(session, "Session");
+  //console.log(session, "Session");
   return (
     <header className="flex flex-row bg-blue-400 h-22 w-full p-5">
       <div className="mx-auto">1</div>

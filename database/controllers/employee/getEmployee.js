@@ -6,6 +6,7 @@ export async function getEmployee(req, res) {
     if (employeeId) {
       const employee = await Employee.findById(employeeId);
       res.status(200).json(employee);
+      res.end();
     }
 
     res.status(404).json({ error: "Employee not selected" });
