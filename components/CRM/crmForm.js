@@ -1,5 +1,5 @@
-import AddEmployeeForm from "./addEmployeeForm";
-import EditEmployeeForm from "./editEmloyeeForm";
+import AddAccountForm from "./Accounts/addAccountForm";
+import EditAccountForm from "./Accounts/editAccountForm";
 import { useSelector } from "react-redux";
 import { useReducer } from "react";
 
@@ -10,16 +10,16 @@ const formReducer = (state, event) => {
   };
 };
 
-export default function Form() {
+export default function CrmForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
   const formId = useSelector((state) => state.app.client.formId);
   console.log(formId, "form.js formId");
 
   return (
-    <div className="containter w-full px-16">
+    <div className="containter flex mx-auto justify-center items-center w-full px-16 ">
       {formId
-        ? EditEmployeeForm({ formId, formData, setFormData })
-        : AddEmployeeForm({ formData, setFormData })}
+        ? EditAccountForm({ formId, formData, setFormData })
+        : AddAccountForm({ formData, setFormData })}
     </div>
   );
 }

@@ -1,39 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getEmployees } from "../../components/employee/getEmployees";
 import { getAccounts } from "../../components/CRM/Accounts/getAccounts";
-//Fetch data from API and store in cache
 
+//Fetch data from API and store in cache
 //const employeeCount = data;
 function Main() {
+  const [employeeCount, setEmployeeCount] = useState("");
+  const [accountCount, setAccountCount] = useState("");
+  const [employeeSum, setEmployeeSum] = useState("");
   //Fetch Employee data
-  const { isLoading, isError, data, error } = useQuery(
-    "employee",
-    getEmployees
-  );
-  if (isLoading) return <div>Loading ...</div>;
-  if (isError) return <div>Error: {error}</div>;
-  const employeeCount = data.length;
-  const employeeSum = data.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.salary,
-    0
-  );
-  //Fetch Accounts data
-  const {
-    isLoading: acIsLoading,
-    isError: acIsError,
-    data: acData,
-    error: acError,
-  } = useQuery("accounts", getAccounts);
-  if (acIsLoading) return <div>Loading ...</div>;
-  if (acIsError) return <div>Error: {error}</div>;
-  const accountsCount = acData.length;
-  const accountsSum = acData.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.salary,
-    0
-  );
 
-  console.log(employeeSum);
+  //Fetch Accounts data
+  useEffect(() => {
+    fetch(`/api/accounts`)
+      .then((response) => response.json())
+      .then((data) => {
+        setAccountCount(data.length);
+      });
+
+    fetch(`/api/employee`)
+      .then((response) => response.json())
+      .then((data) => {
+        setEmployeeCount(data.length);
+        setEmployeeSum(() => {
+          const employeeSum = data.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.salary,
+            0
+          );
+          return employeeSum;
+        });
+      });
+  }, []);
+
   return (
     <main className="w-full h-full p-5">
       <div className="flex justify-center items-center">
@@ -61,7 +60,7 @@ function Main() {
           </div>
           <div>
             Počet firem v CRM:
-            <span className="font-bold">{accountsCount}</span>
+            <span className="font-bold">{accountCount || "Nevím"}</span>
           </div>
         </div>
       </div>

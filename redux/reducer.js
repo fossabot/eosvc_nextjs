@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  client: { toggleForm: false, formId: undefined, deleteId: null },
+  client: {
+    toggleForm: false,
+    toggleShowAccount: false,
+    formId: undefined,
+    deleteId: null,
+  },
 };
 
 export const ReducerSlice = createSlice({
@@ -10,6 +15,9 @@ export const ReducerSlice = createSlice({
   reducers: {
     toggleChangeAction: (state) => {
       state.client.toggleForm = !state.client.toggleForm;
+    },
+    toggleChangeActionAccount: (state) => {
+      state.client.toggleShowAccount = !state.client.toggleShowAccount;
     },
     updateAction: (state, action) => {
       state.client.formId = action.payload;
@@ -20,7 +28,11 @@ export const ReducerSlice = createSlice({
   },
 });
 
-export const { toggleChangeAction, updateAction, deleteAction } =
-  ReducerSlice.actions;
+export const {
+  toggleChangeAction,
+  toggleChangeActionAccount,
+  updateAction,
+  deleteAction,
+} = ReducerSlice.actions;
 
 export default ReducerSlice.reducer;
