@@ -1,29 +1,50 @@
-import Link from "next/link";
-import { getSession } from 'next-auth/react'
+import Head from "next/head";
+import { getSession, useSession, signOut } from "next-auth/react";
+import AppLayout from "../layout/AppLayout";
+import Profile from "./components/Profile";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-export default () => {
-    return (
-        <section className="container mx-auto text-center">
-                <h3 className="text-4xl font-bold">Profile Page</h3>
+const Home = () => {
+  const { data: session } = useSession();
+  // console.log(session);
+  const router = useRouter();
 
-                <Link href={"/"}>Home Page</Link>
-        </section>
-    )
+  return (
+    <div className="w-full">
+      <Head>
+        <title>Nastavení profilu</title>
+      </Head>
+      {session ? User({ session }) : router.push("/login")}
+    </div>
+  );
+};
+
+export default Home;
+
+// Authorize User
+function User() {
+  //console.log(session);
+  return (
+    <AppLayout>
+      <Profile />
+    </AppLayout>
+  );
 }
 
-export async function getServerSideProps({ req }){
-    const session = await getSession({ req })
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
 
-    if(!session){
-        return {
-            redirect : {
-                destination : "/login",
-                premanent: false
-            }
-        }
-    }
-    // authorize user return session
+  if (!session) {
     return {
-        props: { session }
-    }
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
 }

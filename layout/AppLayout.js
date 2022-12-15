@@ -10,7 +10,7 @@ function AppLayout({ children }) {
         <div className="flex">
           <Navbar />
         </div>
-        <div className="flex items-center justify-center border w-full ">
+        <div className="flex items-center justify-center w-full pt-5">
           {children}
         </div>
       </div>
