@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div className="w-full">
       <Head>
-        <title>Home Page</title>
+        <title>CRM</title>
       </Head>
       {session ? User({ session }) : router.push("/login")}
     </div>

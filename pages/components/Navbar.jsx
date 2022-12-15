@@ -39,19 +39,19 @@ function Navbar() {
         </div>
         <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
           <DocumentCheckIcon className="w-6 h-6" />
-          <Link href="/employees">Fakturace</Link>
+          <Link href="/invoice">Fakturace</Link>
         </div>
         <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
           <DocumentChartBarIcon className="w-6 h-6" />
-          <Link href="/employees">Reporty</Link>
+          <Link href="/reports">Reporty</Link>
         </div>
         <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
           <DocumentIcon className="w-6 h-6" />
-          <Link href="/employees">Dokumenty</Link>
+          <Link href="/documents">Dokumenty</Link>
         </div>
         <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
           <ClipboardDocumentListIcon className="w-6 h-6" />
-          <Link href="/employees">Datá schránka</Link>
+          <Link href="/databox">Datá schránka</Link>
         </div>
       </div>
 

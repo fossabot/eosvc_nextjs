@@ -41,7 +41,7 @@ export default function Registr() {
   return (
     <LoginLayout>
       <Head>
-        <title>Registr</title>
+        <title>Registrace uživatele</title>
       </Head>
       <section className="w-3/4 mx-auto flex flex-col gap-10">
         <div className="title">

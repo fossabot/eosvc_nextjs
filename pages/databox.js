@@ -1,9 +1,8 @@
 import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayout from "../layout/AppLayout";
-import Projects from "./components/Projects";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import DataboxComponent from "./components/Databox";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -13,7 +12,7 @@ const Home = () => {
   return (
     <div className="w-full">
       <Head>
-        <title>Projekty</title>
+        <title>Datová schránka</title>
       </Head>
       {session ? User({ session }) : router.push("/login")}
     </div>
@@ -27,7 +26,7 @@ function User() {
   //console.log(session);
   return (
     <AppLayout>
-      <Projects />
+      <DataboxComponent />
     </AppLayout>
   );
 }
