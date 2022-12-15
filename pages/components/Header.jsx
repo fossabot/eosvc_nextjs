@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 function Header() {
@@ -9,7 +10,9 @@ function Header() {
       <div className="flex flex-row mx-auto justify-between w-full">
         <div className="flex items-center">
           <div className="flex items-start text-white font-bold">
-            <h1> eOSVC - v.0.0.1</h1>
+            <Link href="/">
+              <h1> eOSVC - v.0.0.1</h1>
+            </Link>
           </div>
         </div>
 
@@ -21,7 +24,6 @@ function Header() {
                 <p>{session.user.email}</p>
               </div>
               <div className="">
-                {" "}
                 {session.user.image ? (
                   <img
                     className="rounded-full w-16 h-16"

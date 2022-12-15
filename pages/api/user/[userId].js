@@ -1,6 +1,6 @@
 import connectMongo from "../../../database/conn";
 import { getUser } from "../../../database/controllers/user/getUser";
-import { addUser } from "../../../database/controllers/employee/addUser";
+import { addUser } from "../../../database/controllers/user/addUser";
 import { editUser } from "../../../database/controllers/user/editUser";
 import { deleteUser } from "../../../database/controllers/user/deleteUser";
 
