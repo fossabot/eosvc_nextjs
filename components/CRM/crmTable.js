@@ -3,7 +3,7 @@ import { getAccounts } from "./Accounts/getAccounts";
 import { useQuery } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  toggleChangeAction,
+  toggleChangeActionAccount,
   updateAction,
   deleteAction,
 } from "../../redux/reducer";
@@ -48,12 +48,12 @@ export default function CrmTable() {
 }
 
 function Tr({ _id, name, company_id, email, office_phone, status }) {
-  const visible = useSelector((state) => state.app.client.toggleForm);
+  const visible = useSelector((state) => state.app.client.toggleShowAccount);
   //console.log(visible, "Table out of function");
   const dispatch = useDispatch();
 
   const onUpdate = () => {
-    dispatch(toggleChangeAction(_id));
+    dispatch(toggleChangeActionAccount(_id));
     if (visible) {
       dispatch(updateAction(_id));
     }
@@ -67,7 +67,7 @@ function Tr({ _id, name, company_id, email, office_phone, status }) {
   };
 
   return (
-    <tr className="bg-gray-50 text-center">
+    <tr className="bg-gray-50 text-center hover:bg-gray-200">
       <td className="px-16 py-2 flex flex-row items-center">
         <span className="text-center ml-2 font-semibold">
           {name || "Neznámé"}

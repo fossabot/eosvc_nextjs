@@ -4,7 +4,10 @@ import { useSelector } from "react-redux";
 import CrmTable from "../../components/CRM/crmTable";
 import CrmForm from "../../components/CRM/crmForm";
 import { FiUserPlus } from "react-icons/fi";
-import { toggleChangeActionAccount } from "../../redux/reducer";
+import { BiX, BiCheck } from "react-icons/bi";
+import { deleteAccount } from "../../components/CRM/Accounts/deleteAccount";
+import { toggleChangeActionAccount, deleteAction } from "../../redux/reducer";
+import { getAccounts } from "../../components/CRM/Accounts/getAccounts";
 
 export default function CRM() {
   //Get state from Global redux store /redux/store
@@ -22,9 +25,9 @@ export default function CRM() {
 
   const deletehandler = async () => {
     if (deleteId) {
-      await deleteEmployee(deleteId);
-      await queryclient.prefetchQuery("employee", getEmployees);
-      await dispatch(deleteActionAccount(null));
+      await deleteAccount(deleteId);
+      await queryclient.prefetchQuery("accounts", getAccounts);
+      await dispatch(deleteAction(null));
     }
   };
 
@@ -57,5 +60,31 @@ export default function CRM() {
         </div>
       </div>
     </main>
+  );
+}
+
+function DeleteComponent({ deletehandler, canclehandler }) {
+  return (
+    <div className="flex gap-5">
+      <button>Are you sure?</button>
+      <button
+        onClick={deletehandler}
+        className="flex bg-red-500 text-white px-4 py-2 border rounded-md hover:bg-rose-500 hover:border-red-500 hover:text-gray-50"
+      >
+        Yes
+        <span className="px-1">
+          <BiX color="rgb(255 255 255)" size={25} />
+        </span>
+      </button>
+      <button
+        onClick={canclehandler}
+        className="flex bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gree-500 hover:border-green-500 hover:text-gray-50"
+      >
+        No
+        <span className="px-1">
+          <BiCheck color="rgb(255 255 255)" size={25} />
+        </span>
+      </button>
+    </div>
   );
 }

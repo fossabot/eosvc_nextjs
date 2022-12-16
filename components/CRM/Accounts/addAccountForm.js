@@ -1,9 +1,9 @@
 import { BiPlus } from "react-icons/bi";
-//import Success from "../success";
-//import Error from "../error";
+import Success from "../../success";
+import Error from "../../error";
 import { useQueryClient, useMutation } from "react-query";
-import { addAccount } from "../Accounts/addAccount";
-import { getAcounts } from "./getAccounts";
+import { addAccount } from "./addAccount";
+import { getAccounts } from "./getAccounts";
 
 function AddAccountForm({ formData, setFormData }) {
   const queryClient = useQueryClient();
@@ -23,15 +23,57 @@ function AddAccountForm({ formData, setFormData }) {
     if (Object.keys(formData).length == 0)
       return console.log("Don't have Form Data");
     //Destractioning the data from form to single variable
-    let { firstname, lastname, email, salary, date, status } = formData;
+    let {
+      name,
+      office_phone,
+      website,
+      fax,
+      company_id,
+      vat,
+      email,
+      billing_street,
+      billing_postal_code,
+      billing_city,
+      billing_state,
+      billing_country,
+      shipping_street,
+      shipping_postal_code,
+      shipping_city,
+      shipping_state,
+      shipping_country,
+      description,
+      assigned_to,
+      status,
+      type,
+      annual_revenue,
+      member_of,
+      industry,
+    } = formData;
 
     const model = {
-      //Join First Name and Last Name
-      name: `${firstname} ${lastname}`,
-      //Use random user image
-      email,
-      salary,
-      date,
+      name: name,
+      office_phone: office_phone,
+      website: website,
+      fax: fax,
+      company_id: company_id,
+      vat: vat,
+      email: email,
+      billing_street: billing_street,
+      billing_postal_code: billing_postal_code,
+      billing_city: billing_city,
+      billing_state: billing_state,
+      billing_country: billing_country,
+      shipping_street: shipping_street,
+      shipping_postal_code: shipping_postal_code,
+      shipping_city: shipping_city,
+      shipping_state: shipping_state,
+      shipping_country: shipping_country,
+      description: description,
+      assigned_to: assigned_to,
+      type: type,
+      annual_revenue: annual_revenue,
+      member_of: member_of,
+      industry: industry,
       //If empty set as Active
       status: status ?? "Active",
     };
@@ -43,7 +85,7 @@ function AddAccountForm({ formData, setFormData }) {
   if (addMutation.isError)
     return <Error message={addMutation.error.message}></Error>;
   if (addMutation.isSuccess)
-    return <Success message={"Nový zaměstnanec byl přidán"}></Success>;
+    return <Success message={"Nová firma byla přidán"}></Success>;
 
   return (
     <div className="w-full flex mx-auto justify-center items-center">
@@ -184,6 +226,58 @@ function AddAccountForm({ formData, setFormData }) {
                 onChange={setFormData}
                 name="shipping_country"
                 placeholder="Země"
+                className="border px-5 py-3 focus:outline-none rounded-md"
+              />
+            </div>
+          </div>
+          <div className="flex flex-row p-2 gap-5">
+            <div className="w-1/2 flex flex-col p-2 gap-2">
+              <h1>Klasifikace</h1>
+
+              <input
+                type="text"
+                onChange={setFormData}
+                name="description"
+                placeholder="Poznámka"
+                className="border px-5 py-3 focus:outline-none rounded-md"
+              />
+              <input
+                type="text"
+                onChange={setFormData}
+                name="assigned_to"
+                placeholder="Přířazený obchodník"
+                className="border px-5 py-3 focus:outline-none rounded-md"
+              />
+              <input
+                type="text"
+                onChange={setFormData}
+                name="type"
+                placeholder="Typ firmy"
+                className="border px-5 py-3 focus:outline-none rounded-md"
+              />
+            </div>
+            <div className="w-1/2 flex flex-col p-2 gap-2">
+              <h1>Ostatní informace</h1>
+
+              <input
+                type="text"
+                onChange={setFormData}
+                name="annual_revenue"
+                placeholder="Roční obrat"
+                className="border px-5 py-3 focus:outline-none rounded-md"
+              />
+              <input
+                type="text"
+                onChange={setFormData}
+                name="member_of"
+                placeholder="Patřící do holdingu?"
+                className="border px-5 py-3 focus:outline-none rounded-md"
+              />
+              <input
+                type="text"
+                onChange={setFormData}
+                name="industry"
+                placeholder="Odvětví"
                 className="border px-5 py-3 focus:outline-none rounded-md"
               />
             </div>
