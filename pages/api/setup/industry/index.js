@@ -1,6 +1,6 @@
 import connectMongo from "../../../../database/conn";
-import { addIndustry } from "../../../../database/controllers/setup/Industry/addIndustry";
-import { getIndustry } from "../../../../database/controllers/setup/Industry/getIndustry";
+import { addIndustry } from "../../../../database/controllers/setup/industry/addIndustry";
+import { getIndustry } from "../../../../database/controllers/setup/industry/getIndustry";
 
 export default async function handler(req, res) {
   connectMongo().catch(() =>
