@@ -4,7 +4,7 @@ import { getUserId } from "./getUserId";
 
 export default function Table() {
   //Fetch userdata from Session
-  let { data: userId } = useSession();
+  const { data: userId } = useSession();
   //Get user email
   const userEmail = userId.user.email;
 
@@ -12,7 +12,7 @@ export default function Table() {
   //Fetch and store userProfile data from MongoDB (ifExist)
   const { isLoading, isError, data, error } = useQuery(
     ["user", userEmail],
-    async () => await getUserId(userEmail)
+    () => getUserId(userEmail)
   );
 
   if (isLoading) return <div>Loading</div>;
