@@ -1,34 +1,57 @@
 import { useQuery } from "react-query";
 import { useSession } from "next-auth/react";
 import { getUserId } from "./getUserId";
+import { useLayoutEffect, useState } from "react";
 
 export default function Table() {
   //Fetch userdata from Session
+  /*
   const { data: userId } = useSession();
+  console.log(userId.user, "userId");
   //Get user email
   const userEmail = userId.user.email;
-
+  console.log(userEmail, "userEmail");
   //console.log(userEmail);
   //Fetch and store userProfile data from MongoDB (ifExist)
   const { isLoading, isError, data, error } = useQuery(
     ["user", userEmail],
-    () => getUserId(userEmail)
+    async () => await getUserId(userEmail)
   );
-
+  console.log(data, "data");
+  console.log();
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
 
   //console.log(data, "data");
   //Validatte if user has local profile in MongoDB (Google and Github user has just session data)
   let username;
-  if (data && data._id) {
-    console.log(data, "Has profile");
-    username = data.username;
-  } else {
+
+  if (!data.username) {
     console.log("Create profile");
     username = "neexistuje";
+  } else {
+    console.log(data, "Has profile");
+    username = data.username;
   }
+  console.log(username);
+*/
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { data: userId } = useSession();
 
+  useLayoutEffect(() => {
+    setIsLoading(true);
+    async function fetchData() {
+      const response = await fetch(`/api/user/userEmail/${userId.user.email}`);
+      const data = await response.json();
+      setUserData(data);
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, []);
+
+  console.log(userData);
   const onUpdate = () => {};
 
   return (
@@ -40,15 +63,12 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="name"
-              defaultValue={data.name}
               placeholder="Jméno"
             />
             <input
               className="border rounded-md px-2 py-1 "
               type="text"
               name="username"
-              defaultValue={username}
-              disabled={username === "neexistuje" ? "{false}" : "{true}"}
               placeholder="Uživatelské jméno"
             />
 
@@ -56,7 +76,6 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="account_name"
-              defaultValue={data.account_name || ""}
               placeholder="Společnost"
             />
           </div>
@@ -66,7 +85,6 @@ export default function Table() {
               type="text"
               name="email"
               disabled={true}
-              placeholder={userEmail}
             />
             <input
               className="border rounded-md px-2 py-1 "
