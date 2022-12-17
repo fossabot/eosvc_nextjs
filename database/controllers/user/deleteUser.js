@@ -1,6 +1,6 @@
 import User from "../../../model/User/User";
 
-export async function deleteEmployee(req, res) {
+export async function deleteUser(req, res) {
   try {
     const { userId } = req.query;
 
