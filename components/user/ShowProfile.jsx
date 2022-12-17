@@ -1,29 +1,14 @@
 import { useSession } from "next-auth/react";
 import { useLayoutEffect, useState } from "react";
-import { getUserId } from "./getUserId";
+
 import { useQuery } from "react-query";
 
 export default function Table() {
   const { data: userDataSession } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const fetchUser = async (userEmail) =>
-    await fetch(`/api/user/userEmail/${userEmail}`).then((res) => res.json());
 
-  const userData = async () => {
-    return await fetchUser(userDataSession.user.email);
-  };
-  const { data: userDataDb } = useQuery("userData", userData);
-  console.log(userDataDb, "data");
-  if (userDataDb === null) {
-    console.log("Hello there is new OAuth user");
-    try {
-      registrIfNoExist(userDataSession.user.name, userDataSession.user.email);
-    } catch (e) {
-      console.log(e);
-    }
-  } else {
-    console.log("I have user email in MongoDB");
-  }
+  const userDataDb = fetchAndValidateOAuthUser();
+
   /*
   useLayoutEffect(() => {
     setIsLoading(true);
@@ -169,3 +154,30 @@ async function registrIfNoExist(name, email) {
     .then((data) => {});
   console.log("User added successfully!");
 }
+
+//Fetch user with Session email and validate with OAuth user. If user is not in local mongoDB, then create local profile
+const fetchAndValidateOAuthUser = () => {
+  const fetchUser = async (userEmail) =>
+    await fetch(`/api/user/userEmail/${userEmail}`).then((res) => res.json());
+
+  const userData = async () => {
+    return await fetchUser(userDataSession.user.email);
+  };
+
+  const { data: userDataDbx } = useQuery("userData", userData);
+
+  console.log(userDataDbx, "data");
+
+  if (userDataDbx === null) {
+    console.log("Hello there is new OAuth user");
+    try {
+      registrIfNoExist(userDataSession.user.name, userDataSession.user.email);
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    console.log("I have user email in MongoDB");
+  }
+
+  return userDataDbx;
+};

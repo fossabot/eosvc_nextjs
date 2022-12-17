@@ -43,10 +43,11 @@ export default function Login() {
   }
 
   // Github Login
+  /*
   async function handleGithubSignin() {
     signIn("github", { callbackUrl: process.env.APP_URL });
   }
-
+*/
   return (
     <LoginLayout>
       <Head>
@@ -112,6 +113,7 @@ export default function Login() {
               ></Image>
             </button>
           </div>
+          {/*}
           <div>
             <button
               className={styles.button_custom}
@@ -126,6 +128,7 @@ export default function Login() {
               ></Image>
             </button>
           </div>
+          */}
         </form>
         <p className="text-center text-gray-400 ">
           nemáte účet? <Link href={"/register"}>Zaregistrovat </Link>
