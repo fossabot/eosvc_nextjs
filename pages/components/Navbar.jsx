@@ -53,6 +53,10 @@ function Navbar() {
           <ClipboardDocumentListIcon className="w-6 h-6" />
           <Link href="/databox">Datá schránka</Link>
         </div>
+        <div className="flex flex-row p-2 gap-2 w-full border-white border-b border-t">
+          <ClipboardDocumentListIcon className="w-6 h-6" />
+          <Link href="/setup">Číselníky</Link>
+        </div>
       </div>
 
       <div className="flex flex-row">
