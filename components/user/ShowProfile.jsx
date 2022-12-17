@@ -26,7 +26,7 @@ export default function Table() {
     console.log("Create profile");
   }
 
-  console.log(data.username);
+  console.log(!data.username && "Username undefined");
   const onUpdate = () => {};
 
   return (
@@ -45,8 +45,8 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="username"
-              defaultValue={data.username}
-              disabled={data.username ? "{true}" : "{false}"}
+              defaultValue={!data.username ? "User undefined" : data.username}
+              disabled={!data.username ? "{false}" : "{true}"}
               placeholder="Uživatelské jméno"
             />
 
