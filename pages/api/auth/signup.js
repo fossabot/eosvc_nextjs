@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     if (!req.body)
       return res.status(404).json({ error: "Don't have form data...!" });
     const { name, username, email, password } = req.body;
-
+    console.log(name, username, email, password);
     // check duplicate users
     const checkexisting = await Users.findOne({ email });
     if (checkexisting)
