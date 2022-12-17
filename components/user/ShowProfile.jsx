@@ -4,7 +4,7 @@ import { getUserId } from "./getUserId";
 
 export default function Table() {
   //Fetch userdata from Session
-  const { data: userId } = useSession();
+  let { data: userId } = useSession();
   //Get user email
   const userEmail = userId.user.email;
 
@@ -20,13 +20,15 @@ export default function Table() {
 
   //console.log(data, "data");
   //Validatte if user has local profile in MongoDB (Google and Github user has just session data)
+  let username;
   if (data && data._id) {
     console.log(data, "Has profile");
+    username = data.username;
   } else {
     console.log("Create profile");
+    username = "neexistuje";
   }
 
-  console.log(!data.username && "Username undefined");
   const onUpdate = () => {};
 
   return (
@@ -45,8 +47,8 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="username"
-              defaultValue={!data.username ? "User undefined" : data.username}
-              disabled={!data.username ? "{false}" : "{true}"}
+              defaultValue={username}
+              disabled={username === "neexistuje" ? "{false}" : "{true}"}
               placeholder="Uživatelské jméno"
             />
 
