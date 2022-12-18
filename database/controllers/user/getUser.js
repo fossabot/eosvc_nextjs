@@ -5,12 +5,11 @@ export async function getUser(req, res) {
     const { userId } = req.query;
     if (userId) {
       const user = await User.findById(userId);
-      res.status(200).json(user);
-      res.end();
+      return res.status(200).json(user);
     }
 
-    res.status(404).json({ error: "User not selected" });
+    return res.status(404).json({ error: "User not selected" });
   } catch (error) {
-    res.status(404).json({ error: "Error While Fetching User" });
+    return res.status(404).json({ error: "Error While Fetching User" });
   }
 }

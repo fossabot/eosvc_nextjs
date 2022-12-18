@@ -8,6 +8,6 @@ export async function addUser(req, res) {
       return res.status(200).json(data);
     });
   } catch (error) {
-    res.status(404).json({ error: "Error While Posting Data" });
+    return res.status(404).json({ error: "Error While Posting Data" });
   }
 }

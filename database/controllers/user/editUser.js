@@ -7,10 +7,10 @@ export async function editUser(req, res) {
 
     if (userId && formData) {
       await User.findByIdAndUpdate(userId, formData);
-      res.status(200).json(formData);
+      return res.status(200).json(formData);
     }
-    res.status(404).json({ error: "User Not Selected ... !" });
+    return res.status(404).json({ error: "User Not Selected ... !" });
   } catch (error) {
-    res.status(404).json({ error: "Error Updating User Data" });
+    return res.status(404).json({ error: "Error Updating User Data" });
   }
 }

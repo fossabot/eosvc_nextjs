@@ -22,7 +22,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
     {
       onSuccess: async (data) => {
         // queryClient.setQueryData('users', (old) => [data])
-        queryClient.prefetchQuery("accounts", getAccounts);
+        await queryClient.prefetchQuery("accounts", getAccounts);
         dispatch(toggleChangeActionAccount());
       },
     }

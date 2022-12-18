@@ -28,6 +28,6 @@ export default async function handler(req, res) {
       break;
     default:
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Metod ${method} Not Allowed`);
+      return res.status(405).end(`Metod ${method} Not Allowed`);
   }
 }
