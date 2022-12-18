@@ -8,7 +8,9 @@ export default function Table() {
 
   const {
     user: { name, email },
-  } = userDataSession;
+  } = userDataSession
+    ? userDataSession
+    : { user: { name: "default", email: "default@default.com" } };
 
   let uname = !userDataDb ? userDataSession?.name : userDataDb?.name;
   let username = !userDataDb ? userDataSession?.username : userDataDb?.username;
