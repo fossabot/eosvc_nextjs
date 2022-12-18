@@ -7,7 +7,7 @@ export default function Table() {
   const { data: userDataSession } = useSession();
   const [isLoading, setIsLoading] = useState(false);
 
-  const userDataDb = fetchAndValidateOAuthUser();
+  const userDataDb = fetchAndValidateOAuthUser(userDataSession.user.email);
 
   /*
   useLayoutEffect(() => {
@@ -140,7 +140,7 @@ async function registrIfNoExist(name, email) {
     name: name,
     username: email,
     email: email,
-    password: "ChangeMe123",
+    password: process.env.USER_DEFAULT_PASS,
   };
 
   const options = {
@@ -150,18 +150,18 @@ async function registrIfNoExist(name, email) {
   };
 
   await fetch("/api/auth/signup", options)
-    .then((res) => res.json())
-    .then((data) => {});
+    .then(async (res) => await res.json())
+    .then(async (data) => await {});
   console.log("User added successfully!");
 }
 
 //Fetch user with Session email and validate with OAuth user. If user is not in local mongoDB, then create local profile
-const fetchAndValidateOAuthUser = () => {
+const fetchAndValidateOAuthUser = (userEmailSession) => {
   const fetchUser = async (userEmail) =>
     await fetch(`/api/user/userEmail/${userEmail}`).then((res) => res.json());
 
   const userData = async () => {
-    return await fetchUser(userDataSession.user.email);
+    return await fetchUser(userEmailSession);
   };
 
   const { data: userDataDbx } = useQuery("userData", userData);
