@@ -16,7 +16,7 @@ export default function Table() {
 
   useEffect(() => {
     const fetchUserData = new Promise((resolve, reject) => {
-      if (userDataSession.user.email) {
+      if (email && name) {
         resolve(fetchAndValidateOAuthUser(name, email));
       } else {
         reject(new Error("Error fetching user"));
@@ -24,7 +24,6 @@ export default function Table() {
     });
     fetchUserData.then((data) => {
       setUserDataDb(data);
-      console.log(x, "xxx");
     });
   }, []);
 
