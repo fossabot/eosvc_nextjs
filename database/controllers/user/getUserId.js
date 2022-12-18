@@ -7,6 +7,7 @@ export async function getUserId(req, res) {
     if (userEmail) {
       const user = await Users.findOne({ email: userEmail });
       res.status(200).json(user);
+      return;
     }
     res.status(404).json({ error: "User not selected" });
   } catch (error) {

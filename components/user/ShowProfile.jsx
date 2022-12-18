@@ -12,7 +12,11 @@ export default function Table() {
 
   useEffect(() => {
     const x = new Promise((resolve, reject) => {
-      resolve(fetchAndValidateOAuthUser(userDataSession.user.email));
+      if (userDataSession.user.email) {
+        resolve(fetchAndValidateOAuthUser(userDataSession.user.email));
+      } else {
+        reject(new Error("Error fetching user"));
+      }
     });
     x.then((data) => {
       setUserDataDb(data);
@@ -147,56 +151,64 @@ export default function Table() {
 
 //Fetch user with Session email and validate with OAuth user. If user is not in local mongoDB, then create local profile
 const fetchAndValidateOAuthUser = async (userEmailSession) => {
-  const fetchUser = async (userEmail) => {
-    try {
-      const response = await fetch(`/api/user/userEmail/${userEmail}`);
-      const data = await response.json();
-      console.log(data, "middle");
-      return data;
-    } catch (err) {
-      console.log(err);
+  try {
+    const fetchUser = async (userEmail) => {
+      try {
+        const response = await fetch(`/api/user/userEmail/${userEmail}`);
+        const data = await response.json();
+        console.log(data, "middle");
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const userDataDbx = await fetchUser(userEmailSession);
+
+    console.log(userDataDbx, "data");
+
+    if (userDataDbx === null) {
+      console.log("Hello there is new OAuth user");
+      try {
+        await registrIfNoExist(
+          userDataSession.user.name,
+          userDataSession.user.email
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      console.log("I have user email in MongoDB");
     }
-  };
 
-  const userDataDbx = await fetchUser(userEmailSession);
-
-  console.log(userDataDbx, "data");
-
-  if (userDataDbx === null) {
-    console.log("Hello there is new OAuth user");
-    try {
-      await registrIfNoExist(
-        userDataSession.user.name,
-        userDataSession.user.email
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  } else {
-    console.log("I have user email in MongoDB");
+    return await userDataDbx;
+  } catch (err) {
+    console.log(err);
   }
-
-  return await userDataDbx;
 };
 
 //If user not in local DB registr with OAuth credentials
 
 async function registrIfNoExist(name, email) {
-  const values = {
-    name: name,
-    username: email,
-    email: email,
-    password: process.env.USER_DEFAULT_PASS,
-  };
+  try {
+    const values = {
+      name: name,
+      username: email,
+      email: email,
+      password: process.env.USER_DEFAULT_PASS,
+    };
 
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(values),
-  };
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    };
 
-  await fetch("/api/auth/signup", options)
-    .then((res) => res.json())
-    .then((data) => {});
-  console.log("User added successfully!");
+    await fetch("/api/auth/signup", options)
+      .then((res) => res.json())
+      .then((data) => {});
+    console.log("User added successfully!");
+  } catch (err) {
+    console.log(err);
+  }
 }
