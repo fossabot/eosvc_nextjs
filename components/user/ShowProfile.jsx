@@ -7,7 +7,7 @@ export default function Table() {
   const { data: userDataSession } = useSession();
   const [isLoading, setIsLoading] = useState(false);
 
-  const userDataDb = fetchAndValidateOAuthUser(userDataSession.user.email);
+  const userDataDb = fetchAndValidateOAuthUser(userDataSession?.user.email);
 
   /*
   useLayoutEffect(() => {
