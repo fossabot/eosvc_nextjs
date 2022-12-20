@@ -6,9 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
     "@heroicons/react": "^2.0.13",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.0",
+    "@mui/x-date-pickers": "^5.0.11",
+    "@next/font": "^13.0.7",
     "@reduxjs/toolkit": "^1.9.1",
     "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "formik": "^2.2.9",
     "mongoose": "^6.8.0",
