@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
-import { useForm, Form } from "../useForm";
-import Controls from "../../../../components/controls/Controls";
-import * as empoyeeService from "../../../../services/EmployeeService";
+import { useForm, Form } from "../../useForm";
+import Controls from "../../controls/Controls";
+import * as empoyeeService from "../../../services/EmployeeService";
 
 const genderItems = [
   { id: "male", title: "Muž" },

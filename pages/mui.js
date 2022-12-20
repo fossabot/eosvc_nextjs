@@ -1,7 +1,7 @@
-import SideMenu from "./components/mui/SideMenu";
-import Header from "./components/mui/Header";
+import SideMenu from "../components/Mui/SideMenu";
+import Header from "../components/Mui/Header";
 import { CssBaseline } from "@mui/material";
-import Employees from "./components/mui/Employee/Employees";
+import Employees from "../components/Mui/Employee/Employees";
 
 export default function Mui() {
   return (
