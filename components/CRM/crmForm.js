@@ -16,7 +16,7 @@ export default function CrmForm() {
   console.log(formId, "form.js formId");
 
   return (
-    <div className="containter flex mx-auto justify-center items-center w-full px-16 ">
+    <div className="flex mx-auto justify-center items-center w-full text-sm">
       {formId
         ? EditAccountForm({ formId, formData, setFormData })
         : AddAccountForm({ formData, setFormData })}

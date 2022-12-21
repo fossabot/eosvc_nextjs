@@ -7,7 +7,6 @@ import { toggleChangeAction, deleteAction } from "../../redux/reducer";
 import { useQueryClient } from "react-query";
 import { deleteEmployee } from "../employee/deleteEmployee";
 import { getEmployees } from "../employee/getEmployees";
-import PageTemplate from "./PageTemplate";
 
 export default function Employees() {
   //Get state from Global redux store /redux/store
@@ -42,7 +41,7 @@ export default function Employees() {
           <div className="left flex gap-3">
             <button
               onClick={handler}
-              className="bg-yellow-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2"
+              className="bg-gray-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2"
             >
               Přidat zamětnance <FiUserPlus />
             </button>
@@ -53,7 +52,7 @@ export default function Employees() {
         {/* Collapsable form */}
         {visible ? <Form /> : <></>}
         {/* Table with data */}
-        <div className="containter">
+        <div className="containter w-full px-2">
           <Table />
         </div>
       </div>

@@ -17,25 +17,25 @@ export default function CrmTable() {
 
   console.log(data);
   return (
-    <table className="min-w-full table-auto">
+    <table className="min-w-full table-auto text-sm">
       <thead>
         <tr className="bg-gray-800">
-          <th className="px-16 py-2">
+          <th className="px-8 py-2">
             <span className="text-gray-200">Name</span>
           </th>
-          <th className="px-16 py-2">
+          <th className="px-8 py-2">
             <span className="text-gray-200">E-mail</span>
           </th>
-          <th className="px-16 py-2">
+          <th className="px-8 py-2">
             <span className="text-gray-200">IČO</span>
           </th>
-          <th className="px-16 py-2">
+          <th className="px-8 py-2">
             <span className="text-gray-200">Mobil</span>
           </th>
-          <th className="px-16 py-2">
+          <th className="px-8 py-2">
             <span className="text-gray-200">Status</span>
           </th>
-          <th className="px-16 py-2">
+          <th className="px-8 py-2">
             <span className="text-gray-200">Akce</span>
           </th>
         </tr>
@@ -68,7 +68,7 @@ function Tr({ _id, name, company_id, email, office_phone, status }) {
 
   return (
     <tr className="bg-gray-50 text-center hover:bg-gray-200">
-      <td className="px-16 py-2 flex flex-row items-center">
+      <td className="px-2 py-2 flex flex-row items-center">
         <span className="text-center ml-2 font-semibold">
           {name || "Neznámé"}
         </span>
@@ -89,10 +89,10 @@ function Tr({ _id, name, company_id, email, office_phone, status }) {
       </td>
       <td className="px-16 py-2 justify-around gap-4">
         <button className="cursor px-2" onClick={onUpdate}>
-          <BiEdit size={25} color="green" />
+          <BiEdit size={15} color="green" />
         </button>
         <button className="curso px-2" onClick={onDelete}>
-          <BiTrashAlt size={25} color="red" />
+          <BiTrashAlt size={15} color="red" />
         </button>
       </td>
     </tr>

@@ -19,9 +19,9 @@ export default function Table() {
   if (isError) return <div>Error: {error}</div>;
 
   return (
-    <table className="min-w-full table-auto">
+    <table className="min-w-full rounded-md table-auto border border-slate-800">
       <thead>
-        <tr className="bg-gray-800">
+        <tr className="bg-slate-900 text-sm font-bold rounded-t-md">
           <th className="px-16 py-2">
             <span className="text-gray-200">Name</span>
           </th>
@@ -42,7 +42,7 @@ export default function Table() {
           </th>
         </tr>
       </thead>
-      <tbody className="bg-gray-200">
+      <tbody className="bg-gray-200 text-sm">
         {data.map((item, i) => (
           <Tr {...item} key={i} />
         ))}

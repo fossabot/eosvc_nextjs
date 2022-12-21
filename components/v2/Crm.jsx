@@ -37,26 +37,27 @@ export default function CRM() {
   };
   //console.log(visible);
   return (
-    <main className="w-full h-full">
-      <div className="flex flex-col justify-center items-center gap-5">
-        <div className="flex justify-between items-start w-full px-5">
-          <div className="left flex gap-3">
-            <button
-              onClick={handler}
-              className="bg-yellow-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2"
-            >
-              Přidat Firmu <FiUserPlus />
-            </button>
-          </div>
-
-          {deleteId ? DeleteComponent({ deletehandler, canclehandler }) : <></>}
+    <main className="w-full px-5 space-y-5">
+      <div className="flex justify-between items-start w-full pt-5">
+        <div className="flex">
+          <button
+            onClick={handler}
+            className="bg-yellow-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2"
+          >
+            Přidat Firmu <FiUserPlus />
+          </button>
         </div>
+
+        {deleteId ? DeleteComponent({ deletehandler, canclehandler }) : <></>}
+      </div>
+      <div>
         {/* Collapsable form */}
         {visible ? <CrmForm /> : <></>}
         {/* Table with data */}
-        <div className="containter">
-          <CrmTable />
-        </div>
+      </div>
+
+      <div className="">
+        <CrmTable />
       </div>
     </main>
   );
