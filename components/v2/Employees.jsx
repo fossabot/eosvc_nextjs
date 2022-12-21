@@ -1,32 +1,31 @@
-import { useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import CrmTable from "../../components/CRM/crmTable";
-import CrmForm from "../../components/CRM/crmForm";
+import Table from "../Table";
 import { FiUserPlus } from "react-icons/fi";
+import Form from "../employee/form";
 import { BiX, BiCheck } from "react-icons/bi";
-import { deleteAccount } from "../../components/CRM/Accounts/deleteAccount";
-import { toggleChangeActionAccount, deleteAction } from "../../redux/reducer";
-import { getAccounts } from "../../components/CRM/Accounts/getAccounts";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleChangeAction, deleteAction } from "../../redux/reducer";
+import { useQueryClient } from "react-query";
+import { deleteEmployee } from "../employee/deleteEmployee";
+import { getEmployees } from "../employee/getEmployees";
+import PageTemplate from "./PageTemplate";
 
-export default function CRM() {
+export default function Employees() {
   //Get state from Global redux store /redux/store
-  const visible = useSelector((state) => state.app.client.toggleShowAccount);
-  //const visible = true;
-  const deleteId = useSelector((state) => state.app.client.deleteId);
+  const visible = useSelector((state) => state.app.client.toggleForm);
 
+  const deleteId = useSelector((state) => state.app.client.deleteId);
   const queryclient = useQueryClient();
+
   const dispatch = useDispatch();
 
-  //Change onClick global state of visible variable to show add Account form
   const handler = () => {
-    dispatch(toggleChangeActionAccount());
+    dispatch(toggleChangeAction());
   };
 
   const deletehandler = async () => {
     if (deleteId) {
-      await deleteAccount(deleteId);
-      await queryclient.prefetchQuery("accounts", getAccounts);
+      await deleteEmployee(deleteId);
+      await queryclient.prefetchQuery("employee", getEmployees);
       await dispatch(deleteAction(null));
     }
   };
@@ -35,31 +34,30 @@ export default function CRM() {
     console.log("cancel");
     await dispatch(deleteAction(null));
   };
-  //console.log(visible);
+
   return (
-    <main className="w-full h-full">
+    <container className="w-full h-full">
       <div className="flex flex-col justify-center items-center gap-5">
-        <h1 className="text-4xl font-bold">CRM</h1>
         <div className="flex justify-between items-start w-full px-5">
           <div className="left flex gap-3">
             <button
               onClick={handler}
               className="bg-yellow-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2"
             >
-              Přidat Firmu <FiUserPlus />
+              Přidat zamětnance <FiUserPlus />
             </button>
           </div>
 
           {deleteId ? DeleteComponent({ deletehandler, canclehandler }) : <></>}
         </div>
         {/* Collapsable form */}
-        {visible ? <CrmForm /> : <></>}
+        {visible ? <Form /> : <></>}
         {/* Table with data */}
         <div className="containter">
-          <CrmTable />
+          <Table />
         </div>
       </div>
-    </main>
+    </container>
   );
 }
 

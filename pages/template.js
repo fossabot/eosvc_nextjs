@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import SetupComponent from "../components/v2/Setup";
 import PageTemplate from "../components/v2/PageTemplate";
 
-const pageTitle = "Modul se připravuje";
+const pageTitle = "I am Template";
 
 const Template = () => {
   const { data: session } = useSession();
@@ -30,9 +30,7 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        {/* Placeholder for modul content Start */}
-
-        {/* Placeholder for modul content End */}
+        <SetupComponent />
       </PageTemplate>
     </AppLayoutV2>
   );

@@ -1,11 +1,13 @@
 import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
-import AppLayout from "../layout/AppLayout";
-import Profile from "./components/Profile";
+import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import PageTemplate from "../components/v2/PageTemplate";
+import ProfileComponent from "../components/v2/Profile";
 
-const Home = () => {
+const pageTitle = "Nastavení profilu uživatele";
+
+const Template = () => {
   const { data: session } = useSession();
   // console.log(session);
   const router = useRouter();
@@ -13,22 +15,24 @@ const Home = () => {
   return (
     <div className="w-full">
       <Head>
-        <title>Nastavení profilu</title>
+        <title>{pageTitle}</title>
       </Head>
       {session ? User({ session }) : router.push("/login")}
     </div>
   );
 };
 
-export default Home;
+export default Template;
 
 // Authorize User
 function User() {
   //console.log(session);
   return (
-    <AppLayout>
-      <Profile />
-    </AppLayout>
+    <AppLayoutV2>
+      <PageTemplate pageTitle={pageTitle}>
+        <ProfileComponent />
+      </PageTemplate>
+    </AppLayoutV2>
   );
 }
 

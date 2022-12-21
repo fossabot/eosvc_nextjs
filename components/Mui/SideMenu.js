@@ -1,4 +1,3 @@
-import { makeStyles, withStyles } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 export default function SideMenu() {

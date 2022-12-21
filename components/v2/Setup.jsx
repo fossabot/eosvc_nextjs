@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { addIndustry } from "../../components/CRM/Setup/Industry/addIndustry";
+import { addIndustry } from "../CRM/Setup/Industry/addIndustry";
 import { useReducer } from "react";
 
 const formReducer = (state, event) => {
@@ -37,9 +37,6 @@ function SetupComponent() {
 
   return (
     <main className="w-full h-full">
-      <div className="flex justify-center items-center">
-        <h1 className="text-4xl font-bold">Číselníky</h1>
-      </div>
       <div className="flex flex-row justify-start items-center p-5">
         <div className="flex flex-col">
           <h1>CRM</h1>
@@ -60,8 +57,6 @@ function SetupComponent() {
             </button>
           </form>
         </div>
-
-        <input type="text" />
       </div>
     </main>
   );

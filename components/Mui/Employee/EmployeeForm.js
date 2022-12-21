@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useForm, Form } from "../../useForm";
+import { useForm, Form } from "../useForm";
 import Controls from "../../controls/Controls";
 import * as empoyeeService from "../../../services/EmployeeService";
 

@@ -1,30 +1,32 @@
-import Table from "../../components/Table";
-import { FiUserPlus } from "react-icons/fi";
-import Form from "../../components/employee/form";
-import { BiX, BiCheck } from "react-icons/bi";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction, deleteAction } from "../../redux/reducer";
 import { useQueryClient } from "react-query";
-import { deleteEmployee } from "../../components/employee/deleteEmployee";
-import { getEmployees } from "../../components/employee/getEmployees";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import CrmTable from "../CRM/crmTable";
+import CrmForm from "../CRM/crmForm";
+import { FiUserPlus } from "react-icons/fi";
+import { BiX, BiCheck } from "react-icons/bi";
+import { deleteAccount } from "../CRM/Accounts/deleteAccount";
+import { toggleChangeActionAccount, deleteAction } from "../../redux/reducer";
+import { getAccounts } from "../CRM/Accounts/getAccounts";
 
-export default function Employees() {
+export default function CRM() {
   //Get state from Global redux store /redux/store
-  const visible = useSelector((state) => state.app.client.toggleForm);
-
+  const visible = useSelector((state) => state.app.client.toggleShowAccount);
+  //const visible = true;
   const deleteId = useSelector((state) => state.app.client.deleteId);
-  const queryclient = useQueryClient();
 
+  const queryclient = useQueryClient();
   const dispatch = useDispatch();
 
+  //Change onClick global state of visible variable to show add Account form
   const handler = () => {
-    dispatch(toggleChangeAction());
+    dispatch(toggleChangeActionAccount());
   };
 
   const deletehandler = async () => {
     if (deleteId) {
-      await deleteEmployee(deleteId);
-      await queryclient.prefetchQuery("employee", getEmployees);
+      await deleteAccount(deleteId);
+      await queryclient.prefetchQuery("accounts", getAccounts);
       await dispatch(deleteAction(null));
     }
   };
@@ -33,28 +35,27 @@ export default function Employees() {
     console.log("cancel");
     await dispatch(deleteAction(null));
   };
-
+  //console.log(visible);
   return (
     <main className="w-full h-full">
       <div className="flex flex-col justify-center items-center gap-5">
-        <h1 className="text-4xl font-bold">Zaměstnanci</h1>
         <div className="flex justify-between items-start w-full px-5">
           <div className="left flex gap-3">
             <button
               onClick={handler}
               className="bg-yellow-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2"
             >
-              Přidat zamětnance <FiUserPlus />
+              Přidat Firmu <FiUserPlus />
             </button>
           </div>
 
           {deleteId ? DeleteComponent({ deletehandler, canclehandler }) : <></>}
         </div>
         {/* Collapsable form */}
-        {visible ? <Form /> : <></>}
+        {visible ? <CrmForm /> : <></>}
         {/* Table with data */}
         <div className="containter">
-          <Table />
+          <CrmTable />
         </div>
       </div>
     </main>

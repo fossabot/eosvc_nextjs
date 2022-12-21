@@ -1,10 +1,14 @@
 import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
-import AppLayout from "../layout/AppLayout";
-import Crm from "./components/Crm";
+import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
+import SetupComponent from "../components/v2/Setup";
+import PageTemplate from "../components/v2/PageTemplate";
+import CRM from "../components/v2/Crm";
 
-const Home = () => {
+const pageTitle = "CRM";
+
+const Template = () => {
   const { data: session } = useSession();
   // console.log(session);
   const router = useRouter();
@@ -12,22 +16,24 @@ const Home = () => {
   return (
     <div className="w-full">
       <Head>
-        <title>CRM</title>
+        <title>{pageTitle}</title>
       </Head>
       {session ? User({ session }) : router.push("/login")}
     </div>
   );
 };
 
-export default Home;
+export default Template;
 
 // Authorize User
 function User() {
   //console.log(session);
   return (
-    <AppLayout>
-      <Crm />
-    </AppLayout>
+    <AppLayoutV2>
+      <PageTemplate pageTitle={pageTitle}>
+        <CRM />
+      </PageTemplate>
+    </AppLayoutV2>
   );
 }
 

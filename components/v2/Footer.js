@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <footer className="flex flex-row bg-blue-400 h-16 justify-end items-center w-full text-white p-5">
+    <footer className="flex flex-row bg-gray-100 h-8 justify-end items-center w-full text-xs text-gray-500 p-5">
       <div className="space-x-2 pr-2">
         powered by Next.js{" "}
         <span className="bg-black rounded-md text-white px-1">13</span> hosted

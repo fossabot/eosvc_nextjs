@@ -1,11 +1,14 @@
 import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
-import AppLayout from "../layout/AppLayout";
-import Projects from "./components/Projects";
+import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
-const Home = () => {
+import PageTemplate from "../components/v2/PageTemplate";
+import Projects from "../components/v2/Projects";
+
+const pageTitle = "Projekty";
+
+const Template = () => {
   const { data: session } = useSession();
   // console.log(session);
   const router = useRouter();
@@ -13,22 +16,24 @@ const Home = () => {
   return (
     <div className="w-full">
       <Head>
-        <title>Projekty</title>
+        <title>{pageTitle}</title>
       </Head>
       {session ? User({ session }) : router.push("/login")}
     </div>
   );
 };
 
-export default Home;
+export default Template;
 
 // Authorize User
 function User() {
   //console.log(session);
   return (
-    <AppLayout>
-      <Projects />
-    </AppLayout>
+    <AppLayoutV2>
+      <PageTemplate pageTitle={pageTitle}>
+        <Projects />
+      </PageTemplate>
+    </AppLayoutV2>
   );
 }
 

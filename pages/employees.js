@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
-import AppLayout from "../layout/AppLayout";
-import Employees from "./components/Employees";
+import AppLayoutV2 from "../layout/AppLayoutV2";
+import Employees from "../components/v2/Employees";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import PageTemplate from "../components/v2/PageTemplate";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -26,9 +27,11 @@ export default Home;
 function User() {
   //console.log(session);
   return (
-    <AppLayout>
-      <Employees />
-    </AppLayout>
+    <AppLayoutV2>
+      <PageTemplate pageTitle="Zaměstnanci">
+        <Employees />
+      </PageTemplate>
+    </AppLayoutV2>
   );
 }
 
