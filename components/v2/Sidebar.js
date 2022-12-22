@@ -44,12 +44,13 @@ function Sidebar() {
       <div
         className={`flex ${
           open
-            ? "justify-start items-start gap-2  pl-5 flex-col"
+            ? "justify-start items-start gap-2  pl-2 flex-col"
             : "justify-center items-center gap-2 flex-col"
         } p-2 text-gray-400`}
       >
         {/* Menu Item Start */}
 
+        <MenuItem icon="home" open={open} route={"/"} menuItem={"Dashboard"} />
         <MenuItem
           icon="userGroup"
           open={open}
@@ -99,19 +100,27 @@ function Sidebar() {
           route={"/setup"}
           menuItem={"Číselníky"}
         />
+        <MenuItem
+          icon="academicCap"
+          open={open}
+          route={"/template"}
+          menuItem={"Template"}
+        />
         {/* Menu Item End */}
       </div>
       <div
         className={`flex ${
           open
-            ? "justify-start items-start gap-2  pl-5 flex-col"
+            ? "justify-start items-start gap-2  pl-2 flex-col"
             : "justify-center items-center gap-2 flex-col"
         } p-2 text-gray-400`}
       >
-        <div onClick={handleSignOut}>
-          <div className="flex flex-row items-center gap-2">
-            <div className="hover:bg-slate-700 hover:text-gray-200 hover:transition hover:duration-150 rounded-md p-5">
-              {" "}
+        <div
+          onClick={handleSignOut}
+          className="w-full hover:bg-slate-700 hover:text-gray-200 hover:transition hover:duration-150 rounded-md mx-auto"
+        >
+          <div className="flex flex-row items-center mx-auto p-2">
+            <div className="p-2">
               <ArrowRightOnRectangleIcon className="w-6 h-6" />
             </div>
             {open && <div>Odhlásit</div>}

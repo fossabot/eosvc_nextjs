@@ -1,54 +1,15 @@
-import Head from "next/head";
-import { getSession, useSession, signOut } from "next-auth/react";
-import AppLayoutV2 from "../layout/AppLayoutV2";
-import { useRouter } from "next/router";
-import SetupComponent from "../components/v2/Setup";
-import PageTemplate from "../components/v2/PageTemplate";
+import React from "react";
+import Template from "../layout/template";
+import TableUi from "../components/tables/TableUi";
+import Test from "./test";
 
-const pageTitle = "I am Template";
-
-const Template = () => {
-  const { data: session } = useSession();
-  // console.log(session);
-  const router = useRouter();
-
+function Demo() {
   return (
-    <div className="w-full">
-      <Head>
-        <title>{pageTitle}</title>
-      </Head>
-      {session ? User({ session }) : router.push("/login")}
-    </div>
-  );
-};
-
-export default Template;
-
-// Authorize User
-function User() {
-  //console.log(session);
-  return (
-    <AppLayoutV2>
-      <PageTemplate pageTitle={pageTitle}>
-        <SetupComponent />
-      </PageTemplate>
-    </AppLayoutV2>
+    <Template>
+      <Test />
+      <TableUi />
+    </Template>
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
+export default Demo;

@@ -6,7 +6,8 @@ import {
   DocumentChartBarIcon,
   DocumentCheckIcon,
   ClipboardDocumentListIcon,
-  ArrowRightOnRectangleIcon,
+  AcademicCapIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -15,6 +16,9 @@ function MenuItem({ open, icon, route, menuItem }) {
   console.log(menuItem);
   let showIcon;
   switch (icon) {
+    case "home":
+      showIcon = <HomeIcon className="w-6" />;
+      break;
     case "userGroup":
       showIcon = <UserGroupIcon className="w-6" />;
       break;
@@ -36,16 +40,20 @@ function MenuItem({ open, icon, route, menuItem }) {
     case "clipBoardDocument":
       showIcon = <ClipboardDocumentListIcon className="w-6" />;
       break;
+    case "academicCap":
+      showIcon = <AcademicCapIcon className="w-6" />;
+      break;
     default:
       <UserGroupIcon className="w-8" />;
   }
 
   return (
-    <Link href={route}>
-      <div className="flex flex-row items-center gap-2">
-        <div className="hover:bg-slate-700 hover:text-gray-200 hover:transition hover:duration-150 rounded-md p-5">
-          {showIcon}
-        </div>
+    <Link
+      href={route}
+      className=" w-full hover:bg-slate-700 hover:text-gray-200 hover:transition hover:duration-150 rounded-md mx-auto"
+    >
+      <div className="flex flex-row items-center mx-auto p-2">
+        <div className="p-2">{showIcon}</div>
         {open && <div>{menuItem}</div>}
       </div>
     </Link>

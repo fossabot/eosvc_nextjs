@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getEmployees } from "../../components/employee/getEmployees";
-import { getAccounts } from "../../components/CRM/Accounts/getAccounts";
+import { getEmployees } from "../employee/getEmployees";
+import { getAccounts } from "../CRM/Accounts/getAccounts";
 
 //Fetch data from API and store in cache
 //const employeeCount = data;

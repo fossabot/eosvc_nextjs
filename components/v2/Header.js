@@ -7,11 +7,6 @@ function Header() {
   //console.log(session, "Session");
   return (
     <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">
-      <div>
-        <Link href="/">
-          <h1 className="text-gray-600"> eOSVC - v.0.0.1</h1>
-        </Link>
-      </div>
       <div className="flex flex-auto justify-center items-center">
         <div className="flex flex-row gap-2">
           <MagnifyingGlassIcon className="text-gray-600 w-5" />
