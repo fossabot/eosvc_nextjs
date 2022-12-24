@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const { schemaOptions } = require("./modelOptions");
+import { Schema, models, model } from "mongoose";
+import { schemaOptions } from "./modelOptions";
 
 const boardSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
     icon: {
@@ -35,7 +34,9 @@ const boardSchema = new Schema(
       default: 0,
     },
   },
+  { collection: "Boards" },
   schemaOptions
 );
 
-module.exports = mongoose.model("Board", boardSchema);
+const Boards = models.boards || model("boards", boardSchema);
+export default Boards;

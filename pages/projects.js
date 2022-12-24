@@ -31,7 +31,7 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        <Projects />
+        <Dnd />
       </PageTemplate>
     </AppLayoutV2>
   );

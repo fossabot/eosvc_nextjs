@@ -90,7 +90,7 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
           <span
             className={`${
               status === "Active" ? "bg-green-500" : "bg-red-500"
-            } text-white px-5 py-1 rounded-full`}
+            } text-white px-5 py-1 rounded-md`}
           >
             {status || "Neznámé"}
           </span>

@@ -23,7 +23,6 @@ export default function MyDialog() {
           {/* The actual dialog panel  */}
           <Dialog.Panel className="mx-auto w-80 h-80 rounded bg-white">
             <Dialog.Title>Complete your order</Dialog.Title>
-
             {/* ... */}
           </Dialog.Panel>
         </div>

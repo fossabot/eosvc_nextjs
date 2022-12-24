@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const { schemaOptions } = require("./modelOptions");
+import { Schema, models, model } from "mongoose";
+import { schemaOptions } from "./modelOptions";
 
 const taskSchema = new Schema(
   {
@@ -21,7 +20,9 @@ const taskSchema = new Schema(
       type: Number,
     },
   },
+  { collection: "Tasks" },
   schemaOptions
 );
 
-module.exports = mongoose.model("Task", taskSchema);
+const Tasks = models.tasks || model("tasks", taskSchema);
+export default Tasks;

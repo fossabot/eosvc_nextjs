@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import Profile from "../components/v2/Profile";
-import AddEmployeeForm from "../components/employee/addEmployeeForm";
+import Profile from "../v2/Profile";
+import AddEmployeeForm from "../employee/addEmployeeForm";
 
 function Test() {
   const [isOpen, setIsOpen] = useState(false);

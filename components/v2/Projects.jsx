@@ -38,15 +38,6 @@ const finalSpaceCharacters = [
 ];
 
 function Projects() {
-  /*
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      setReady(true);
-    }
-  }, []);
-  */
   const ready = true;
   console.log(ready, "ready");
   const [characters, updateCharacters] = useState(finalSpaceCharacters);
