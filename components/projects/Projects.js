@@ -1,40 +1,9 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled";
 import { columnsFromBackend } from "./KanbanData";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TaskCard from "./TaskCard";
 
-const Container = styled.div`
-  display: flex;
-`;
-
-const TaskList = styled.div`
-  min-height: 100px;
-  display: flex;
-  flex-direction: column;
-  background: #f3f3f3;
-  min-width: 341px;
-  border-radius: 5px;
-  padding: 15px 15px;
-  margin-right: 45px;
-`;
-
-const TaskColumnStyles = styled.div`
-  margin: 8px;
-  display: flex;
-  width: 100%;
-  min-height: 80vh;
-`;
-
-const Title = styled.span`
-  color: #10957d;
-  background: rgba(16, 149, 125, 0.15);
-  padding: 2px 10px;
-  border-radius: 5px;
-  align-self: flex-start;
-`;
-
-const Kanban = () => {
+const Projects = () => {
   const [columns, setColumns] = useState(columnsFromBackend);
 
   const onDragEnd = (result, columns, setColumns) => {
@@ -83,11 +52,11 @@ const Kanban = () => {
               <Droppable key={columnId} droppableId={columnId}>
                 {(provided, snapshot) => (
                   <div
-                    className="flex  flex-col bg-yellow-300 p-3 w-full h-full rounded-md"
+                    className="flex  flex-col bg-gray-300 p-3 w-full h-full rounded-md"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <span className="text-gray-300 px-10 py-2 bg-gray-600 rounded-md">
+                    <span className="flex text-gray-300 px-10 py-1 items-center justify-center bg-gray-600 rounded-md">
                       {column.title}
                     </span>
                     {column.items.map((item, index) => (
@@ -105,4 +74,4 @@ const Kanban = () => {
   );
 };
 
-export default Kanban;
+export default Projects;

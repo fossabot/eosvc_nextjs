@@ -2,9 +2,8 @@ import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-
 import PageTemplate from "../components/v2/PageTemplate";
-import Projects from "../components/v2/Projects";
+import Projects from "../components/projects/Projects";
 
 const pageTitle = "Projekty";
 
@@ -31,7 +30,7 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        <Dnd />
+        <Projects />
       </PageTemplate>
     </AppLayoutV2>
   );
