@@ -5,7 +5,7 @@ import AppLayoutV2 from "../layout/AppLayoutV2";
 import PageTemplate from "../components/v2/PageTemplate";
 import Link from "next/link";
 
-const pageTitle = "CRM";
+const pageTitle = "Modul for testing";
 
 const Template = ({ children }) => {
   const { data: session } = useSession();
