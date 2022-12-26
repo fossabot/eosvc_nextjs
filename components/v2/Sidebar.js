@@ -106,6 +106,12 @@ function Sidebar() {
           route={"/template"}
           menuItem={"Template"}
         />
+        <MenuItem
+          icon="academicCap"
+          open={open}
+          route={"/openAi"}
+          menuItem={"OpenAi test"}
+        />
         {/* Menu Item End */}
       </div>
       <div

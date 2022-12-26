@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { addImage } from "./images/addImage";
 import useSWR from "swr";
-import { withArgs } from "swr/_internal";
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json());
 

@@ -9,6 +9,7 @@ function Main() {
   const [employeeCount, setEmployeeCount] = useState("");
   const [accountCount, setAccountCount] = useState("");
   const [employeeSum, setEmployeeSum] = useState("");
+  const [imagesCount, setImagesCount] = useState(0);
   //Fetch Employee data
 
   //Fetch Accounts data
@@ -31,6 +32,12 @@ function Main() {
           return employeeSum;
         });
       });
+
+    fetch(`/api/documents/images`)
+      .then((response) => response.json())
+      .then((data) => {
+        setImagesCount(data.length);
+      });
   }, []);
 
   return (
@@ -48,6 +55,17 @@ function Main() {
             <div>
               Náklady za zaměstnance:{" "}
               <span className="font-bold">{employeeSum}</span>,- / měsíčně{" "}
+            </div>
+          </div>
+        </div>
+        <div className="flex mx-auto p-5">
+          <div className="flex  flex-col bg-gray-200 p-5 rounded-md">
+            <div className="flex mx-auto items-center">
+              <h1 className="font-bold pb-5">Obrázky</h1>
+            </div>
+            <div>
+              Počet obrázků v DB:{" "}
+              <span className="font-bold">{imagesCount}</span>
             </div>
           </div>
         </div>
