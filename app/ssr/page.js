@@ -1,5 +1,8 @@
+/*
+const url = process.env.APP_URL;
+
 const fetchData = async () =>
-  await fetch("http://localhost:3000/api/documents/images").then((response) =>
+  await fetch(`${url}/api/documents/images`).then((response) =>
     response.json()
   );
 
@@ -22,3 +25,11 @@ export default async function ssr() {
     </div>
   );
 }
+*/
+import React from "react";
+
+function Ssr() {
+  return <div>ssr</div>;
+}
+
+export default Ssr;
