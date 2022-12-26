@@ -12,8 +12,6 @@ import {
 import Link from "next/link";
 
 function MenuItem({ open, icon, route, menuItem }) {
-  console.log(open);
-  console.log(menuItem);
   let showIcon;
   switch (icon) {
     case "home":
