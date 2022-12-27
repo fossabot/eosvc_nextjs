@@ -2,6 +2,7 @@ import Header from "../components/v2/Header";
 import Sidebar from "../components/v2/Sidebar";
 import Footer from "../components/v2/Footer";
 import Breadcrumb from "../utils/breadcrumb";
+//import dotenv from "dotenv";
 
 function AppLayoutV2({ children }) {
   return (

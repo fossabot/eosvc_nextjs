@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { Configuration, OpenAIApi } from "openai";
 //import { configuration } from "../../hidden_public/openAIApiConfig";
 
 /*
@@ -30,16 +31,17 @@ config: Configuration
 baseUrl: string
     The base URL to use when making requests to the OpenAI API. This is optional and will default to "https://api.openai.com" if not provided.
 */
+//const { Configuration, OpenAIApi } = require("openai");
 
-const { Configuration, OpenAIApi } = require("openai");
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
+const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
 function OpenAiComponent() {
+  const configuration = new Configuration({
+    apiKey: OPENAI_API_KEY,
+  });
+
+  const openai = new OpenAIApi(configuration);
+
   const [question, setQuestion] = useState("");
   const [openAiQuestion, setOpenAiQuestion] = useState(
     `Decide whether a Tweet\'s sentiment is positive, neutral, or negative.\n\nTweet: "I loved the new Batman movie!"\nSentiment:`
