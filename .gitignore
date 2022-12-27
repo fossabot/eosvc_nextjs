@@ -19,6 +19,7 @@
 .DS_Store
 *.pem
 
+/hidden_public
 next.config.js
 
 # debug

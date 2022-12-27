@@ -9,7 +9,7 @@ module.exports = {
   },
   env: {
     APP_URL: "http://localhost:3000",
-    OPENAI_API_KEY: "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",
+    OPENAI_API_KEY: "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",
     USER_DEFAULT_PASS: "Heslo123456",
   },
 };

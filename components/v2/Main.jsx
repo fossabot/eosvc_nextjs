@@ -10,35 +10,43 @@ function Main() {
   const [accountCount, setAccountCount] = useState("");
   const [employeeSum, setEmployeeSum] = useState("");
   const [imagesCount, setImagesCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   //Fetch Employee data
 
   //Fetch Accounts data
   useEffect(() => {
-    fetch(`/api/accounts`)
-      .then((response) => response.json())
-      .then((data) => {
-        setAccountCount(data.length);
-      });
-
-    fetch(`/api/employee`)
-      .then((response) => response.json())
-      .then((data) => {
-        setEmployeeCount(data.length);
-        setEmployeeSum(() => {
-          const employeeSum = data.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.salary,
-            0
-          );
-          return employeeSum;
+    try {
+      fetch(`/api/accounts`)
+        .then((response) => response.json())
+        .then((data) => {
+          setAccountCount(data.length);
         });
-      });
 
-    fetch(`/api/documents/images`)
-      .then((response) => response.json())
-      .then((data) => {
-        setImagesCount(data.length);
-      });
+      fetch(`/api/employee`)
+        .then((response) => response.json())
+        .then((data) => {
+          setEmployeeCount(data.length);
+          setEmployeeSum(() => {
+            const employeeSum = data.reduce(
+              (accumulator, currentValue) => accumulator + currentValue.salary,
+              0
+            );
+            return employeeSum;
+          });
+        });
+
+      fetch(`/api/documents/images`)
+        .then((response) => response.json())
+        .then((data) => {
+          setImagesCount(data.length);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   }, []);
+
+  if (isLoading) return <div>Dashboar se načítá ...</div>;
 
   return (
     <main className="bg-gray-100 rounded-sm  h-full">

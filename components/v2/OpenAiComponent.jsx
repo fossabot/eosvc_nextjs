@@ -1,6 +1,35 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+//import { configuration } from "../../hidden_public/openAIApiConfig";
+
+/*
+Configuration options:
+apiKey: string
+    The API key to use when making requests to the OpenAI API. This is required.
+
+engine: string
+    The name of the OpenAI engine to use when making requests to the API. This is optional and will default to "text-davinci-002" if not provided.
+
+maxTokens: number
+    The maximum number of tokens (words or word pieces) that the API will generate in a single request. This is optional and will default to 2048 if not provided.
+
+temperature: number
+    The temperature to use when generating text. This is optional and will default to 0.5 if not provided.
+
+topP: number
+    The top-p value to use when generating text. This is optional and will default to 1 if not provided.
+
+presencePenalty: number
+    The presence penalty to use when generating text. This is optional and will default to 0 if not provided.
+
+OpenAIApi options: 
+config: Configuration
+    An instance of the Configuration class, containing the API key and other configuration options to use when making requests to the OpenAI API. This is required.
+
+baseUrl: string
+    The base URL to use when making requests to the OpenAI API. This is optional and will default to "https://api.openai.com" if not provided.
+*/
 
 const { Configuration, OpenAIApi } = require("openai");
 
@@ -74,12 +103,12 @@ function OpenAiComponent() {
         <div
           className={`rounded-md items-center justify-center px-2
             ${
-              openAiResponse.data?.choices[0].text === "Positive"
-                ? `bg-green-500`
+              openAiResponse.data?.choices[0].text.includes("Positive")
+                ? `bg-green-500 text-white font-bold`
                 : `bg-red-500 text-white font-bold`
             }`}
         >
-          Response: {openAiResponse.data?.choices[0].text}{" "}
+          Your text is: {openAiResponse.data?.choices[0].text}{" "}
         </div>
       </div>
     </div>
