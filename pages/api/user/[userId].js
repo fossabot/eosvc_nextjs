@@ -1,7 +1,7 @@
 import connectMongo from "../../../database/conn";
 import { getUser } from "../../../database/controllers/user/getUser";
 import { addUser } from "../../../database/controllers/user/addUser";
-import { editUser } from "../../../database/controllers/user/editUser";
+import { updateUser } from "../../../database/controllers/user/updateUser";
 import { deleteUser } from "../../../database/controllers/user/deleteUser";
 
 export default async function handler(req, res) {
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       addUser(req, res);
       break;
     case "PUT":
-      editUser(req, res);
+      updateUser(req, res);
       break;
     case "DELETE":
       deleteUser(req, res);

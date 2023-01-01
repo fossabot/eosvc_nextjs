@@ -6,8 +6,10 @@ import {
 } from "@heroicons/react/24/outline";
 import MenuItem from "../../utils/MenuItem";
 import { signOut, useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
 
 function Sidebar() {
+  const name = useSelector((state) => state.user.userInfo.name);
   const [open, setOpen] = useState(false);
   //console.log(open);
   //Sign Out function
@@ -128,7 +130,7 @@ function Sidebar() {
             <div className="p-2">
               <ArrowRightOnRectangleIcon className="w-6 h-6" />
             </div>
-            {open && <div>Odhlásit</div>}
+            {open && <div>Odhlásit {`(${name})`}</div>}
           </div>
         </div>
       </div>

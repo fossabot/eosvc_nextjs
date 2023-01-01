@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 
 function Header() {
   const { data: session } = useSession();
   //console.log(session, "Session");
+  const user = useSelector((state) => state.user.userInfo);
+
+  console.log(user, "User");
   return (
     <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">
       <div className="flex flex-auto justify-center items-center">
@@ -36,8 +40,12 @@ function Header() {
         </Link>
       </div>
       <div className="flex flex-col items-end ">
-        <p className="text-gray-400 text-xs">Welcome, {session.user.name}</p>
-        <p className="text-gray-900 text-xs">{session.user.email}</p>
+        <p className="text-gray-400 text-xs">
+          Welcome, {user.name || session.user.name}
+        </p>
+        <p className="text-gray-900 text-xs">
+          {user.email || session.user.email}
+        </p>
       </div>
     </div>
   );

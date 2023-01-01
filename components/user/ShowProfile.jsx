@@ -1,21 +1,18 @@
 import { useSession } from "next-auth/react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { update } from "../../redux/userSlice";
 
 export default function Table() {
-  const { data: userDataSession } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
-  const [userDataDb, setUserDataDb] = useState(null);
+  //New solution with Redux
+  const user = useSelector((state) => state.user.userInfo);
 
-  const {
-    user: { name, email },
-  } = userDataSession
-    ? userDataSession
-    : { user: { name: "default", email: "default@default.com" } };
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [accountName, setAccountName] = useState(user.accountName);
 
-  let uname = !userDataDb ? userDataSession?.name : userDataDb?.name;
-  let username = !userDataDb ? userDataSession?.username : userDataDb?.username;
-  let uemail = !userDataDb ? userDataSession?.email : userDataDb?.email;
-
+  const dispatch = useDispatch();
+  /*
   useEffect(() => {
     const fetchUserData = new Promise((resolve, reject) => {
       if (email && name) {
@@ -28,93 +25,98 @@ export default function Table() {
       setUserDataDb(data);
     });
   }, []);
-
-  const onUpdate = () => {};
+*/
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    console.log("Update");
+    dispatch(update({ name, email, accountName }));
+  };
 
   return (
     <div className="flex flex-col p-5 gap-5 mx-auto justify-center items-center">
-      {isLoading ? (
-        <div>Loading</div>
-      ) : (
-        <form className="flex flex-col border rounded-md w-full p-5 justify-between items-center">
-          <div className="flex flex-row justify-between w-full items-start m-2 p-2">
-            <div className="flex flex-col p-5 space-y-2 w-1/2">
-              <input
-                className="border rounded-md px-2 py-1 "
-                type="text"
-                name="name"
-                defaultValue={uname}
-                placeholder="Jméno"
-              />
-              <input
-                className="border rounded-md px-2 py-1 "
-                type="text"
-                name="username"
-                defaultValue={username}
-                placeholder="Uživatelské jméno"
-              />
+      <form className="flex flex-col border rounded-md w-full p-5 justify-between items-center">
+        <div className="flex flex-row justify-between w-full items-start m-2 p-2">
+          <div className="flex flex-col p-5 space-y-2 w-1/2">
+            <input
+              className="border rounded-md px-2 py-1 "
+              type="text"
+              name="name"
+              defaultValue={user.name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Jméno"
+            />
+            <input
+              className="border rounded-md px-2 py-1 "
+              type="text"
+              name="username"
+              defaultValue={user.username}
+              onChange={(e) => setUname(e.target.value)}
+              placeholder="Uživatelské jméno"
+            />
 
+            <input
+              className="border rounded-md px-2 py-1 "
+              type="text"
+              name="account_name"
+              placeholder="Společnost"
+              onChange={(e) => setAccountName(e.target.value)}
+              defaultValue={user.accountName}
+            />
+          </div>
+          <div className="flex flex-col p-5 space-y-2 w-1/2">
+            <input
+              className="border rounded-md px-2 py-1  "
+              type="text"
+              name="email"
+              defaultValue={user.email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={true}
+            />
+            <input
+              className="border rounded-md px-2 py-1 "
+              type="text"
+              name="password"
+              placeholder="Heslo"
+            />
+            <div className="px-2 space-x-2">
               <input
-                className="border rounded-md px-2 py-1 "
-                type="text"
-                name="account_name"
-                placeholder="Společnost"
+                type="radio"
+                name="is_account_admin"
+                value="Správce firmy"
+                id="is_account_admin"
               />
+              <label
+                htmlFor="radioDefault2"
+                className="inline-block text-gray-500"
+              >
+                Správce firmy
+              </label>
             </div>
-            <div className="flex flex-col p-5 space-y-2 w-1/2">
+            <div className="px-2 space-x-2">
               <input
-                className="border rounded-md px-2 py-1  "
-                type="text"
-                name="email"
-                defaultValue={uemail}
-                disabled={true}
+                type="radio"
+                name="is_admin"
+                value="Super Admin"
+                id="is_admin"
               />
-              <input
-                className="border rounded-md px-2 py-1 "
-                type="text"
-                name="password"
-                placeholder="Heslo"
-              />
-              <div className="px-2 space-x-2">
-                <input
-                  type="radio"
-                  name="is_account_admin"
-                  value="Správce firmy"
-                  id="is_account_admin"
-                />
-                <label
-                  htmlFor="radioDefault2"
-                  className="inline-block text-gray-500"
-                >
-                  Správce firmy
-                </label>
-              </div>
-              <div className="px-2 space-x-2">
-                <input
-                  type="radio"
-                  name="is_admin"
-                  value="Super Admin"
-                  id="is_admin"
-                />
-                <label
-                  htmlFor="radioDefault2"
-                  className="inline-block text-gray-500"
-                >
-                  Super Admin
-                </label>
-              </div>
+              <label
+                htmlFor="radioDefault2"
+                className="inline-block text-gray-500"
+              >
+                Super Admin
+              </label>
             </div>
           </div>
-          <div>
-            <button
-              className="bg-gray-500 rounded-md text-white font-bold py-2 px-5"
-              onClick={onUpdate}
-            >
-              Update
-            </button>
-          </div>
-        </form>
-      )}
+        </div>
+        <div>
+          <button
+            className="bg-gray-500 rounded-md text-white font-bold py-2 px-5"
+            onClick={handleUpdate}
+          >
+            Update
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
