@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { addImage } from "./images/addImage";
 import useSWR from "swr";
+import { convertToBase64 } from "../../utils/convertToBase64";
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json());
 
@@ -117,7 +118,7 @@ function DocumentsPage() {
 }
 
 export default DocumentsPage;
-
+/*
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -130,3 +131,4 @@ function convertToBase64(file) {
     };
   });
 }
+*/

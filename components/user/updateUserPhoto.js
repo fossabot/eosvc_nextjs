@@ -1,11 +1,11 @@
-export async function updateUser(userId, formData) {
+export async function updateUserPhoto(userId, imageData) {
   try {
     const Option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(imageData),
     };
-    const response = await fetch(`/api/user/${userId}`, Option);
+    const response = await fetch(`/api/user/profilePhoto/${userId}`, Option);
     const json = await response.json();
     return json;
   } catch (error) {

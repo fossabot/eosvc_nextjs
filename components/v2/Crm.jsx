@@ -13,8 +13,11 @@ export default function CRM() {
   //Get state from Global redux store /redux/store
   const visible = useSelector((state) => state.app.client.toggleShowAccount);
   //const visible = true;
+
+  //Get state from Global redux store /redux/store
   const deleteId = useSelector((state) => state.app.client.deleteId);
 
+  //Prapare functions to use react-query
   const queryclient = useQueryClient();
   const dispatch = useDispatch();
 
@@ -25,8 +28,11 @@ export default function CRM() {
 
   const deletehandler = async () => {
     if (deleteId) {
+      //Run delete function from Accounts/deleteAccount
       await deleteAccount(deleteId);
+      //Refresh data in table with reactQuery
       await queryclient.prefetchQuery("accounts", getAccounts);
+      //Set global state to null
       await dispatch(deleteAction(null));
     }
   };
@@ -35,7 +41,9 @@ export default function CRM() {
     console.log("cancel");
     await dispatch(deleteAction(null));
   };
+
   //console.log(visible);
+
   return (
     <main className="w-full px-5 space-y-5">
       <div className="flex justify-between items-start w-full pt-5">

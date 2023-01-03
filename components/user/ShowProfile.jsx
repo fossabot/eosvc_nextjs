@@ -1,39 +1,145 @@
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useMutation, useQuery } from "react-query";
+import { getUserId } from "./getUserId";
+import { useDispatch } from "react-redux";
+import { updateUser } from "./updateUser";
+import { updateUserPass } from "./updateUserPass";
+import { updateUserPhoto } from "./updateUserPhoto";
+import { useReducer, useState } from "react";
 import { update } from "../../redux/userSlice";
+import { convertToBase64 } from "../../utils/convertToBase64";
 
 export default function Table() {
-  //New solution with Redux
-  const user = useSelector((state) => state.user.userInfo);
+  //Get user data from session
+  const { data: session } = useSession();
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [accountName, setAccountName] = useState(user.accountName);
+  //Get user data from database if exists
+  const { isLoading, data } = useQuery(["user", session.user.email], () =>
+    getUserId(session.user.email)
+  );
 
   const dispatch = useDispatch();
-  /*
-  useEffect(() => {
-    const fetchUserData = new Promise((resolve, reject) => {
-      if (email && name) {
-        resolve(fetchAndValidateOAuthUser(name, email));
-      } else {
-        reject(new Error("Error fetching user"));
-      }
-    });
-    fetchUserData.then((data) => {
-      setUserDataDb(data);
-    });
-  }, []);
-*/
+
+  //Update user data
+  const mutation = useMutation((formData) => updateUser(data._id, formData));
+
+  //Update user password
+  const passMutation = useMutation((newPass) =>
+    updateUserPass(data._id, newPass)
+  );
+
+  const formReducer = (state, event) => {
+    return {
+      ...state,
+      [event.target.name]: event.target.value,
+    };
+  };
+
+  const [password, setPassword] = useState("");
+
+  const [formData, setFormData] = useReducer(formReducer, {});
+  const [postImage, setPostImage] = useState({ myFile: null });
+
+  console.log(formData, "formData");
+  if (isLoading)
+    return (
+      <div className="flex w-full items-center justify-center">
+        <div> Loading...</div>
+      </div>
+    );
+
+  //Prepare data from DB for update
+  const {
+    name,
+    username,
+    avatar,
+    email,
+    account_name,
+    is_admin,
+    is_account_admin,
+  } = data;
+
+  //Create new user if not exists in local database
+  if (email !== session.user.email) {
+    console.log("Create new user");
+    (async () => {
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        //how to specify the json to body?
+        body: JSON.stringify({
+          name: session.user.name,
+          username: session.user.name,
+          email: session.user.email,
+          password: process.env.NEXT_PUBLIC_USER_DEFAULT_PASS,
+        }),
+      };
+
+      await fetch("/api/auth/signup", options)
+        .then((res) => res.json())
+        .then((data) => {
+          //if (data) router.push(process.env.NEXT_PUBLIC_APP_URL);
+        });
+    })();
+  }
+
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log("Update");
-    dispatch(update({ name, email, accountName }));
+    let updated = Object.assign({}, data, formData);
+    mutation.mutate(updated);
+    dispatch(update(updated));
+    console.log("User data updated");
   };
+
+  const changePassword = (e) => {
+    e.preventDefault();
+    console.log(password, "password");
+    passMutation.mutate(password);
+    console.log("Password updated");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updateUserPhoto(data._id, postImage);
+    console.log(postImage, "postImage");
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+    setPostImage({ ...postImage, myFile: base64 });
+    console.log(base64, "file b64");
+  };
+
+  console.log(avatar, "avatar");
+  console.log(session.image, "session image");
 
   return (
     <div className="flex flex-col p-5 gap-5 mx-auto justify-center items-center">
+      <div className="flex items-center justify-center border border-black">
+        <form
+          className="flex flex-col justify-center items-center p-5 space-y-5"
+          onSubmit={handleSubmit}
+        >
+          <label htmlFor="file-upload" className="">
+            <img src={avatar || session.user.image} alt="" />
+          </label>
+          <input
+            type="file"
+            label="Image"
+            name="myFile"
+            id="file-upload"
+            accept=".jpeg, .png, .jpg"
+            onChange={(e) => handleFileUpload(e)}
+          />
+          <button className="bg-gray-500  px-5 py-3 rounded-md text-white font-bold ">
+            Submit
+          </button>
+        </form>
+      </div>
+      <div>
+        <h1>user ID: {data._id}</h1>
+      </div>
       <form className="flex flex-col border rounded-md w-full p-5 justify-between items-center">
         <div className="flex flex-row justify-between w-full items-start m-2 p-2">
           <div className="flex flex-col p-5 space-y-2 w-1/2">
@@ -41,16 +147,16 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="name"
-              defaultValue={user.name}
-              onChange={(e) => setName(e.target.value)}
+              defaultValue={name || session.user.name}
+              onChange={setFormData}
               placeholder="Jméno"
             />
             <input
               className="border rounded-md px-2 py-1 "
               type="text"
               name="username"
-              defaultValue={user.username}
-              onChange={(e) => setUname(e.target.value)}
+              defaultValue={username || data.username}
+              onChange={setFormData}
               placeholder="Uživatelské jméno"
             />
 
@@ -59,8 +165,8 @@ export default function Table() {
               type="text"
               name="account_name"
               placeholder="Společnost"
-              onChange={(e) => setAccountName(e.target.value)}
-              defaultValue={user.accountName}
+              onChange={setFormData}
+              defaultValue={account_name || data.account_name}
             />
           </div>
           <div className="flex flex-col p-5 space-y-2 w-1/2">
@@ -68,25 +174,28 @@ export default function Table() {
               className="border rounded-md px-2 py-1  "
               type="text"
               name="email"
-              defaultValue={user.email}
-              onChange={(e) => setEmail(e.target.value)}
+              defaultValue={email || session.user.email}
+              onChange={setFormData}
               disabled={true}
             />
             <input
               className="border rounded-md px-2 py-1 "
               type="text"
               name="password"
+              onChange={setFormData}
               placeholder="Heslo"
             />
             <div className="px-2 space-x-2">
               <input
                 type="radio"
                 name="is_account_admin"
-                value="Správce firmy"
+                value={!is_account_admin}
+                onChange={setFormData}
+                defaultChecked={is_account_admin}
                 id="is_account_admin"
               />
               <label
-                htmlFor="radioDefault2"
+                htmlFor="is_account_admin"
                 className="inline-block text-gray-500"
               >
                 Správce firmy
@@ -96,13 +205,12 @@ export default function Table() {
               <input
                 type="radio"
                 name="is_admin"
-                value="Super Admin"
+                value={is_admin}
+                onChange={setFormData}
+                defaultChecked={is_admin}
                 id="is_admin"
               />
-              <label
-                htmlFor="radioDefault2"
-                className="inline-block text-gray-500"
-              >
+              <label htmlFor="is_admin" className="inline-block text-gray-500">
                 Super Admin
               </label>
             </div>
@@ -116,71 +224,28 @@ export default function Table() {
             Update
           </button>
         </div>
+        {mutation.isSuccess && (
+          <div className="text-red-500 ">Data uživatle úspěně změněna!</div>
+        )}
       </form>
+      <div className="flex flex-row space-x-2">
+        <input
+          type="text"
+          className="border rounded-md px-2 py-1 "
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button
+          className="bg-gray-500 rounded-md text-white font-bold py-2 px-5"
+          onClick={changePassword}
+        >
+          Change password
+        </button>
+      </div>
+      {passMutation.isSuccess && (
+        <div className="text-red-500 ">Heslo úspěně změněno!</div>
+      )}
     </div>
   );
-}
-
-//Fetch user with Session email and validate with OAuth user. If user is not in local mongoDB, then create local profile
-const fetchAndValidateOAuthUser = async (userEmailSession, userNameSession) => {
-  console.log(userEmailSession, userNameSession, "inside");
-  try {
-    const fetchUser = async (userEmail) => {
-      console.log(userEmail, "userEmail");
-      try {
-        const response = await fetch(`/api/user/userEmail/${userEmail}`);
-        const data = await response.json();
-        console.log(data, "middle");
-        return data;
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    const userDataDbx = await fetchUser(userEmailSession);
-
-    console.log(userDataDbx, "data");
-
-    if (userDataDbx === null) {
-      console.log("Hello there is new OAuth user");
-      try {
-        await registrIfNoExist(userNameSession, userEmailSession);
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      console.log("I have user email in MongoDB");
-    }
-
-    return await userDataDbx;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-//If user not in local DB registr with OAuth credentials
-
-async function registrIfNoExist(name, email) {
-  try {
-    console.log(process.env.USER_DEFAULT_PASS, "def pass");
-    const values = {
-      name: name,
-      username: email,
-      email: email,
-      password: process.env.USER_DEFAULT_PASS,
-    };
-
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    };
-
-    await fetch("/api/auth/signup", options)
-      .then((res) => res.json())
-      .then((data) => {});
-    console.log("User added successfully!");
-  } catch (err) {
-    console.log(err);
-  }
 }

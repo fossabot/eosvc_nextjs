@@ -15,7 +15,7 @@ export default function CrmTable() {
   if (isLoading) return <div>Loading ...</div>;
   if (isError) return <div>Error: {error}</div>;
 
-  console.log(data);
+  //console.log(data);
   return (
     <table className="min-w-full table-auto text-sm">
       <thead>

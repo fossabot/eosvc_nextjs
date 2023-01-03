@@ -29,14 +29,14 @@ export const userSlice = createSlice({
       state.pending = false;
     },
     update: (state, action) => {
-      state.name = action.payload.name;
-      state.username = action.payload.username;
-      state.email = action.payload.email;
-      state.avatar = action.payload.avatar;
-      state.password = action.payload.password;
-      state.accountName = action.payload.accountName;
-      state.is_account_admin = action.payload.is_account_admin;
-      state.is_admin = action.payload.is_admin;
+      state.userInfo.name = action.payload.name;
+      state.userInfo.username = action.payload.username;
+      state.userInfo.email = action.payload.email;
+      state.userInfo.avatar = action.payload.avatar;
+      state.userInfo.password = action.payload.password;
+      state.userInfo.accountName = action.payload.accountName;
+      state.userInfo.is_account_admin = action.payload.is_account_admin;
+      state.userInfo.is_admin = action.payload.is_admin;
     },
   },
 });

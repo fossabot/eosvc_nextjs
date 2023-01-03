@@ -34,7 +34,7 @@ export default function Registr() {
     await fetch("/api/auth/signup", options)
       .then((res) => res.json())
       .then((data) => {
-        if (data) router.push(process.env.APP_URL);
+        if (data) router.push(process.env.NEXT_PUBLIC_APP_URL);
       });
   }
 

@@ -4,13 +4,31 @@ import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
 import Main from "../components/v2/Main";
 import PageTemplate from "../components/v2/PageTemplate";
+import { useQuery } from "react-query";
+import { getUserId } from "../components/user/getUserId";
+import { useDispatch } from "react-redux";
+import { update } from "../redux/userSlice";
 
 const pageTitle = "Dashboard";
 
 const Template = () => {
   const { data: session } = useSession();
-  // console.log(session);
+  const { isLoading, data } = useQuery("user", () =>
+    getUserId(session.user.email)
+  );
+
   const router = useRouter();
+  if (isLoading) return <div>Loading...</div>;
+
+  const name = data?.name || session.user.name;
+  const email = data?.email || session.user.email;
+  const avatar = data?.avatar || session.user.image;
+
+  const dispatch = useDispatch();
+  dispatch(update({ name, email, avatar }));
+
+  //If there is just a user with session but not in local DB, redirect to profile page
+  data.email !== session.user.email && router.push("/profile");
 
   return (
     <div className="w-full">

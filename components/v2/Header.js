@@ -8,7 +8,8 @@ function Header() {
   //console.log(session, "Session");
   const user = useSelector((state) => state.user.userInfo);
 
-  console.log(user, "User");
+  //console.log(user, "User");
+
   return (
     <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">
       <div className="flex flex-auto justify-center items-center">
@@ -23,20 +24,13 @@ function Header() {
 
       <div className="w-10">
         <Link href="/profile">
-          {session.user.image ? (
-            <img
-              className="rounded-full w-8 h-8"
-              src={session.user.image}
-              alt="User img"
-              referrerPolicy="no-referrer"
-            />
-          ) : (
-            <img
-              className="rounded-full w-8 h-8"
-              src={"/assets/nouser.png"}
-              alt="User img"
-            />
-          )}
+          <img
+            className="rounded-full w-8 h-8"
+            src={user.avatar || session.user.image || "/assets/nouser.png"}
+            alt="User img"
+            referrerPolicy="no-referrer"
+          />
+          {}
         </Link>
       </div>
       <div className="flex flex-col items-end ">

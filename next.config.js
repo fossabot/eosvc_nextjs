@@ -9,7 +9,5 @@ module.exports = {
   },
   env: {
     APP_URL: "http://localhost:3000",
-
-    USER_DEFAULT_PASS: "Heslo123456",
   },
 };

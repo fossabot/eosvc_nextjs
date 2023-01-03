@@ -1,32 +1,23 @@
 import { hash } from "bcryptjs";
-import User from "../../../model/User/User";
+import Users from "../../../model/User/User";
 
 export async function updateUser(req, res) {
-  console.log(req.query);
-  console.log(req.body);
+  console.log(req.query, "query");
+  console.log(req.body, "body");
   try {
     const { userId } = req.query;
-    const {
-      name,
-      username,
-      avatar,
-      account_name,
-      is_account_admin,
-      is_admin,
-      email,
-      password,
-    } = req.body;
+    const { name, username, avatar, account_name, is_account_admin, is_admin } =
+      req.body;
 
-    if (userId && email) {
-      await User.findByIdAndUpdate(userId, {
+    if (userId) {
+      console.log("Updating User Data");
+      await Users.findByIdAndUpdate(userId, {
         name: name,
         username: username,
         avatar: avatar,
         account_name: account_name,
         is_account_admin: is_account_admin,
         is_admin: is_admin,
-        email: email,
-        password: await hash(password, 12),
       });
       return res.status(200).json({ success: "User Updated Successfully" });
     }

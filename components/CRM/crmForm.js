@@ -13,7 +13,7 @@ const formReducer = (state, event) => {
 export default function CrmForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
   const formId = useSelector((state) => state.app.client.formId);
-  console.log(formId, "form.js formId");
+  //console.log(formId, "form.js formId");
 
   return (
     <div className="flex mx-auto justify-center items-center w-full text-sm">
