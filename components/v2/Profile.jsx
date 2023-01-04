@@ -1,4 +1,4 @@
-import ShowProfile from "../user/ShowProfile";
+import ShowProfile from "../../modules/user/ShowProfile";
 function ProfileComponent() {
   return (
     <main className="w-full h-full">
