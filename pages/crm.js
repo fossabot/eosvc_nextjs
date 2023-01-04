@@ -2,7 +2,7 @@ import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-import CRM from "../components/v2/Crm";
+import CRM from "../modules/CRM/Crm";
 import PageTemplate from "../components/v2/PageTemplate";
 
 const pageTitle = "CRM";

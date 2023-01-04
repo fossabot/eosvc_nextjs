@@ -1,7 +1,7 @@
 import { BiBrush } from "react-icons/bi";
-import Success from "../../success";
+import Success from "../../../components/success";
 import { getAccount } from "./getAccount";
-import Error from "../../error";
+import Error from "../../../components/error";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { toggleChangeActionAccount } from "../../../redux/reducer";
 import { getAccounts } from "./getAccounts";

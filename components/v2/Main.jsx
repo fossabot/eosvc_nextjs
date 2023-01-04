@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getEmployees } from "../employee/getEmployees";
-import { getAccounts } from "../CRM/Accounts/getAccounts";
+import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../documents/images/getImages";
 import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";

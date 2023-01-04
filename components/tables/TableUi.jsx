@@ -1,6 +1,5 @@
 import { Fragment, useState } from "react";
-import Modal from "../../utils/modal";
-import MyDialog from "../../utils/modal";
+import Modal from "../modals/Modal";
 
 const locations = [
   {
@@ -29,9 +28,10 @@ function classNames(...classes) {
 
 export default function TableUi() {
   const [openModal, setOpenModal] = useState(false);
+  console.log(openModal, "openModal");
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      {openModal && <MyDialog />}
+      {openModal && <Modal />}
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">Users</h1>

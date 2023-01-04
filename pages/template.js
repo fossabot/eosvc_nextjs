@@ -9,7 +9,7 @@ function Demo() {
     <Template>
       <div className="border border-blue-500 p-5 space-y-5">
         <Test />
-        <DocumentsPage />
+        {/* <DocumentsPage />*/}
         <TableUi />
       </div>
     </Template>

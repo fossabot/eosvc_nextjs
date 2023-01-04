@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 
-export default function MyDialog() {
+export default function Modal() {
   let [setModal, setOpenModal] = useState(false);
 
   return (
