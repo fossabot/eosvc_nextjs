@@ -1,12 +1,12 @@
-import Table from "../Table";
+import Table from "./employee/Table";
 import { FiUserPlus } from "react-icons/fi";
-import Form from "../employee/form";
+import Form from "./employee/form";
 import { BiX, BiCheck } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction, deleteAction } from "../../redux/reducer";
+import { toggleChangeAction, deleteAction } from "../redux/reducer";
 import { useQueryClient } from "react-query";
-import { deleteEmployee } from "../employee/deleteEmployee";
-import { getEmployees } from "../employee/getEmployees";
+import { deleteEmployee } from "./employee/deleteEmployee";
+import { getEmployees } from "./employee/getEmployees";
 
 export default function Employees() {
   //Get state from Global redux store /redux/store
@@ -35,7 +35,7 @@ export default function Employees() {
   };
 
   return (
-    <container className="w-full h-full">
+    <div className="w-full h-full">
       <div className="flex flex-col justify-center items-center gap-5">
         <div className="flex justify-between items-start w-full px-5">
           <div className="left flex gap-3">
@@ -56,7 +56,7 @@ export default function Employees() {
           <Table />
         </div>
       </div>
-    </container>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
-import Employees from "../components/v2/Employees";
+import Employees from "../modules/Employees";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import PageTemplate from "../components/v2/PageTemplate";

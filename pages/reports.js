@@ -4,6 +4,7 @@ import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
 import SetupComponent from "../components/v2/Setup";
 import PageTemplate from "../components/v2/PageTemplate";
+import ModulNotReady from "../components/v2/ModulNotReady";
 
 const pageTitle = "Modul se připravuje";
 
@@ -31,7 +32,7 @@ function User() {
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
         {/* Placeholder for modul content Start */}
-
+        <ModulNotReady />
         {/* Placeholder for modul content End */}
       </PageTemplate>
     </AppLayoutV2>

@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { addIndustry } from "../CRM/Setup/Industry/addIndustry";
+import { addIndustry } from "../../modules/Setup/Industry/addIndustry";
 import { useReducer } from "react";
 
 const formReducer = (state, event) => {

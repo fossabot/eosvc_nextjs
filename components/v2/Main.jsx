@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getEmployees } from "../employee/getEmployees";
+import { getEmployees } from "../../modules/employee/getEmployees";
 import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../documents/images/getImages";
 import { MyResponsivePie } from "../nivo/PieChart";

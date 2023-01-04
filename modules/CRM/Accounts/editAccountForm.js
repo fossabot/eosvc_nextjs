@@ -1,7 +1,7 @@
 import { BiBrush } from "react-icons/bi";
-import Success from "../../../components/success";
+import Success from "../../../components/utils/success";
 import { getAccount } from "./getAccount";
-import Error from "../../../components/error";
+import Error from "../../../components/utils/error";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { toggleChangeActionAccount } from "../../../redux/reducer";
 import { getAccounts } from "./getAccounts";
@@ -30,6 +30,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
   );
 
   if (isLoading) return <div>Loading...</div>;
+  if (isSuccess) return <Success>Success</Success>;
   if (isError) return <Error>Error</Error>;
 
   const {

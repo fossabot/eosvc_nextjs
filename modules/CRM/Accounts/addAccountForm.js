@@ -1,6 +1,6 @@
 import { BiPlus } from "react-icons/bi";
-import Success from "../../../components/success";
-import Error from "../../../components/error";
+import Success from "../../../components/utils/success";
+import Error from "../../../components/utils/error";
 import { useQueryClient, useMutation } from "react-query";
 import { addAccount } from "./addAccount";
 import { getAccounts } from "./getAccounts";
