@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Main from "../components/v2/Main";
 import PageTemplate from "../components/v2/PageTemplate";
 import { useQuery } from "react-query";
-import { getUserId } from "../components/user/getUserId";
+import { getUserId } from "../modules/user/getUserId";
 import { useDispatch } from "react-redux";
 import { update } from "../redux/userSlice";
 

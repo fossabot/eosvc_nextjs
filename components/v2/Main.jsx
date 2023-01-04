@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getEmployees } from "../../modules/employee/getEmployees";
 import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
-import { getImages } from "../documents/images/getImages";
+import { getImages } from "../../modules/documents/images/getImages";
 import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";
+import LoadingSpinner from "../loadings/LoadingSpinner";
 
 //Fetch data from API and store in cache
 //const employeeCount = data;
@@ -22,8 +23,7 @@ function Main() {
 
   //wait for data to be fetched
   if (isLoading || isLoadingEmployee || isLoadingImg)
-    return <div>Dashboard data se načítají ...</div>;
-
+    return <LoadingSpinner message={"Data se načítají"} />;
   //Calculate sum of salaries
   const employeesSum = employeesData.reduce(
     (accumulator, employee) => accumulator + employee.salary,
