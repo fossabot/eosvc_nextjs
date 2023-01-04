@@ -4,7 +4,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import MenuItem from "../../utils/MenuItem";
+import MenuItem from "./MenuItem";
 import { signOut, useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 

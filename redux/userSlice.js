@@ -4,12 +4,12 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     userInfo: {
-      name: "John",
-      username: "jdow",
-      email: "john@dow.com",
-      avatar: "https://i.pravatar.cc/150?img=3",
-      password: "Unknown",
-      accountName: "Unknown",
+      name: "",
+      username: "",
+      email: "",
+      avatar: "/assets/nouser.png",
+      password: "",
+      accountName: "",
       is_account_admin: "false",
       is_admin: "false",
     },

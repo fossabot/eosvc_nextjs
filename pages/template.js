@@ -7,8 +7,9 @@ import DocumentsPage from "../modules/documents/documents";
 function Demo() {
   return (
     <Template>
-      <div className="border border-blue-500 p-5 space-y-5">
-        <Test />
+      <div className="p-2 space-y-5">
+        {/* <DocumentsPage /> <Test /> */}
+
         {/* <DocumentsPage />*/}
         <TableUi />
       </div>

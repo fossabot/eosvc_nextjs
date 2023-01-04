@@ -1,13 +1,13 @@
 import { useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import CrmTable from "../CRM/crmTable";
-import CrmForm from "../CRM/crmForm";
+import CrmTable from "./crmTable";
+import CrmForm from "./crmForm";
 import { FiUserPlus } from "react-icons/fi";
 import { BiX, BiCheck } from "react-icons/bi";
-import { deleteAccount } from "../CRM/Accounts/deleteAccount";
+import { deleteAccount } from "./Accounts/deleteAccount";
 import { toggleChangeActionAccount, deleteAction } from "../../redux/reducer";
-import { getAccounts } from "../CRM/Accounts/getAccounts";
+import { getAccounts } from "./Accounts/getAccounts";
 
 export default function CRM() {
   //Get state from Global redux store /redux/store
