@@ -76,12 +76,17 @@ function Tr({ _id, name, company_id, email, office_phone, status }) {
       <td>{email || "Neznámé"}</td>
       <td>{company_id || "Neznámé"}</td>
       <td>{office_phone || "Neznámé"}</td>
-      <td>
-        <button className="cursor">
+      <td className="">
+        <button
+          className={`cursor w-full ${
+            status === "Active" ? "bg-green-500" : "bg-red-500"
+          } rounded-md  border`}
+          onClick={onUpdate}
+        >
           <span
             className={`${
               status === "Active" ? "bg-green-500" : "bg-red-500"
-            } text-white px-5 py-1 rounded-full`}
+            } text-white text-xs px-2 rounded-md `}
           >
             {status || "Neznámé"}
           </span>

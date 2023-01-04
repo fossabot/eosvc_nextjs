@@ -107,22 +107,23 @@ export default function Table() {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
-    setPostImage({ ...postImage, myFile: base64 });
+    await setPostImage({ ...postImage, myFile: base64 });
     console.log(base64, "file b64");
   };
 
-  console.log(avatar, "avatar");
-  console.log(session.image, "session image");
-
   return (
     <div className="flex flex-col p-5 gap-5 mx-auto justify-center items-center">
-      <div className="flex items-center justify-center border border-black">
+      <div className="flex items-center justify-center ">
         <form
           className="flex flex-col justify-center items-center p-5 space-y-5"
           onSubmit={handleSubmit}
         >
           <label htmlFor="file-upload" className="">
-            <img src={avatar || session.user.image} alt="" />
+            <img
+              className="w-32 h-32 rounded-md"
+              src={avatar || session.user.image || "/assets/nouser.png"}
+              alt=""
+            />
           </label>
           <input
             type="file"
@@ -133,7 +134,7 @@ export default function Table() {
             onChange={(e) => handleFileUpload(e)}
           />
           <button className="bg-gray-500  px-5 py-3 rounded-md text-white font-bold ">
-            Submit
+            Změnit prilové foto
           </button>
         </form>
       </div>
@@ -178,13 +179,7 @@ export default function Table() {
               onChange={setFormData}
               disabled={true}
             />
-            <input
-              className="border rounded-md px-2 py-1 "
-              type="text"
-              name="password"
-              onChange={setFormData}
-              placeholder="Heslo"
-            />
+
             <div className="px-2 space-x-2">
               <input
                 type="radio"
@@ -221,7 +216,7 @@ export default function Table() {
             className="bg-gray-500 rounded-md text-white font-bold py-2 px-5"
             onClick={handleUpdate}
           >
-            Update
+            Ulož změny
           </button>
         </div>
         {mutation.isSuccess && (
@@ -234,13 +229,13 @@ export default function Table() {
           className="border rounded-md px-2 py-1 "
           name="password"
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="Nové heslo"
         />
         <button
           className="bg-gray-500 rounded-md text-white font-bold py-2 px-5"
           onClick={changePassword}
         >
-          Change password
+          Změň heslo
         </button>
       </div>
       {passMutation.isSuccess && (
