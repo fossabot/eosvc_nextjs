@@ -1,8 +1,8 @@
 import connectMongo from "../../../../database/conn";
-import { addBoard } from "../../../../controllers/projects/boards/addBoard";
-import { updateBoard } from "../../../../controllers/projects/boards/updateBoard";
-import { deleteBoard } from "../../../../controllers/projects/boards/deleteBoard";
-import { getBoards } from "../../../../controllers/projects/boards/getBoards";
+import { addBoard } from "../../../../database/controllers/projects/boards/addBoard";
+import { updateBoard } from "../../../../database/controllers/projects/boards/updateBoard";
+import { deleteBoard } from "../../../../database/controllers/projects/boards/deleteBoard";
+import { getBoards } from "../../../../database/controllers/projects/boards/getBoards";
 
 export default async function handler(req, res) {
   connectMongo().catch(() =>

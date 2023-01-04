@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "react-query";
-import { getUserId } from "./getUserId";
+import { getUserId } from "./apiCalls/getUserId";
 import { useDispatch } from "react-redux";
 import { updateUser } from "./updateUser";
 import { updateUserPass } from "./updateUserPass";

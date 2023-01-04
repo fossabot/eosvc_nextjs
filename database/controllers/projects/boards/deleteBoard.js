@@ -1,6 +1,6 @@
-import Boards from "../../../model/Projects/Boards";
-import Sections from "../../../model/Projects/Sections";
-import Tasks from "../../../model/Projects/Tasks";
+import Boards from "../../../../model/Projects/Boards";
+import Sections from "../../../../model/Projects/Sections";
+import Tasks from "../../../../model/Projects/Tasks";
 
 export async function deleteBoard(req, res) {
   const { boardId } = req.params;

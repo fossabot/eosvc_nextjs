@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .my-button {
+    @apply bg-gray-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2;
+  }
+}

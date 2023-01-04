@@ -4,6 +4,7 @@ import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
 import PageTemplate from "../components/v2/PageTemplate";
 import Projects from "../modules/projects/Projects";
+import ProjectsMenu from "../modules/projects/ProjectsMenu";
 
 const pageTitle = "Projekty";
 
@@ -30,7 +31,15 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        <Projects />
+        <ProjectsMenu />
+        <div className="flex flex-row p-5">
+          <div className="flex  items-start justify-center text-gray-600 text-xs pt-2 bg-gray-300 rounded-md w-32">
+            <h1> Projekty</h1>
+          </div>
+          <div className="overflow-x-auto">
+            <Projects />
+          </div>
+        </div>
       </PageTemplate>
     </AppLayoutV2>
   );

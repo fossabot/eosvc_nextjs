@@ -8,6 +8,10 @@ const boardSchema = new Schema(
       ref: "user",
       required: true,
     },
+    visibility: {
+      type: String,
+      default: "public",
+    },
     icon: {
       type: String,
       default: "📃",
@@ -18,9 +22,7 @@ const boardSchema = new Schema(
     },
     description: {
       type: String,
-      default: `Add description here
-    🟢 You can add multiline description
-    🟢 Let's start...`,
+      default: `Popis projektu`,
     },
     position: {
       type: Number,
@@ -38,5 +40,5 @@ const boardSchema = new Schema(
   schemaOptions
 );
 
-const Boards = models.boards || model("boards", boardSchema);
+const Boards = models.Boards || model("Boards", boardSchema);
 export default Boards;

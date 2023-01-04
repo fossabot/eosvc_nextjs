@@ -5,9 +5,10 @@ import { useRouter } from "next/router";
 import Main from "../components/v2/Main";
 import PageTemplate from "../components/v2/PageTemplate";
 import { useQuery } from "react-query";
-import { getUserId } from "../modules/user/getUserId";
+import { getUserId } from "../modules/user/apiCalls/getUserId";
 import { useDispatch } from "react-redux";
 import { update } from "../redux/userSlice";
+import LoadingSpinner from "../components/loadings/LoadingSpinner";
 
 const pageTitle = "Dashboard";
 
@@ -16,19 +17,21 @@ const Template = () => {
   const { isLoading, data } = useQuery("user", () =>
     getUserId(session.user.email)
   );
-
   const router = useRouter();
-  if (isLoading) return <div>Loading...</div>;
 
+  const id = data?._id;
   const name = data?.name || session.user.name;
   const email = data?.email || session.user.email;
   const avatar = data?.avatar || session.user.image;
-
   const dispatch = useDispatch();
-  dispatch(update({ name, email, avatar }));
+  dispatch(update({ id, name, email, avatar }));
+
+  //const isLoading = true;
+  if (isLoading)
+    return <LoadingSpinner message={"Aplikace se inicializuje ..."} />;
 
   //If there is just a user with session but not in local DB, redirect to profile page
-  data.email !== session.user.email && router.push("/profile");
+  data?.email !== session.user.email && router.push("/profile");
 
   return (
     <div className="w-full">

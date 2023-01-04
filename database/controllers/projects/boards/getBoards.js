@@ -1,4 +1,4 @@
-import Boards from "../../../model/Projects/Boards";
+import Boards from "../../../../model/Projects/Boards";
 
 export async function getBoards(req, res) {
   try {
