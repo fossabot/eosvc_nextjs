@@ -3,13 +3,16 @@ import { useQuery } from "react-query";
 import { getEmployees } from "../../modules/employee/getEmployees";
 import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../../modules/documents/images/getImages";
+import { getAllBoards } from "../../modules/projects/apiCalls/getAllBoards";
 import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";
 import LoadingSpinner from "../loadings/LoadingSpinner";
+import { useSelector } from "react-redux";
 
 //Fetch data from API and store in cache
 //const employeeCount = data;
 function Main() {
+  const user = useSelector((state) => state.user.userInfo);
   //Fetch data from API backend and store in cache
   const { data: accountsData, isLoading } = useQuery("accounts", getAccounts);
   const { data: employeesData, isLoading: isLoadingEmployee } = useQuery(
@@ -20,16 +23,20 @@ function Main() {
     "images",
     getImages
   );
+  const { data: projectsData, isLoading: isLoadingProjects } = useQuery(
+    "projects",
+    () => getAllBoards(user.id)
+  );
 
   //wait for data to be fetched
-  if (isLoading || isLoadingEmployee || isLoadingImg)
+  if (isLoading || isLoadingEmployee || isLoadingImg || isLoadingProjects)
     return <LoadingSpinner message={"Data se načítají"} />;
   //Calculate sum of salaries
   const employeesSum = employeesData.reduce(
     (accumulator, employee) => accumulator + employee.salary,
     0
   );
-
+  console.log(projectsData, "projectData");
   //calculate average salary
   const employeeProxSalary = employeesSum / employeesData.length;
 
@@ -90,6 +97,18 @@ function Main() {
               </span>
             </div>
           </DashboardBox>
+        </div>
+        <div className="flex flex-row">
+          <DashboardBox>
+            <div className="flex mx-auto items-center">
+              <h1 className="font-bold pb-5">Projekty:</h1>
+            </div>
+            <div>
+              Počet projektů:
+              <span className="font-bold">{projectsData.length}</span>
+            </div>
+          </DashboardBox>
+          <DashboardBox></DashboardBox>
         </div>
       </div>
     </main>
