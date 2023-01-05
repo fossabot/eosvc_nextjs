@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   boardInfo: {
-    id: "",
-    title: "",
+    id: "1",
+    title: "neco",
+    description: "neco",
   },
   pending: false,
   error: false,
@@ -18,7 +19,7 @@ export const boardSlice = createSlice({
     },
     updateSuccess: (state, action) => {
       state.pending = false;
-      state.userInfo = action.payload;
+      state.boardInfo = action.payload;
     },
     updateError: (state) => {
       state.error = true;
@@ -27,10 +28,12 @@ export const boardSlice = createSlice({
     update: (state, action) => {
       state.boardInfo.id = action.payload.id;
       state.boardInfo.title = action.payload.title;
+      state.boardInfo.description = action.payload.description;
     },
   },
 });
 
 export const { update, updateStart, updateSuccess, updateError } =
   boardSlice.actions;
-export default userSlice.reducer;
+
+export default boardSlice.reducer;

@@ -1,10 +1,26 @@
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { update } from "../../redux/projects/boardSlice";
+
 const ProjectSidebar = ({ boards }) => {
-  console.log(boards, "boards componenta");
+  const dispatch = useDispatch();
+
+  const handleChange = (dispatch, board) => {
+    console.log("dispatch");
+    console.log(board, "board");
+    dispatch(update(board));
+  };
+
   return (
-    <div>
-      <h1 className="text-slate-900"> Projekty</h1>
-      {boards?.map((board) => (
-        <p key={board._id}>{board.title}</p>
+    <div className="flex  flex-col justify-start items-start space-y-1 py-1 px-1 bg-slate-300 w-full h-full">
+      {boards?.map((board, i) => (
+        <div
+          key={i}
+          className="bg-slate-600 border w-full text-gray-200 rounded-md py-2 font-bold p-2"
+          onClick={() => handleChange(dispatch, board)}
+        >
+          <p>{board.title}</p>
+        </div>
       ))}
     </div>
   );

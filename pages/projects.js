@@ -3,9 +3,6 @@ import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
 import PageTemplate from "../components/v2/PageTemplate";
-import Projects from "../modules/projects/Projects";
-import ProjectsMenu from "../modules/projects/ProjectsMenu";
-import ProjectSidebar from "../modules/projects/ProjectSidebar";
 import ProjectsMain from "../modules/projects/ProjectsMain";
 
 const pageTitle = "Projekty";
