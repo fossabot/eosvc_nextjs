@@ -31,7 +31,7 @@ export const userSlice = createSlice({
       state.pending = false;
     },
     update: (state, action) => {
-      state.userInfo.id = action.payload.id;
+      state.userInfo._id = action.payload._id;
       state.userInfo.name = action.payload.name;
       state.userInfo.username = action.payload.username;
       state.userInfo.email = action.payload.email;

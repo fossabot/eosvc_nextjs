@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   boardInfo: {
     id: "1",
-    title: "neco",
-    description: "neco",
+    title: "default",
+    description: "",
   },
   pending: false,
   error: false,

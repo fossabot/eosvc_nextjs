@@ -41,6 +41,7 @@ const Projects = () => {
       });
     }
   };
+
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
@@ -49,7 +50,7 @@ const Projects = () => {
         <div className="flex flex-row items-start justify-between mx-auto space-x-3">
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
-              <Droppable key={columnId} droppableId={columnId}>
+              <Droppable key={index} droppableId={columnId}>
                 {(provided, snapshot) => (
                   <div
                     className="flex  flex-col bg-gray-300 p-3 w-full h-full rounded-md"
@@ -60,7 +61,7 @@ const Projects = () => {
                       {column.title}
                     </span>
                     {column.items.map((item, index) => (
-                      <TaskCard key={item} item={item} index={index} />
+                      <TaskCard key={item.id} item={item} index={index} />
                     ))}
                     {provided.placeholder}
                   </div>

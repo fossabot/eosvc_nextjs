@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import { createBoard } from "./apiCalls/createBoard";
 
 const NewProjectForm = () => {
-  const { id } = useSelector((state) => state.user.userInfo);
+  const { _id } = useSelector((state) => state.user.userInfo);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  console.log(id, "id", title, "title", description, "description");
+  console.log(_id, "id", title, "title", description, "description");
 
   const handleCreate = async (e) => {
     e.preventDefault();
     console.log("create");
-    await createBoard(id, title, description);
+    await createBoard(_id, title, description);
   };
   return (
     <div className="flex justify-center w-full ">

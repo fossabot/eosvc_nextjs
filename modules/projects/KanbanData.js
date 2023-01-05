@@ -50,11 +50,11 @@ export const data = [
 export const columnsFromBackend = {
   [uuidv4()]: {
     title: "Backlog",
-    items: [],
+    items: data,
   },
   [uuidv4()]: {
     title: "To-do",
-    items: data,
+    items: [],
   },
   [uuidv4()]: {
     title: "In Progress",

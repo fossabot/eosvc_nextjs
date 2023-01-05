@@ -19,19 +19,9 @@ const Template = () => {
   );
   const router = useRouter();
 
-  const id = data?._id;
-  const name = data?.name || session.user.name;
-  const email = data?.email || session.user.email;
-  const avatar = data?.avatar || session.user.image;
-  const dispatch = useDispatch();
-  dispatch(update({ id, name, email, avatar }));
-
   //const isLoading = true;
   if (isLoading)
     return <LoadingSpinner message={"Aplikace se inicializuje ..."} />;
-
-  //If there is just a user with session but not in local DB, redirect to profile page
-  data?.email !== session.user.email && router.push("/profile");
 
   return (
     <div className="w-full">
