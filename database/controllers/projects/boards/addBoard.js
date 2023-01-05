@@ -7,7 +7,7 @@ export async function addBoard(req, res) {
     console.log(boardsCount, "Bcount");
 
     const board = await Boards.create({
-      user: req.body,
+      user: req.body.userId,
       title: req.body.title,
       description: req.body.description,
       position: boardsCount > 0 ? boardsCount : 0,
