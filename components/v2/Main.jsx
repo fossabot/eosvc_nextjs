@@ -25,7 +25,7 @@ function Main() {
   );
   const { data: projectsData, isLoading: isLoadingProjects } = useQuery(
     "projects",
-    () => getAllBoards(user.id)
+    () => getAllBoards(user._id)
   );
 
   //wait for data to be fetched
