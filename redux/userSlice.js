@@ -1,21 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  userInfo: {
+    name: "",
+    username: "",
+    email: "",
+    avatar: "/assets/nouser.png",
+    password: "",
+    accountName: "",
+    is_account_admin: "false",
+    is_admin: "false",
+  },
+  pending: false,
+  error: false,
+};
+
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    userInfo: {
-      name: "",
-      username: "",
-      email: "",
-      avatar: "/assets/nouser.png",
-      password: "",
-      accountName: "",
-      is_account_admin: "false",
-      is_admin: "false",
-    },
-    pending: false,
-    error: false,
-  },
+  initialState,
   reducers: {
     updateStart: (state) => {
       state.pending = true;

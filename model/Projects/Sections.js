@@ -17,5 +17,5 @@ const sectionSchema = new Schema(
   schemaOptions
 );
 
-const Sections = models.secitions || model("sections", sectionSchema);
+const Sections = models.Sections || model("Sections", sectionSchema);
 export default Sections;

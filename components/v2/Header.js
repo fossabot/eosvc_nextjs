@@ -40,6 +40,7 @@ function Header() {
         <p className="text-gray-900 text-xs">
           {user.email || session.user.email}
         </p>
+        <p className="text-gray-400 text-xs">uId: {user.id}</p>
       </div>
     </div>
   );

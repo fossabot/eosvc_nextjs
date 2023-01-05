@@ -24,5 +24,5 @@ const taskSchema = new Schema(
   schemaOptions
 );
 
-const Tasks = models.tasks || model("tasks", taskSchema);
+const Tasks = models.Tasks || model("Tasks", taskSchema);
 export default Tasks;

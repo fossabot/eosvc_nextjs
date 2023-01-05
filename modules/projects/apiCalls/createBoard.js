@@ -1,14 +1,8 @@
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-
-//setLoading(true);
-
-export const createBoard = async (userId) => {
-  console.log(userId, "userId");
+export const createBoard = async (userId, title, description) => {
+  const formData = { userId, title, description };
   try {
     console.log("createBoard");
+    console.log(formData);
     /*
     const Option = {
       method: "POST",
@@ -19,12 +13,8 @@ export const createBoard = async (userId) => {
     const json = await response.json();
     return json;
     */
-    //const res = await boardApi.create();
-    //dispatch(setBoards([res]));
-    //navigate(`/boards/${res.id}`);
   } catch (err) {
-    //alert(err);
+    alert(err);
   } finally {
-    //setLoading(false);
   }
 };

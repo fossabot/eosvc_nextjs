@@ -1,36 +1,21 @@
-import { useSession } from "next-auth/react";
-import { useQuery } from "react-query";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { createBoard } from "./apiCalls/createBoard";
-import LoadingSpinner from "../../components/loadings/LoadingSpinner";
-import { getUserId } from "../user/apiCalls/getUserId";
+import NewProjectForm from "./NewProjectForm";
 
-function ProjectsMenu() {
-  const { data: session } = useSession();
-  const { isLoading, data } = useQuery("user", () =>
-    getUserId(session.user.email)
-  );
-
-  const { id } = useSelector((state) => state.user.userInfo);
-  console.log(id, "id");
-  if (isLoading)
-    return <LoadingSpinner message={"Čekám na Id uživatele ..."} />;
+function ProjectsHeader() {
+  const [visible, setVisible] = useState(false);
 
   return (
-    <div className="flex flex-col justify-center items-center mx-auto">
-      <div>
-        <h1> Projects menu</h1>
-      </div>
-      <div className="border border-gray-500 rounded-md py-2 px-2 w-full">
-        <button
-          className="my-button"
-          onClick={async () => await createBoard(data._id)}
-        >
+    <div className="flex flex-col justify-center items-center mx-auto pt-2">
+      <div className="rounded-md py-2 px-2 w-full">
+        <button className="my-button" onClick={() => setVisible(!visible)}>
           Přidat projekt
         </button>
       </div>
+      {visible && <NewProjectForm />}
     </div>
   );
 }
 
-export default ProjectsMenu;
+export default ProjectsHeader;
