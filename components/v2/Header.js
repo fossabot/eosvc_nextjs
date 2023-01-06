@@ -1,14 +1,9 @@
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 
 function Header() {
-  const { data: session } = useSession();
-  //console.log(session, "Session");
-  const user = useSelector((state) => state.user.userInfo);
-
-  //console.log(user, "User");
+  const session = useSelector((state) => state.session);
 
   return (
     <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">
@@ -26,7 +21,7 @@ function Header() {
         <Link href="/profile">
           <img
             className="rounded-full w-8 h-8"
-            src={user.avatar || session.user.image || "/assets/nouser.png"}
+            src={session.avatar || "/assets/nouser.png"}
             alt="User img"
             referrerPolicy="no-referrer"
           />
@@ -34,13 +29,9 @@ function Header() {
         </Link>
       </div>
       <div className="flex flex-col items-end ">
-        <p className="text-gray-400 text-xs">
-          Welcome, {user.name || session.user.name}
-        </p>
-        <p className="text-gray-900 text-xs">
-          {user.email || session.user.email}
-        </p>
-        <p className="text-gray-400 text-xs">uId: {user._id}</p>
+        <p className="text-gray-400 text-xs">Welcome, {session.name}</p>
+        <p className="text-gray-900 text-xs">{session.email}</p>
+        <p className="text-gray-400 text-xs">uId: {session._id}</p>
       </div>
     </div>
   );

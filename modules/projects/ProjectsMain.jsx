@@ -14,7 +14,9 @@ import { createBoard } from "./apiCalls/createBoard";
 const ProjectsMain = () => {
   const dispatch = useDispatch();
   const { _id } = useSelector((state) => state.user.userInfo);
-  const boardState = useSelector((state) => state.board.boardInfo);
+  console.log(_id, "user id ProjectMain");
+
+  const boardState = useSelector((state) => state.board.value);
 
   const { isLoading: isLoadingBoards, data: boards } = useQuery(
     "boards",
@@ -22,8 +24,6 @@ const ProjectsMain = () => {
 
     {
       onSuccess: (data) => {
-        console.log(data, "data");
-        console.log("Updating board");
         dispatch(update(data[0]));
       },
       onError: (error) => {
@@ -35,6 +35,9 @@ const ProjectsMain = () => {
   if (isLoadingBoards) {
     return <LoadingSpinner message={"Připravuji projekty"} />;
   }
+
+  if (boards.length === 0) return <div>Žádné projekty</div>;
+
   return (
     <div>
       <ProjectsHeader id={_id} />
@@ -43,7 +46,7 @@ const ProjectsMain = () => {
           <h1 className="mx-auto py-2">Projekty</h1>
           <ProjectSidebar boards={boards} />
         </div>
-        <div className="flex flex-col justify-center mx-auto overflow-x-auto">
+        <div className="flex flex-col justify-center mx-auto overflow-x-auto w-full p-5">
           <div className="flex justify-start mx-auto w-full border">
             <div>
               <h2 className="text-gray-300 p-2 font-bold bg-slate-900 ">
@@ -52,13 +55,13 @@ const ProjectsMain = () => {
             </div>
             <div className="flex justify-center items-center pl-2">
               {
-                /*boards ? boards[0].title :*/ boardState.title === "default"
+                /*boards ? boards[0].title :*/ !boardState
                   ? "Není vybraný žádný projekt"
                   : boardState.title
               }
             </div>
           </div>
-          {boardState.title === "default" ? (
+          {!boardState ? (
             <div>
               <h1>Vyber projekt z menu v levo!</h1>
             </div>

@@ -3,37 +3,22 @@ import Sidebar from "../components/v2/Sidebar";
 import Footer from "../components/v2/Footer";
 import Breadcrumb from "../utils/breadcrumb";
 import { useSession } from "next-auth/react";
-import { useQuery } from "react-query";
-import { getUserId } from "../modules/user/apiCalls/getUserId";
 import { useDispatch } from "react-redux";
-import { update } from "../redux/userSlice";
 import LoadingSpinner from "../components/loadings/LoadingSpinner";
-import { useRouter } from "next/router";
+import { getSessionAsync } from "../redux/sessionSlice";
+import { useEffect, useState } from "react";
 
 function AppLayoutV2({ children }) {
   const dispatch = useDispatch();
-  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
-  /*
-  const session = {
-    user: {
-      email: "test@test.com",
-    },
-  };
-*/
-  const { isLoading, data } = useQuery(
-    "user",
-    () => getUserId(session.user.email),
-    {
-      onSuccess: (data) => {
-        if (data === null) {
-          router.push("/profile");
-        } else {
-          dispatch(update(data));
-        }
-      },
-    }
-  );
+  //const session = { user: { email: "x@x.cz" } };
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(getSessionAsync(session.user.email));
+  }, [dispatch]);
 
   isLoading && <LoadingSpinner message={"Nahrávam data uživatele"} />;
   //If there is just a user with session but not in local DB, redirect to profile page

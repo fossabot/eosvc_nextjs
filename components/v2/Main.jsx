@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 //Fetch data from API and store in cache
 //const employeeCount = data;
 function Main() {
-  const user = useSelector((state) => state.user.userInfo);
+  const session = useSelector((state) => state.session);
   //Fetch data from API backend and store in cache
   const { data: accountsData, isLoading } = useQuery("accounts", getAccounts);
   const { data: employeesData, isLoading: isLoadingEmployee } = useQuery(
@@ -25,7 +25,7 @@ function Main() {
   );
   const { data: projectsData, isLoading: isLoadingProjects } = useQuery(
     "projects",
-    () => getAllBoards(user._id)
+    () => getAllBoards(session._id)
   );
 
   //wait for data to be fetched
@@ -36,7 +36,7 @@ function Main() {
     (accumulator, employee) => accumulator + employee.salary,
     0
   );
-  console.log(projectsData, "projectData");
+  //console.log(projectsData, "projectData");
   //calculate average salary
   const employeeProxSalary = employeesSum / employeesData.length;
 

@@ -2,76 +2,50 @@ import React, { useState } from "react";
 import { columnsFromBackend } from "./KanbanData";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TaskCard from "./TaskCard";
+import { useQuery } from "react-query";
+import { getSections } from "./apiCalls/getSections";
+import { useSelector, useDispatch } from "react-redux";
 
 const Projects = () => {
-  const [columns, setColumns] = useState(columnsFromBackend);
+  const dispatch = useDispatch();
+  const board = useSelector((state) => state.board.value);
+  console.log(board._id, "board in projects");
+  const { isLoading, data: sections } = useQuery("sections", () =>
+    getSections(board._id)
+  );
+  //const columns = sections;
 
-  const onDragEnd = (result, columns, setColumns) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
-    if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems = [...sourceColumn.items];
-      const destItems = [...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
-        },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
-        },
-      });
-    } else {
-      const column = columns[source.droppableId];
-      const copiedItems = [...column.items];
-      const [removed] = copiedItems.splice(source.index, 1);
-      copiedItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...column,
-          items: copiedItems,
-        },
-      });
-    }
-  };
-
+  console.log(sections, "sections");
+  //console.log(columns, "columns");
+  const onDragEnd = (result) => {};
   return (
-    <DragDropContext
-      onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-    >
-      <div className="flex p-5 m-5 overflow-scroll">
-        <div className="flex flex-row items-start justify-between mx-auto space-x-3">
-          {Object.entries(columns).map(([columnId, column], index) => {
-            return (
-              <Droppable key={index} droppableId={columnId}>
-                {(provided, snapshot) => (
-                  <div
-                    className="flex  flex-col bg-gray-300 p-3 w-full h-full rounded-md"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    <span className="flex text-gray-300 px-10 py-1 items-center justify-center bg-gray-600 rounded-md">
-                      {column.title}
-                    </span>
-                    {column.items.map((item, index) => (
-                      <TaskCard key={item.id} item={item} index={index} />
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            );
-          })}
-        </div>
+    <div className="w-full border border-blue-500">
+      Hello
+      <div className="border border-black w-full">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="flex flex-row px-3 gap-3 max-auto items-center justify-center">
+            {sections.map((section) => {
+              return (
+                <div className="bg-gray-600 w-full">
+                  <h2>{section.title}</h2>
+                  <Droppable droppableId={section._id}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className="flex flex-col justify-center items-center"
+                      >
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              );
+            })}
+          </div>
+        </DragDropContext>
       </div>
-    </DragDropContext>
+    </div>
   );
 };
 

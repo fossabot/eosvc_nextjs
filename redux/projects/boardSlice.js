@@ -1,14 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  boardInfo: {
-    id: "1",
-    title: "default",
-    description: "",
-  },
-  pending: false,
-  error: false,
-};
+const initialState = { value: [] };
 
 export const boardSlice = createSlice({
   name: "board",
@@ -26,9 +18,7 @@ export const boardSlice = createSlice({
       state.pending = false;
     },
     update: (state, action) => {
-      state.boardInfo.id = action.payload.id;
-      state.boardInfo.title = action.payload.title;
-      state.boardInfo.description = action.payload.description;
+      state.value = action.payload;
     },
   },
 });

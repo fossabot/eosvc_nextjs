@@ -1,6 +1,4 @@
-import { useSession } from "next-auth/react";
-import { useMutation, useQuery } from "react-query";
-import { getUserId } from "./apiCalls/getUserId";
+import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { updateUser } from "./updateUser";
 import { updateUserPass } from "./updateUserPass";
@@ -8,24 +6,19 @@ import { updateUserPhoto } from "./updateUserPhoto";
 import { useReducer, useState } from "react";
 import { update } from "../../redux/userSlice";
 import { convertToBase64 } from "../../utils/convertToBase64";
+import { useSelector } from "react-redux";
 
 export default function Table() {
-  //Get user data from session
-  const { data: session } = useSession();
-
-  //Get user data from database if exists
-  const { isLoading, data } = useQuery(["user", session.user.email], () =>
-    getUserId(session.user.email)
-  );
-
+  const session = useSelector((state) => state.session);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   //Update user data
-  const mutation = useMutation((formData) => updateUser(data._id, formData));
+  const mutation = useMutation((formData) => updateUser(session._id, formData));
 
   //Update user password
   const passMutation = useMutation((newPass) =>
-    updateUserPass(data._id, newPass)
+    updateUserPass(session._id, newPass)
   );
 
   const formReducer = (state, event) => {
@@ -36,7 +29,6 @@ export default function Table() {
   };
 
   const [password, setPassword] = useState("");
-
   const [formData, setFormData] = useReducer(formReducer, {});
   const [postImage, setPostImage] = useState({ myFile: null });
 
@@ -48,44 +40,9 @@ export default function Table() {
       </div>
     );
 
-  //Prepare data from DB for update
-  const {
-    name,
-    username,
-    avatar,
-    email,
-    account_name,
-    is_admin,
-    is_account_admin,
-  } = data;
-
-  //Create new user if not exists in local database
-  if (email !== session.user.email) {
-    console.log("Create new user");
-    (async () => {
-      const options = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        //how to specify the json to body?
-        body: JSON.stringify({
-          name: session.user.name,
-          username: session.user.name,
-          email: session.user.email,
-          password: process.env.NEXT_PUBLIC_USER_DEFAULT_PASS,
-        }),
-      };
-
-      await fetch("/api/auth/signup", options)
-        .then((res) => res.json())
-        .then((data) => {
-          //if (data) router.push(process.env.NEXT_PUBLIC_APP_URL);
-        });
-    })();
-  }
-
   const handleUpdate = (e) => {
     e.preventDefault();
-    let updated = Object.assign({}, data, formData);
+    let updated = Object.assign({}, session, formData);
     mutation.mutate(updated);
     dispatch(update(updated));
     console.log("User data updated");
@@ -100,7 +57,7 @@ export default function Table() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateUserPhoto(data._id, postImage);
+    updateUserPhoto(session._id, postImage);
     console.log(postImage, "postImage");
   };
 
@@ -121,7 +78,7 @@ export default function Table() {
           <label htmlFor="file-upload" className="">
             <img
               className="w-32 h-32 rounded-md"
-              src={avatar || session.user.image || "/assets/nouser.png"}
+              src={session.avatar || "/assets/nouser.png"}
               alt=""
             />
           </label>
@@ -139,7 +96,7 @@ export default function Table() {
         </form>
       </div>
       <div>
-        <h1>user ID: {data._id}</h1>
+        <h1>user ID: {session._id}</h1>
       </div>
       <form className="flex flex-col border rounded-md w-full p-5 justify-between items-center">
         <div className="flex flex-row justify-between w-full items-start m-2 p-2">
@@ -148,7 +105,7 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="name"
-              defaultValue={name || session.user.name}
+              defaultValue={session.name}
               onChange={setFormData}
               placeholder="Jméno"
             />
@@ -156,7 +113,7 @@ export default function Table() {
               className="border rounded-md px-2 py-1 "
               type="text"
               name="username"
-              defaultValue={username || data.username}
+              defaultValue={session.username}
               onChange={setFormData}
               placeholder="Uživatelské jméno"
             />
@@ -167,7 +124,7 @@ export default function Table() {
               name="account_name"
               placeholder="Společnost"
               onChange={setFormData}
-              defaultValue={account_name || data.account_name}
+              defaultValue={session.account_name}
             />
           </div>
           <div className="flex flex-col p-5 space-y-2 w-1/2">
@@ -175,7 +132,7 @@ export default function Table() {
               className="border rounded-md px-2 py-1  "
               type="text"
               name="email"
-              defaultValue={email || session.user.email}
+              defaultValue={session.email}
               onChange={setFormData}
               disabled={true}
             />
@@ -184,9 +141,9 @@ export default function Table() {
               <input
                 type="radio"
                 name="is_account_admin"
-                value={!is_account_admin}
+                value={!session.is_account_admin}
                 onChange={setFormData}
-                defaultChecked={is_account_admin}
+                defaultChecked={session.is_account_admin}
                 id="is_account_admin"
               />
               <label
@@ -200,9 +157,9 @@ export default function Table() {
               <input
                 type="radio"
                 name="is_admin"
-                value={is_admin}
+                value={session.is_admin}
                 onChange={setFormData}
-                defaultChecked={is_admin}
+                defaultChecked={session.is_admin}
                 id="is_admin"
               />
               <label htmlFor="is_admin" className="inline-block text-gray-500">

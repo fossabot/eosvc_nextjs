@@ -13,7 +13,6 @@ export async function addBoard(req, res) {
       position: boardsCount > 0 ? boardsCount : 0,
     });
 
-    console.log(board, "board");
     return res.status(201).json(board);
     //res.status(200).json();
   } catch (err) {
