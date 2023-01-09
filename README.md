@@ -1,27 +1,39 @@
-# Next.js + Tailwind CSS Example
+Full Stack MERN app with NEXT.JS, MongoDB and OpenAI
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This app is for my learning purpose.
 
-## Deploy your own
+Auth with NextAuth (Google, GitHub, Email in DB)
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+- I do a sync between session (Google, GitHub) and local DB with registered users
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+DB - MongoDB Atlas
 
-## How to use
+- storing data and files
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+For deployment I use Vercel - https://www.vercel.com
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-```
+Stack:
+Next.JS 13
+Next.Auth
+Mongoose
+ReactQuery
+Redux + ReduxToolkit
+OpenAI API
 
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+You will need .ENV with this variables:
+MONGO_URL=
 
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
+GOOGLE_ID=
+GOOGLE_SECRET=
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+GITHUB_ID=
+GITHUB_SECRET=
+
+JWT_SECRET=
+
+#openssl rand -base64 32
+
+#NEXT ENV for Client part of App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_USER_DEFAULT_PASS="DefaultPassword for creating new user in local user storage"
+NEXT_PUBLIC_OPENAI_API_KEY=sk-xxxxxx
