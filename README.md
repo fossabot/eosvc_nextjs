@@ -1,4 +1,4 @@
-Full Stack MERN app with NEXT.JS, MongoDB and OpenAI
+Full Stack MERN app with NEXT.JS, MongoDB and OpenAI and TailWind CSS
 
 This app is for my learning purpose.
 
@@ -15,6 +15,7 @@ For deployment I use Vercel - https://www.vercel.com
 Stack:
 Next.JS 13
 Next.Auth
+TailWind.CSS
 Mongoose
 ReactQuery
 Redux + ReduxToolkit
