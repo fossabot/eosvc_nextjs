@@ -8,13 +8,17 @@ import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";
 import LoadingSpinner from "../loadings/LoadingSpinner";
 import { useSelector } from "react-redux";
+import { selectedSession } from "../../redux/sessionSlice";
 
-//Fetch data from API and store in cache
-//const employeeCount = data;
 function Main() {
   const session = useSelector((state) => state.session);
+  console.log(session._id, "session - Main");
+
   //Fetch data from API backend and store in cache
-  const { data: accountsData, isLoading } = useQuery("accounts", getAccounts);
+  const { data: accountsData, isLoading: isLoadingAccounts } = useQuery(
+    "accounts",
+    getAccounts
+  );
   const { data: employeesData, isLoading: isLoadingEmployee } = useQuery(
     "employees",
     getEmployees
@@ -23,14 +27,22 @@ function Main() {
     "images",
     getImages
   );
+
   const { data: projectsData, isLoading: isLoadingProjects } = useQuery(
     "projects",
     () => getAllBoards(session._id)
   );
 
   //wait for data to be fetched
-  if (isLoading || isLoadingEmployee || isLoadingImg || isLoadingProjects)
+  if (
+    isLoadingAccounts ||
+    isLoadingEmployee ||
+    isLoadingImg ||
+    isLoadingProjects
+  )
     return <LoadingSpinner message={"Data se načítají"} />;
+  console.log(projectsData, "projectData");
+  //return console.log("stop");
   //Calculate sum of salaries
   const employeesSum = employeesData.reduce(
     (accumulator, employee) => accumulator + employee.salary,
@@ -49,12 +61,14 @@ function Main() {
               <h1 className="font-bold pb-5">Zaměsnanci</h1>
             </div>
             <div className="w-full h-72 ">
-              <MyResponsivePie
-                className=""
-                employeesData={employeesData}
-                employeesSum={employeesSum}
-                employeeProxSalary={employeeProxSalary}
-              />
+              {
+                <MyResponsivePie
+                  className=""
+                  employeesData={employeesData}
+                  employeesSum={employeesSum}
+                  employeeProxSalary={employeeProxSalary}
+                />
+              }
             </div>
           </DashboardBox>
           <DashboardBox>
@@ -105,7 +119,9 @@ function Main() {
             </div>
             <div>
               Počet projektů:
-              <span className="font-bold">{projectsData.length}</span>
+              <span className="font-bold">
+                {projectsData ? projectsData.length : "Nemám data"}
+              </span>
             </div>
           </DashboardBox>
           <DashboardBox></DashboardBox>

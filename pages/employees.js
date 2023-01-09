@@ -3,13 +3,37 @@ import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import Employees from "../modules/Employees";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageTemplate from "../components/v2/PageTemplate";
+import { getUserSession } from "../modules/user/apiCalls/getUserSession";
+import LoadingSpinner from "../components/loadings/LoadingSpinner";
+import { getSessionAsync } from "../redux/sessionSlice";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { loadingState } from "../redux/loadingSlice";
 
-const Home = () => {
+const EmployeesHome = (props) => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.loading.value);
   const { data: session } = useSession();
-  // console.log(session);
+  const sessionRedux = useSelector((state) => state.session);
+
+  useEffect(() => {
+    if (sessionRedux._id === "0") {
+      console.log("I dont have user dispatch him!");
+      (async () => {
+        await dispatch(getSessionAsync(props.userSession.session.email)).then(
+          () => {
+            dispatch(loadingState(false));
+            //setIsLoading(false);
+          }
+        );
+      })();
+    }
+  }, []);
+
   const router = useRouter();
+  if (isLoading) return <LoadingSpinner message="Načítám data..." />;
 
   return (
     <div className="w-full">
@@ -21,7 +45,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default EmployeesHome;
 
 // Authorize User
 function User() {
@@ -46,8 +70,8 @@ export async function getServerSideProps({ req }) {
       },
     };
   }
-
+  const userSession = await getUserSession(session.user.email);
   return {
-    props: { session },
+    props: { session, userSession },
   };
 }

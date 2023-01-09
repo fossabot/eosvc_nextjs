@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const session = useSelector((state) => state.session);
+  console.log(session, "session Header");
 
   return (
     <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">

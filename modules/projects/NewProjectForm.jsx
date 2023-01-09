@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { createBoard } from "./apiCalls/createBoard";
 
-const NewProjectForm = () => {
-  const { _id } = useSelector((state) => state.user.userInfo);
+const NewProjectForm = ({ visible, onFinish }) => {
+  const { _id } = useSelector((state) => state.session);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  console.log(_id, "id", title, "title", description, "description");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    console.log("create");
-    await createBoard(_id, title, description);
+  const handleCreateBoard = async (e) => {
+    setIsLoading(true);
+    try {
+      e.preventDefault();
+      console.log(
+        "id:",
+        _id,
+        "title:",
+        title,
+        "descrition:",
+        description,
+        "handleCreateBoard - inside NewProjectFrom"
+      );
+      await createBoard(_id, title, description);
+      onFinish();
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
+  if (!visible) return null;
   return (
     <div className="flex justify-center w-full ">
       <div className="border border-black w-1/2">
@@ -33,7 +49,7 @@ const NewProjectForm = () => {
               type="text"
             />
           </div>
-          <button onClick={handleCreate} className="my-button">
+          <button onClick={handleCreateBoard} className="my-button">
             Přídat projekt
           </button>
         </form>

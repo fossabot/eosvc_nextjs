@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
+import LoadingSpinner from "../loadings/LoadingSpinner";
 //import { configuration } from "../../hidden_public/openAIApiConfig";
 
 /*
@@ -75,7 +76,8 @@ function OpenAiComponent() {
     setOpenAiQuestion(question);
   };
 
-  if (isLoading) return <div>Loading ...</div>;
+  if (isLoading)
+    return <LoadingSpinner message={"Načítám data z OpenAI.com ..."} />;
   console.log(question, "question");
   console.log(typeof openAiResponse.data?.choices[0].text, "response");
 

@@ -1,6 +1,8 @@
 export const getUserId = async (userEmail) => {
   try {
-    const response = await fetch(`/api/user/userEmail/${userEmail}`);
+    const response = await fetch(
+      `${NEXT_PUBLIC_APP_URL}/api/user/userEmail/${userEmail}`
+    );
     const json = await response.json();
     //console.log(json, "json");
     console.log("Fetch single user");

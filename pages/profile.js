@@ -4,13 +4,38 @@ import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
 import PageTemplate from "../components/v2/PageTemplate";
 import ProfileComponent from "../components/v2/Profile";
+import { getUserSession } from "../modules/user/apiCalls/getUserSession";
+import LoadingSpinner from "../components/loadings/LoadingSpinner";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getSessionAsync } from "../redux/sessionSlice";
+import { loadingState } from "../redux/loadingSlice";
 
 const pageTitle = "Nastavení profilu uživatele";
 
-const Template = () => {
+const Profile = (props) => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.loading.value);
   const { data: session } = useSession();
-  // console.log(session);
+  const sessionRedux = useSelector((state) => state.session);
+
+  useEffect(() => {
+    if (sessionRedux._id === "0") {
+      console.log("I dont have user dispatch him!");
+      (async () => {
+        await dispatch(getSessionAsync(props.userSession.session.email)).then(
+          () => {
+            dispatch(loadingState(false));
+            //setIsLoading(false);
+          }
+        );
+      })();
+    }
+  }, []);
+
   const router = useRouter();
+  if (isLoading) return <LoadingSpinner message="Načítám data..." />;
 
   return (
     <div className="w-full">
@@ -22,7 +47,7 @@ const Template = () => {
   );
 };
 
-export default Template;
+export default Profile;
 
 // Authorize User
 function User() {
@@ -47,8 +72,8 @@ export async function getServerSideProps({ req }) {
       },
     };
   }
-
+  const userSession = await getUserSession(session.user.email);
   return {
-    props: { session },
+    props: { session, userSession },
   };
 }

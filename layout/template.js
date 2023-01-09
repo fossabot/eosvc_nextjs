@@ -9,7 +9,7 @@ const pageTitle = "Modul for testing";
 
 const Template = ({ children }) => {
   const { data: session } = useSession();
-  console.log(session);
+
   return (
     <div className="w-full">
       <Head>
@@ -29,24 +29,3 @@ const Template = ({ children }) => {
 };
 
 export default Template;
-
-export async function getServerSideProps({ res }) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    if (res) {
-      res.writeHead(302, {
-        Location: "/login",
-      });
-      res.end();
-    }
-
-    return {
-      props: {},
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}

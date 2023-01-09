@@ -5,16 +5,14 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import MenuItem from "./MenuItem";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useSelector } from "react-redux";
 
 function Sidebar() {
-  const name = useSelector((state) => state.user.userInfo.name);
+  const { name } = useSelector((state) => state.session);
+
   const [open, setOpen] = useState(false);
-  //console.log(open);
-  //Sign Out function
-  const { data: session } = useSession();
-  //Sign Out function
+
   function handleSignOut() {
     signOut();
   }

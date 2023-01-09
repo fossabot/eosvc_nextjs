@@ -4,24 +4,43 @@ import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
 import Main from "../components/v2/Main";
 import PageTemplate from "../components/v2/PageTemplate";
-import { useQuery } from "react-query";
-import { getUserId } from "../modules/user/apiCalls/getUserId";
 import { useDispatch } from "react-redux";
-import { update } from "../redux/userSlice";
+import { getSessionAsync } from "../redux/sessionSlice";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/loadings/LoadingSpinner";
+import { getUserSession } from "../modules/user/apiCalls/getUserSession";
+
+import { useSelector } from "react-redux";
+import { loadingState } from "../redux/loadingSlice";
 
 const pageTitle = "Dashboard";
 
-const Template = () => {
+const Template = (props) => {
+  const dispatch = useDispatch();
   const { data: session } = useSession();
-  const { isLoading, data } = useQuery("user", () =>
-    getUserId(session.user.email)
-  );
+  const sessionRedux = useSelector((state) => state.session);
+  const isLoading = useSelector((state) => state.loading.value);
+  console.log(isLoading, "isLoading");
+  //return console.log("stop");
+
+  useEffect(() => {
+    if (sessionRedux._id === "0") {
+      console.log("I dont have user dispatch him!");
+      (async () => {
+        await dispatch(getSessionAsync(props.userSession.session.email)).then(
+          () => {
+            dispatch(loadingState(false));
+            //setIsLoading(false);
+          }
+        );
+      })();
+    }
+  }, []);
+
   const router = useRouter();
 
-  //const isLoading = true;
-  if (isLoading)
-    return <LoadingSpinner message={"Aplikace se inicializuje ..."} />;
+  if (isLoading) return <LoadingSpinner message="Načítám data..." />;
+  //return console.log("stop");
 
   return (
     <div className="w-full">
@@ -59,7 +78,8 @@ export async function getServerSideProps({ req }) {
     };
   }
 
+  const userSession = await getUserSession(session.user.email);
   return {
-    props: { session },
+    props: { session, userSession },
   };
 }
