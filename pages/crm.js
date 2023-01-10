@@ -32,6 +32,7 @@ const Crm = (props) => {
         );
       })();
     }
+    dispatch(loadingState(false));
   }, []);
 
   const router = useRouter();

@@ -3,7 +3,8 @@ import Sections from "../../../../model/Projects/Sections";
 import Tasks from "../../../../model/Projects/Tasks";
 
 export async function deleteBoard(req, res) {
-  const { boardId } = req.params;
+  const { boardId } = req.query;
+  console.log(boardId, "req");
   try {
     const sections = await Sections.find({ board: boardId });
     for (const section of sections) {

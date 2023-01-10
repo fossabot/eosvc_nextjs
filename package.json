@@ -6,8 +6,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
+    "@ckeditor/ckeditor5-build-classic": "^34.2.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@fontsource/roboto": "^4.5.8",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
@@ -18,8 +20,8 @@
     "@sentry/nextjs": "^7.28.1",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.7",
-    "dotenv": "^16.0.3",
     "formik": "^2.2.9",
+    "moment": "^2.29.4",
     "mongoose": "^6.8.0",
     "next": "latest",
     "next-auth": "^4.18.5",

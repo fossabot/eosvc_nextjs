@@ -32,6 +32,7 @@ const Template = (props) => {
         );
       })();
     }
+    dispatch(loadingState(false));
   }, []);
 
   const router = useRouter();

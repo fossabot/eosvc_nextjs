@@ -32,6 +32,7 @@ const Profile = (props) => {
         );
       })();
     }
+    dispatch(loadingState(false));
   }, []);
 
   const router = useRouter();

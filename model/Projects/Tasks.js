@@ -5,7 +5,7 @@ const taskSchema = new Schema(
   {
     section: {
       type: Schema.Types.ObjectId,
-      ref: "Section",
+      ref: "Sections",
       required: true,
     },
     title: {

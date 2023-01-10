@@ -31,6 +31,7 @@ const DataBox = (props) => {
         );
       })();
     }
+    dispatch(loadingState(false));
   }, []);
 
   const router = useRouter();

@@ -11,7 +11,6 @@ export default async function handler(req, res) {
     case "POST":
       addSection(req, res);
       break;
-
     default:
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Metod ${method} Not Allowed`);

@@ -8,6 +8,7 @@ import {
   ClipboardDocumentListIcon,
   AcademicCapIcon,
   HomeIcon,
+  LightBulbIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -31,6 +32,9 @@ function MenuItem({ open, icon, route, menuItem }) {
       break;
     case "documentChart":
       showIcon = <DocumentChartBarIcon className="w-6" />;
+      break;
+    case "lightBulb":
+      showIcon = <LightBulbIcon className="w-6" />;
       break;
     case "documentCheck":
       showIcon = <DocumentCheckIcon className="w-6" />;

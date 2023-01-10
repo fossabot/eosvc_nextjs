@@ -20,6 +20,7 @@ const Template = (props) => {
   const { data: session } = useSession();
   const sessionRedux = useSelector((state) => state.session);
   const isLoading = useSelector((state) => state.loading.value);
+  //const [isLoading, setIsLoading] = useState(true);
   console.log(isLoading, "isLoading");
   //return console.log("stop");
 
@@ -35,6 +36,7 @@ const Template = (props) => {
         );
       })();
     }
+    //setIsLoading(false);
   }, []);
 
   const router = useRouter();

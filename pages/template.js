@@ -28,6 +28,7 @@ function Demo(props) {
         );
       })();
     }
+    dispatch(loadingState(false));
   }, []);
 
   const inputRef = useRef(null);

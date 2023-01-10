@@ -4,7 +4,7 @@ function PageTemplate({ children, pageTitle }) {
       <div className="flex justify-center items-center pt-2">
         <h1 className="text-3xl font-bold">{pageTitle}</h1>
       </div>
-      <div>{children}</div>
+      <div className="">{children}</div>
     </main>
   );
 }

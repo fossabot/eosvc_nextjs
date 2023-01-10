@@ -7,7 +7,6 @@ export async function addSection(req, res) {
       board: req.body.boardId,
       title: "New Section",
     });
-    console.log(board, "board");
     return res.status(201).json(section);
     //res.status(200).json();
   } catch (err) {

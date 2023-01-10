@@ -32,6 +32,7 @@ const Documents = (props) => {
         );
       })();
     }
+    dispatch(loadingState(false));
   }, []);
 
   const router = useRouter();

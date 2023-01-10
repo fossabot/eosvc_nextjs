@@ -19,10 +19,11 @@ const pageTitle = "Projekty";
 
 const Projects = (props) => {
   const dispatch = useDispatch();
+  //const [isLoading, setIsLoading] = useState(true);
   const isLoading = useSelector((state) => state.loading.value);
   const { data: session } = useSession();
   const sessionRedux = useSelector((state) => state.session);
-  console.log(props.allUserBoards, "props Projects - Boards");
+  //console.log(props.allUserBoards, "props Projects - Boards");
 
   useEffect(() => {
     dispatch(setBoards(props.allUserBoards));
@@ -38,8 +39,32 @@ const Projects = (props) => {
         );
       })();
     }
+    //setIsLoading(false);
   }, []);
-
+  /*
+  useEffect(() => {
+    if (sessionRedux._id === "0") {
+      console.log("I dont have user dispatch him!");
+      (async () => {
+        await dispatch(getSessionAsync(props.userSession.session.email)).then(
+          () => {
+            //dispatch(loadingState(false));
+            setIsLoading(false);
+          }
+        );
+      })();
+    } else {
+      
+      const fetchAllboards = async () => {
+        const allUserBoards = await getAllBoards(sessionRedux._id);
+        dispatch(setBoards(allUserBoards));
+        dispatch(setActiveBoard(allUserBoards[0]));
+      };
+      fetchAllboards();
+      
+    }
+  }, []);
+*/
   const router = useRouter();
   if (isLoading) return <LoadingSpinner message="Načítám data..." />;
 

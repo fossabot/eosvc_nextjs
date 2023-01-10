@@ -63,6 +63,12 @@ function Sidebar() {
           menuItem={"Projekty"}
         />
         <MenuItem
+          icon="lightBulb"
+          open={open}
+          route={"/secondBrain"}
+          menuItem={"Second Brain"}
+        />
+        <MenuItem
           icon="user"
           open={open}
           route={"/employees"}

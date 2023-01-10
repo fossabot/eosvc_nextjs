@@ -4,12 +4,10 @@ import { createBoard } from "./apiCalls/createBoard";
 
 const NewProjectForm = ({ visible, onFinish }) => {
   const { _id } = useSelector((state) => state.session);
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleCreateBoard = async (e) => {
-    setIsLoading(true);
     try {
       e.preventDefault();
       console.log(
@@ -24,8 +22,7 @@ const NewProjectForm = ({ visible, onFinish }) => {
       await createBoard(_id, title, description);
       onFinish();
     } catch (error) {
-    } finally {
-      setIsLoading(false);
+      console.log(errors);
     }
   };
   if (!visible) return null;

@@ -13,6 +13,5 @@ export const createSection = async (boardId) => {
     return json;
   } catch (err) {
     alert(err);
-  } finally {
   }
 };

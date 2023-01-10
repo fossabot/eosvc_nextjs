@@ -14,7 +14,8 @@ import { loadingState } from "../redux/loadingSlice";
 
 const EmployeesHome = (props) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.loading.value);
+  //const isLoading = useSelector((state) => state.loading.value);
+  const [isLoading, setIsLoading] = useState(true);
   const { data: session } = useSession();
   const sessionRedux = useSelector((state) => state.session);
 
@@ -24,12 +25,13 @@ const EmployeesHome = (props) => {
       (async () => {
         await dispatch(getSessionAsync(props.userSession.session.email)).then(
           () => {
-            dispatch(loadingState(false));
-            //setIsLoading(false);
+            //dispatch(loadingState(false));
+            setIsLoading(false);
           }
         );
       })();
     }
+    setIsLoading(false);
   }, []);
 
   const router = useRouter();

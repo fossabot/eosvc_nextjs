@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import NewProjectForm from "./NewProjectForm";
 import { createSection } from "./apiCalls/createSection";
+import { deleteProject } from "./apiCalls/deleteProject";
 
 function ProjectsHeader() {
   //State for chose actual project
@@ -17,9 +18,11 @@ function ProjectsHeader() {
     createSection(activeBoard._id);
   };
 
-  const deleteProject = () => {
+  const handleDeleteProject = () => {
     console.log(activeBoard._id, "Delete board id");
+    deleteProject(activeBoard._id);
   };
+
   return (
     <div className="flex flex-col justify-center items-center mx-auto pt-2">
       <div className="flex flex-row gap-2 rounded-md py-2 px-2 w-full">
@@ -29,7 +32,7 @@ function ProjectsHeader() {
         <button className="my-button" onClick={addSection}>
           Přidat sekci do projektu
         </button>
-        <button className="my-button" onClick={deleteProject}>
+        <button className="my-button" onClick={handleDeleteProject}>
           Smazat aktuální projekt
         </button>
       </div>
