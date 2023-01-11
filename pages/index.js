@@ -80,7 +80,10 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const userSession = await getUserSession(session.user.email);
+  const userSession = await getUserSession(
+    session.user.email,
+    session.user.name
+  );
   return {
     props: { session, userSession },
   };

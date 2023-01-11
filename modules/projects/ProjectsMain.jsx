@@ -20,7 +20,7 @@ const ProjectsMain = () => {
   const boards = useSelector((state) => state.boards.value);
   const activeBoard = useSelector((state) => state.activeBoard.value);
   console.log(activeBoard, "ActiveBoard - ProjectsMain");
-  const boardId = activeBoard._id;
+  const boardId = activeBoard?._id;
   console.log(boardId, "BoardId - ProjectsMain");
 
   const [title, setTitle] = useState("");
@@ -36,13 +36,17 @@ const ProjectsMain = () => {
         console.log("useEffect - getOneBoard");
         console.log(boardId, "getOneBoard - ProjectsMain");
         const res = await getBoard(boardId);
-        console.log(res, "Res - ProjectsMain");
-        setTitle(res.title);
-        setDescription(res.description);
-        setSections(res.sections);
-        setIsFavourite(res.favourite);
-        setPosition(res.position);
-        setIcon(res.icon);
+        if (res) {
+          console.log(res, "Res - ProjectsMain");
+          setTitle(res?.title);
+          setDescription(res?.description);
+          setSections(res?.sections);
+          setIsFavourite(res?.favourite);
+          setPosition(res?.position);
+          setIcon(res?.icon);
+        } else {
+          console.log("No res - ProjectsMain");
+        }
       } catch (err) {
         alert(err);
       }
@@ -80,6 +84,17 @@ const ProjectsMain = () => {
   //if (isLoading) return <LoadingSpinner message={"Loading Projects ...."} />;
   //console.log(activeBoard, "ActiveBoard - ProjectsMain");
   //return console.log("stop");
+  if (!activeBoard)
+    return (
+      <div>
+        <div>
+          <ProjectsHeader />
+        </div>
+        <div>
+          <h1> založ první projekt</h1>
+        </div>
+      </div>
+    );
   return (
     <div>
       <ProjectsHeader />
