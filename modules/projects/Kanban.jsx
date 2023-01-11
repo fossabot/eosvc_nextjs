@@ -7,8 +7,9 @@ import { setSection } from "../../redux/projects/sectionSlice";
 import LoadingSpinner from "../../components/loadings/LoadingSpinner";
 import { updateSection } from "./apiCalls/updateSection";
 import { addTask } from "./apiCalls/addTask";
-import TaskModal from "./TaskModal";
-import Task from "./Task";
+import TaskModal from "./bck/TaskModal";
+import Task from "./bck/Task";
+import TaskModalRight from "./TaskModalRight";
 import { updateTaskPosition } from "./apiCalls/updateTaskPosition";
 
 let timer;
@@ -22,6 +23,7 @@ const Kanban = (props) => {
   const [data, setData] = useState([]);
   console.log(data, "Data - Kanban");
   const [selectedTask, setSelectedTask] = useState(undefined);
+  const [open, setOpen] = useState(false);
   //const sections = useSelector((state) => state.section.value);
   //const [isLoading, setIsLoading] = useState(true);
 
@@ -200,7 +202,10 @@ const Kanban = (props) => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            onClick={() => setSelectedTask(task)}
+                            onClick={() => {
+                              setSelectedTask(task);
+                              setOpen(true);
+                            }}
                             cursor={snapshot.isDragging ? "grabbing" : "grab"}
                             className="flex flex-col items-start justify-center text-xs p-2 bg-gray-500 rounded-md"
                           >
@@ -220,6 +225,7 @@ const Kanban = (props) => {
           ))}
         </div>
       </DragDropContext>
+      {open && <TaskModalRight open={open} />}
       <Task />
     </div>
   );

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   //reactStrictMode: false,
+  plugins: [require("@tailwindcss/forms")],
   images: {
     domains: ["randomuser.me"],
   },

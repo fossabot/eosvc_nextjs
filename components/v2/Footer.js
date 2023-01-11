@@ -6,7 +6,10 @@ function Footer() {
     <footer className="flex flex-row bg-gray-100 h-8 justify-end items-center w-full text-xs text-gray-500 p-5">
       <div className="pr-5">
         <Link href="/">
-          <h1 className="text-gray-600"> eOSVC - v.0.0.3 - beta</h1>
+          <h1 className="text-gray-600">
+            {" "}
+            eOSVC - {process.env.NEXT_PUBLIC_APP_V}
+          </h1>
         </Link>
       </div>
       <div className="space-x-2 pr-2">
