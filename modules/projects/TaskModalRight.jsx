@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -45,14 +45,33 @@ const team = [
   },
 ];
 
+let timer;
+const timeout = 500;
+let isModalClosed = false;
+
 export default function Example(props) {
-  const [open, setOpen] = useState(props.open);
-  console.log(open, "open");
-  console.log(props, "props");
+  const boardId = props.boardId;
+  const [task, setTask] = useState(props.task);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const editorWrapperRef = useRef();
+
+  useEffect(() => {
+    setTask(props.task);
+    setTitle(props.task !== undefined ? props.task.title : "");
+    setContent(props.task !== undefined ? props.task.content : "");
+    /*
+    if (props.task !== undefined) {
+      isModalClosed = false;
+
+      updateEditorHeight();
+    }
+    */
+  }, [props.task]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-10">
         <div className="fixed inset-0" />
 
         <div className="fixed inset-0 overflow-hidden">

@@ -63,7 +63,7 @@ const ProjectSidebar = ({ boards }) => {
   //if (boards.length === 0) return <div>Loading...</div>;
 
   return (
-    <div className="flex  flex-col justify-start items-start space-y-1  bg-slate-300 w-full h-full">
+    <div className="flex  flex-col justify-start items-start space-y-1  bg-slate-300 w-80 h-full">
       <h1 className="bg-yellow-600 w-full px-2">Oblíbené</h1>
       <h1 className="bg-yellow-600 w-full px-2">Privátní</h1>
       <DragDropContext onDragEnd={onDragEnd}>

@@ -85,16 +85,16 @@ const ProjectsMain = () => {
       </div>
     );
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <ProjectsHeader />
-      <div className="flex flex-row p-2">
+      <div className="flex flex-row h-full ">
         <div className="flex flex-col items-start justify-center text-gray-100 text-xs bg-slate-600 rounded-md w-80">
           <h1 className="mx-auto py-2">Projekty</h1>
           <ProjectSidebar boards={boards} />
         </div>
-        <div>
+        <div className="flex flex-col w-full h-full">
           <div className="text-xs">
-            <div className="flex flex-row justify-start items-start px-2">
+            <div className="flex flex-col justify-start items-start px-2">
               <div className="flex justify-start items-center w-full h-full mx-auto">
                 <h2 className="text-gray-300 p-2 font-bold bg-slate-900">
                   Projekt:
@@ -116,8 +116,8 @@ const ProjectsMain = () => {
               </div>
             </div>
           </div>
-          <div>
-            <div className="pt-2 ">
+          <div className="flex h-full">
+            <div className="pt-2 w-full h-full ">
               {<Kanban data={sections} boardId={activeBoard._id} />}
             </div>
           </div>

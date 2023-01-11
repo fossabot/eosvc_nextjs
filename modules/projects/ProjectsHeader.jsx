@@ -13,11 +13,12 @@ function ProjectsHeader() {
   const [visible, setVisible] = useState(false);
 
   //Function for adding new section to project
+  /*
   const addSection = () => {
     console.log(activeBoard._id, "board id");
     createSection(activeBoard._id);
   };
-
+*/
   const handleDeleteProject = () => {
     console.log(activeBoard._id, "Delete board id");
     deleteProject(activeBoard._id);
@@ -29,9 +30,11 @@ function ProjectsHeader() {
         <button className="my-button" onClick={() => setVisible(!visible)}>
           Přidat projekt
         </button>
+        {/*}
         <button className="my-button" onClick={addSection}>
           Přidat sekci do projektu
         </button>
+        */}
         <button className="my-button" onClick={handleDeleteProject}>
           Smazat aktuální projekt
         </button>

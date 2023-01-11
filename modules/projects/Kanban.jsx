@@ -13,6 +13,9 @@ import TaskModalRight from "./TaskModalRight";
 import { updateTaskPosition } from "./apiCalls/updateTaskPosition";
 import {} from "@heroicons/react/outline/";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { deleteSection } from "./apiCalls/deleteSection";
+import { createSection } from "./apiCalls/createSection";
+import { deleteTask } from "./apiCalls/deleteTask";
 
 let timer;
 const timeout = 500;
@@ -81,20 +84,28 @@ const Kanban = (props) => {
     }
   };
 
-  const createSection = async () => {
+  //Done
+  const handelCreateSection = async () => {
     try {
-      const section = await sectionApi.create(boardId);
-      setData([...data, section]);
+      //const section = await sectionApi.create(boardId);
+      const newSection = await createSection(boardId);
+      console.log(newSection, "Section");
+      setData([...data, newSection]);
     } catch (err) {
       alert(err);
     }
   };
 
-  const deleteSection = async (sectionId) => {
+  //Done
+  const handelDeleteSection = async (sectionId) => {
     try {
-      await sectionApi.delete(boardId, sectionId);
+      //await sectionApi.delete(boardId, sectionId);
+
+      await deleteSection(sectionId);
       const newData = [...data].filter((e) => e._id !== sectionId);
       setData(newData);
+
+      console.log("handelDeleteSection");
     } catch (err) {
       alert(err);
     }
@@ -141,33 +152,47 @@ const Kanban = (props) => {
     setData(newData);
   };
 
+  //Done
   const onDeleteTask = (task) => {
     const newData = [...data];
-    const sectionIndex = newData.findIndex((e) => e.id === task.section.id);
+    const sectionIndex = newData.findIndex((e) => e._id === task.section._id);
     const taskIndex = newData[sectionIndex].tasks.findIndex(
-      (e) => e.id === task.id
+      (e) => e._id === task._id
     );
     newData[sectionIndex].tasks.splice(taskIndex, 1);
     setData(newData);
   };
 
+  //Done
+  const handelDeleteTask = async (task) => {
+    console.log("delete task");
+    console.log(boardId, "boardId", task._id, "task._id", "Deleting Task");
+    try {
+      //await deleteTask(boardId, task._id);
+      deleteTask(boardId, task._id);
+      onDeleteTask(task);
+      //props.onDelete(task);
+      //setTask(undefined);
+    } catch (err) {
+      alert(err);
+    }
+  };
   /*
+const deleteTask = async () => {
 
+  };
 
 */
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 h-full">
       <div className="p-2 text-xs">
-        <button className="my-button" onClick={createSection}>
-          Add section
-        </button>
         <p>{data.length} Sections</p>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-row items-start">
+        <div className="flex flex-row items-start h-full  overflow-scroll">
           {data?.map((section, index) => (
             <div
-              className="flex flex-col items-center justify-center text-gray-600 h-full w-80 "
+              className="flex flex-col items-center justify-center text-gray-600 h-full w-80"
               key={section._id}
             >
               <Droppable key={section._id} droppableId={section._id}>
@@ -186,7 +211,9 @@ const Kanban = (props) => {
                           onChange={(e) => updateSectionTitle(e, section._id)}
                         />
                         <div className="flex items-center justify-center w-full">
-                          <button onClick={() => deleteSection(section._id)}>
+                          <button
+                            onClick={() => handelDeleteSection(section._id)}
+                          >
                             <TrashIcon className="w-4 h-4" />
                           </button>
                         </div>
@@ -225,17 +252,24 @@ const Kanban = (props) => {
                             {...provided.dragHandleProps}
                             onClick={() => {
                               setSelectedTask(task);
-                              setOpen(true);
+                              //setOpen(true);
                             }}
                             cursor={snapshot.isDragging ? "grabbing" : "grab"}
-                            className="flex flex-col items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-red-200"
+                            className="flex flex-col items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-slate-300 shadow-md"
                           >
-                            <h1 className="font-bold text-sm text-slate-900">
-                              TaskId: {task._id}
-                            </h1>
-                            <h2>
-                              {task.title === "" ? "Untitled" : task.title}
-                            </h2>
+                            <div className="flex flex-row justify-between mx-auto w-full">
+                              <h2 className="font-bold text-sm text-slate-900">
+                                {task.title === "" ? "Untitled" : task.title}
+                              </h2>
+
+                              <TrashIcon
+                                className="w-4 h-4"
+                                onClick={() => handelDeleteTask(task)}
+                              />
+                            </div>
+                            <div>
+                              <p className="">TaskId: {task._id}</p>
+                            </div>
                           </div>
                         )}
                       </Draggable>
@@ -246,9 +280,27 @@ const Kanban = (props) => {
               </Droppable>
             </div>
           ))}
+          <div className="flex justify-start border-y  mt-2 items-start w-full pb-2 pt-3">
+            <div
+              className="flex flex-row space-x-3 w-80"
+              onClick={handelCreateSection}
+            >
+              <PlusIcon className="w-6 h-6 text-gray-600/50" />
+              <p className="text-gray-500"> New section</p>
+            </div>
+          </div>
         </div>
       </DragDropContext>
-      {open && <TaskModalRight open={open} />}
+      {open && (
+        <TaskModalRight
+          open={open}
+          task={selectedTask}
+          boardId={boardId}
+          onClose={() => setSelectedTask(undefined)}
+          onUpdate={onUpdateTask}
+          onDelete={onDeleteTask}
+        />
+      )}
       <Task />
     </div>
   );

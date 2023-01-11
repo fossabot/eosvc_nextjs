@@ -16,7 +16,7 @@ function AppLayoutV2({ children }) {
         <div className="text-gray-400 px-5 py-2">
           <Breadcrumb />
         </div>
-        <div className="px-5 pb-5 h-full overflow-scroll"> {children}</div>
+        <div className="px-5 pb-5 h-full"> {children}</div>
         <div>
           <Footer />
         </div>
