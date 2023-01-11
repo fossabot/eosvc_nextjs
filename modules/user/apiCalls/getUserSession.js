@@ -14,7 +14,7 @@ export const getUserSession = async (userEmail, userName) => {
             //how to specify the json to body?
             body: JSON.stringify({
               name: "neznam",
-              username: "userName",
+              username: userName,
               email: userEmail,
               password: process.env.NEXT_PUBLIC_USER_DEFAULT_PASS,
             }),

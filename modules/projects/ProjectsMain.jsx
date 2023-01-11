@@ -10,6 +10,7 @@ import { setActiveBoard } from "../../redux/projects/activeBoardSlice";
 import LoadingSpinner from "../../components/loadings/LoadingSpinner";
 import { getAllBoards } from "./apiCalls/getAllBoards";
 import { getBoard } from "./apiCalls/getBoard";
+import { createBoard } from "./apiCalls/createBoard";
 
 const ProjectsMain = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,21 @@ const ProjectsMain = () => {
   const [sections, setSections] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
   const [icon, setIcon] = useState("");
+  const [newProject, setNewProject] = useState(false);
   // return console.log("stop");
+  const handleDefaultProject = async () => {
+    console.log("Creating Default Project");
+    try {
+      const _id = userId;
+      const title = "Nový projekt";
+      const description = "Popis projektu";
+      await createBoard(_id, title, description);
+      setNewProject(true);
+    } catch (error) {
+      console.log(errors);
+    }
+  };
+
   useEffect(() => {
     const getOneBoard = async (boardId) => {
       try {
@@ -49,49 +64,23 @@ const ProjectsMain = () => {
         }
       } catch (err) {
         alert(err);
+      } finally {
+        setNewProject(false);
       }
     };
     getOneBoard(boardId);
-  }, [boardId]);
-  /*
-  useEffect(() => {
-    try {
-      //setIsLoading(true);
-      const fetchBoards = async (userId) => {
-        console.log("Start fetchBoards");
-        const response = await fetch(`/api/projects/boards/${userId}`);
-        const data = await response.json();
-        console.log(userId, "UserId - ProjectsMain");
-        //const allUserBoards = await getAllBoards(userId);
-        dispatch(setBoards(data));
-      };
-      const fetchActiveBoard = async (userId) => {
-        console.log("Start fetchActiveBoard");
-        const response = await fetch(`/api/projects/boards/${userId}`);
-        const data = await response.json();
-        console.log(data[0], "Data[0] - ProjectsMain");
-        dispatch(setActiveBoard(data[0]));
-      };
-      fetchBoards(userId);
-      fetchActiveBoard(userId);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      dispatch(loadingState(false));
-    }
-  }, []);
-*/
-  //if (isLoading) return <LoadingSpinner message={"Loading Projects ...."} />;
-  //console.log(activeBoard, "ActiveBoard - ProjectsMain");
-  //return console.log("stop");
+  }, [boardId, setNewProject, activeBoard]);
+
   if (!activeBoard)
     return (
-      <div>
+      <div className="h-full ">
         <div>
           <ProjectsHeader />
         </div>
-        <div>
-          <h1> založ první projekt</h1>
+        <div className="flex justify-center items-center pt-5">
+          <button className="my-button-v2" onClick={handleDefaultProject}>
+            Založ první projekt ze šablony
+          </button>
         </div>
       </div>
     );
@@ -103,49 +92,34 @@ const ProjectsMain = () => {
           <h1 className="mx-auto py-2">Projekty</h1>
           <ProjectSidebar boards={boards} />
         </div>
-        <div className="flex flex-col justify-start items-start px-2 border overflow-x-auto">
-          <div className="flex justify-start mx-auto w-full border">
-            <div>
-              <h2 className="text-gray-300 p-2 font-bold bg-slate-900 ">
-                Projekt:
-              </h2>
-            </div>
-            <div className="flex justify-center items-center pl-2">
-              {activeBoard.title}
-            </div>
-          </div>
-          <div className="flex justify-start mx-auto w-full border">
-            <div>
-              <h2 className="text-gray-300 p-2 font-bold bg-slate-900 ">
-                Projekt ID:
-              </h2>
-            </div>
-            <div className="flex justify-center items-center pl-2">
-              {activeBoard._id}
-            </div>
-          </div>
-          <div className="flex justify-start mx-auto w-full border">
-            <div>
-              <h2 className="text-gray-300 p-2 font-bold bg-slate-900 ">
-                Popis projektu:
-              </h2>
-            </div>
-            <div className="flex justify-center items-center pl-2">
-              {activeBoard.description}
+        <div>
+          <div className="text-xs">
+            <div className="flex flex-row justify-start items-start px-2">
+              <div className="flex justify-start items-center w-full h-full mx-auto">
+                <h2 className="text-gray-300 p-2 font-bold bg-slate-900">
+                  Projekt:
+                </h2>
+                <p className="flex justify-center items-center pl-2">
+                  {activeBoard.title}
+                </p>
+              </div>
+
+              <div className="flex justify-start mx-auto w-full">
+                <div>
+                  <h2 className="text-gray-300 p-2 font-bold bg-slate-900 ">
+                    Popis projektu:
+                  </h2>
+                </div>
+                <div className="flex justify-center items-center pl-2">
+                  {activeBoard.description}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex justify-start mx-auto w-full border">
-            <div>
-              <h2 className="text-gray-300 p-2 font-bold bg-slate-900 ">
-                Position:
-              </h2>
+          <div>
+            <div className="pt-2 ">
+              {<Kanban data={sections} boardId={activeBoard._id} />}
             </div>
-            <div className="flex justify-center items-center pl-2">
-              {activeBoard.position}
-            </div>
-          </div>
-          <div className="pt-2 ">
-            {<Kanban data={sections} boardId={activeBoard._id} />}
           </div>
         </div>
       </div>

@@ -6,4 +6,15 @@
   .my-button {
     @apply bg-gray-500 rounded-md justify-center items-center px-4 py-2 text-white text-sm font-bold flex flex-row gap-2;
   }
+  .my-button-v2 {
+    @apply flex w-full justify-center rounded-md border border-transparent bg-slate-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2;
+  }
+  .arrow-up::before {
+    content: "";
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid currentColor;
+    transform: rotate(180deg);
+    display: block;
+  }
 }

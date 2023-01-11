@@ -11,6 +11,8 @@ import TaskModal from "./bck/TaskModal";
 import Task from "./bck/Task";
 import TaskModalRight from "./TaskModalRight";
 import { updateTaskPosition } from "./apiCalls/updateTaskPosition";
+import {} from "@heroicons/react/outline/";
+import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 let timer;
 const timeout = 500;
@@ -154,18 +156,18 @@ const Kanban = (props) => {
 
 */
   return (
-    <div className="flex flex-col border p-2 space-y-2 border-pink-700">
-      <div>
+    <div className="flex flex-col space-y-2">
+      <div className="p-2 text-xs">
         <button className="my-button" onClick={createSection}>
           Add section
         </button>
         <p>{data.length} Sections</p>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-row items-start px-2 gap-2 ">
+        <div className="flex flex-row items-start">
           {data?.map((section, index) => (
             <div
-              className="flex flex-col items-center justify-center text-white h-full w-80 bg-gray-500 p-2 rounded-md"
+              className="flex flex-col items-center justify-center text-gray-600 h-full w-80 "
               key={section._id}
             >
               <Droppable key={section._id} droppableId={section._id}>
@@ -173,22 +175,41 @@ const Kanban = (props) => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="flex flex-col rounded-md border w-full bg-gray-300 p-2 gap-2"
+                    className="flex flex-col  w-full h-full "
                   >
-                    <div className="space-x-1 space-y-2">
-                      {section.title}
-                      <div>
+                    <div className="flex flex-col items-center justify-center py-2">
+                      <div className="flex flex-row w-full border-y">
                         <input
                           type="text"
+                          className="text-slate-900 bg-gray-100 pl-2 "
                           placeholder={section.title}
                           onChange={(e) => updateSectionTitle(e, section._id)}
                         />
-                        <button onClick={() => createTask(section._id)}>
-                          create
-                        </button>
-                        <button onClick={() => deleteSection(section._id)}>
-                          del
-                        </button>
+                        <div className="flex items-center justify-center w-full">
+                          <button onClick={() => deleteSection(section._id)}>
+                            <TrashIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <svg
+                          className="h-full w-6 flex-shrink-0 text-gray-200"
+                          viewBox="0 0 24 44"
+                          preserveAspectRatio="none"
+                          fill="currentColor"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                        </svg>
+                      </div>
+                      <div chlassName="w-full">
+                        <div className="flex flex-row items-center justify-center space-x-5 py-2  w-full">
+                          <button
+                            className="w-80 border justify-center items-center flex flex-row hover:bg-gray-200"
+                            onClick={() => createTask(section._id)}
+                          >
+                            <PlusIcon className="w-6 h-6" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                     {section.tasks.map((task, index) => (
@@ -207,9 +228,11 @@ const Kanban = (props) => {
                               setOpen(true);
                             }}
                             cursor={snapshot.isDragging ? "grabbing" : "grab"}
-                            className="flex flex-col items-start justify-center text-xs p-2 bg-gray-500 rounded-md"
+                            className="flex flex-col items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-red-200"
                           >
-                            <h1>TaskId: {task._id}</h1>
+                            <h1 className="font-bold text-sm text-slate-900">
+                              TaskId: {task._id}
+                            </h1>
                             <h2>
                               {task.title === "" ? "Untitled" : task.title}
                             </h2>
