@@ -273,7 +273,7 @@ export default function Login() {
             <div></div>
           </div>
           <div>
-            <p className="hidden text-white">hello</p>
+            <p className=" text-white">hello</p>
           </div>
           <div className="flex flex-row bg-white  h-8 justify-center items-center w-full text-xs text-gray-500 p-5">
             <div className="pr-5">
