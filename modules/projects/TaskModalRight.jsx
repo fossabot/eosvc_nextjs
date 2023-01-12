@@ -8,6 +8,9 @@ import {
 } from "@heroicons/react/20/solid";
 import { deleteTask } from "./apiCalls/deleteTask";
 import Moment from "moment";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { updateTaskTitle } from "./apiCalls/updateTask";
 
 const team = [
   {
@@ -60,6 +63,14 @@ export default function Example(props) {
   const editorWrapperRef = useRef();
   const [open, setOpen] = useState(true);
 
+  //TipTap
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: content,
+  });
+
+  //End TipTap
+
   useEffect(() => {
     setTask(props.task);
     setTitle(props.task !== undefined ? props.task.title : "");
@@ -80,14 +91,35 @@ export default function Example(props) {
     props.onClose();
   };
 
+  //Done
   const handelDeleteTask = async () => {
+    console.log(task._id, "task._id to delete");
     try {
-      await deleteTask(boardId, task.id);
+      await deleteTask(boardId, task._id);
       props.onDelete(task);
       setTask(undefined);
+      props.onClose();
     } catch (err) {
       alert(err);
     }
+  };
+
+  //Done
+  const handelUpdateTitle = async (e) => {
+    clearTimeout(timer);
+    const newTitle = e.target.value;
+    timer = setTimeout(async () => {
+      try {
+        //await taskApi.update(boardId, task._id, { title: newTitle });
+        await updateTaskTitle(task._id, { title: newTitle });
+      } catch (err) {
+        alert(err);
+      }
+    }, timeout);
+
+    task.title = newTitle;
+    setTitle(newTitle);
+    props.onUpdate(task);
   };
 
   if (task !== undefined)
@@ -152,7 +184,7 @@ export default function Example(props) {
                         <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
                           {/* Project name */}
                           <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                            <div>
+                            <div className="flex items-center justify-center">
                               <label
                                 htmlFor="project-name"
                                 className="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2"
@@ -160,14 +192,16 @@ export default function Example(props) {
                                 Název úkolu
                               </label>
                             </div>
-                            <div className="sm:col-span-2">
+                            <div className="flex items-center justify-center sm:col-span-2">
                               <input
                                 type="text"
-                                name="project-name"
-                                id="project-name"
+                                value={title}
+                                placeholder={
+                                  task.title === "" ? "Untitled" : task.title
+                                }
+                                onChange={handelUpdateTitle}
                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               />
-                              {task.title === "" ? "Untitled" : task.title}
                             </div>
                           </div>
                           <div className="flex flex-row ">
@@ -198,6 +232,10 @@ export default function Example(props) {
                                 defaultValue={""}
                               />
                             </div>
+                            <div>
+                              <h1>TipTap</h1>
+                              <EditorContent editor={editor} />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -214,6 +252,17 @@ export default function Example(props) {
                             }}
                           >
                             Cancel
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded-md border border-gray-300 bg-red-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                            onClick={() => {
+                              setOpen;
+                              handelDeleteTask(task._id);
+                              onClose();
+                            }}
+                          >
+                            Smazat
                           </button>
                           <button type="submit" className="my-button-v2">
                             Uložit

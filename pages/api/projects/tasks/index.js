@@ -1,6 +1,6 @@
 import connectMongo from "../../../../database/conn";
 import { addTask } from "../../../../database/controllers/projects/tasks/addTask";
-import { updateTask } from "../../../../database/controllers/projects/tasks/updateTask";
+import { updateTaskTitle } from "../../../../database/controllers/projects/tasks/updateTaskTitle";
 import { deleteTask } from "../../../../database/controllers/projects/tasks/deleteTask";
 
 export default async function handler(req, res) {
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       addTask(req, res);
       break;
     case "PUT":
-      updateTask(req, res);
+      updateTaskTitle(req, res);
       break;
     case "DELETE":
       deleteTask(req, res);

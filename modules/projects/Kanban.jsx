@@ -142,11 +142,12 @@ const Kanban = (props) => {
     }
   };
 
+  //Done
   const onUpdateTask = (task) => {
     const newData = [...data];
-    const sectionIndex = newData.findIndex((e) => e.id === task.section.id);
+    const sectionIndex = newData.findIndex((e) => e._id === task.section._id);
     const taskIndex = newData[sectionIndex].tasks.findIndex(
-      (e) => e.id === task.id
+      (e) => e._id === task._id
     );
     newData[sectionIndex].tasks[taskIndex] = task;
     setData(newData);
@@ -228,7 +229,7 @@ const deleteTask = async () => {
                           <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
                         </svg>
                       </div>
-                      <div chlassName="w-full">
+                      <div className="w-full">
                         <div className="flex flex-row items-center justify-center space-x-5 py-2  w-full">
                           <button
                             className="w-80 border justify-center items-center flex flex-row hover:bg-gray-200"
@@ -280,13 +281,13 @@ const deleteTask = async () => {
               </Droppable>
             </div>
           ))}
-          <div className="flex justify-start border-y  mt-2 items-start w-full pb-2 pt-3">
+          <div className="flex justify-start border-y  mt-2 items-start w-full pb-2 pt-3 ">
             <div
               className="flex flex-row space-x-3 w-80"
               onClick={handelCreateSection}
             >
               <PlusIcon className="w-6 h-6 text-gray-600/50" />
-              <p className="text-gray-500"> New section</p>
+              <p className="text-gray-500"> Přidat novou sekci</p>
             </div>
           </div>
         </div>
