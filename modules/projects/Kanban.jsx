@@ -291,16 +291,15 @@ const deleteTask = async () => {
           </div>
         </div>
       </DragDropContext>
-      {open && (
-        <TaskModalRight
-          open={open}
-          task={selectedTask}
-          boardId={boardId}
-          onClose={() => setSelectedTask(undefined)}
-          onUpdate={onUpdateTask}
-          onDelete={onDeleteTask}
-        />
-      )}
+      <TaskModalRight
+        task={selectedTask}
+        show={true}
+        boardId={boardId}
+        onClose={() => setSelectedTask(undefined)}
+        onUpdate={onUpdateTask}
+        onDelete={onDeleteTask}
+      />
+
       <Task />
     </div>
   );
