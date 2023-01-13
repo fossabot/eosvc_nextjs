@@ -299,8 +299,6 @@ const deleteTask = async () => {
         onUpdate={onUpdateTask}
         onDelete={onDeleteTask}
       />
-
-      <Task />
     </div>
   );
 };
