@@ -87,7 +87,7 @@ export default function Example(props) {
   //Done
   const onClose = () => {
     isModalClosed = true;
-    //props.onUpdate(task);
+    props.onUpdate(task);
     props.onClose();
   };
 
