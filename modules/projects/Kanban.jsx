@@ -15,6 +15,7 @@ import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { deleteSection } from "./apiCalls/deleteSection";
 import { createSection } from "./apiCalls/createSection";
 import { deleteTask } from "./apiCalls/deleteTask";
+import TipTapEditor from "../../components/tipTapEditor/TipTapEditor";
 
 let timer;
 const timeout = 500;
@@ -269,6 +270,9 @@ const deleteTask = async () => {
                             </div>
                             <div>
                               <p className="">TaskId: {task._id}</p>
+                            </div>
+                            <div>
+                              <TipTapEditor content={task.content} />
                             </div>
                           </div>
                         )}

@@ -1,88 +1,52 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  LinkIcon,
-  PlusIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/20/solid";
 import { deleteTask } from "./apiCalls/deleteTask";
 import Moment from "moment";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { updateTaskTitle } from "./apiCalls/updateTask";
+import { updateTaskTitle } from "./apiCalls/updateTaskTitle";
+import dynamic from "next/dynamic";
+import { updateTask } from "./apiCalls/updateTask";
 
-const team = [
-  {
-    name: "Tom Cook",
-    email: "tom.cook@example.com",
-    href: "#",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Whitney Francis",
-    email: "whitney.francis@example.com",
-    href: "#",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Leonard Krasner",
-    email: "leonard.krasner@example.com",
-    href: "#",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Floyd Miles",
-    email: "floyd.miles@example.com",
-    href: "#",
-    imageUrl:
-      "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Emily Selman",
-    email: "emily.selman@example.com",
-    href: "#",
-    imageUrl:
-      "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
-
-let timer;
+let timer = null;
 const timeout = 500;
 let isModalClosed = false;
 
 export default function Example(props) {
-  console.log(props, "props TaskModalRight");
+  //console.log(props, "props TaskModalRight");
   const boardId = props.boardId;
   const [task, setTask] = useState(props.task);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const editorWrapperRef = useRef();
+  //const [newContent, setNewContent] = useState("");
+  //const editorWrapperRef = useRef();
   const [open, setOpen] = useState(true);
-
-  //TipTap
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: content,
+  const Editor = dynamic(() => import("../../components/ckEditor/myEditor"), {
+    ssr: false,
   });
-
-  //End TipTap
 
   useEffect(() => {
     setTask(props.task);
     setTitle(props.task !== undefined ? props.task.title : "");
     setContent(props.task !== undefined ? props.task.content : "");
-    /*
-    if (props.task !== undefined) {
-      isModalClosed = false;
-
-      updateEditorHeight();
-    }
-    */
   }, [props.task]);
+
+  //Done
+  const handelUpdateContent = async (e) => {
+    clearTimeout(timer);
+    const newContent = e.target.value;
+    timer = setTimeout(async () => {
+      try {
+        //await taskApi.update(boardId, task._id, { title: newTitle });
+        await updateTask(task._id, { content: newContent });
+      } catch (err) {
+        alert(err);
+      }
+    }, timeout);
+
+    task.content = newContent;
+    setContent(newContent);
+    props.onUpdate(task);
+  };
 
   //Done
   const onClose = () => {
@@ -149,7 +113,7 @@ export default function Example(props) {
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-2xl">
                     <form className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                      <div className="flex-1">
+                      <div className="flex-1 w-full">
                         {/* Header */}
                         <div className="bg-gray-50 px-4 py-6 sm:px-6">
                           <div className="flex items-start justify-between space-x-3">
@@ -183,16 +147,16 @@ export default function Example(props) {
                         {/* Divider container */}
                         <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
                           {/* Project name */}
-                          <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5 ">
                             <div className="flex items-center justify-center">
                               <label
                                 htmlFor="project-name"
-                                className="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2"
+                                className=" text-sm font-bold text-gray-900  "
                               >
                                 Název úkolu
                               </label>
                             </div>
-                            <div className="flex items-center justify-center sm:col-span-2">
+                            <div className="flex items-center justify-center sm:col-span-2 border border-gray-300 rounded-md p-2">
                               <input
                                 type="text"
                                 value={title}
@@ -200,7 +164,7 @@ export default function Example(props) {
                                   task.title === "" ? "Untitled" : task.title
                                 }
                                 onChange={handelUpdateTitle}
-                                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                               />
                             </div>
                           </div>
@@ -214,7 +178,7 @@ export default function Example(props) {
                           </div>
 
                           {/* Project description */}
-                          <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <div className="w-full space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
                             <div>
                               <label
                                 htmlFor="project-description"
@@ -223,19 +187,27 @@ export default function Example(props) {
                                 Popis úkolu
                               </label>
                             </div>
-                            <div className="sm:col-span-2">
-                              <textarea
-                                id="project-description"
-                                name="project-description"
-                                rows={3}
-                                className="block w-full rounded-md border-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                defaultValue={""}
-                              />
-                            </div>
-                            <div>
-                              <h1>TipTap</h1>
-                              <EditorContent editor={editor} />
-                            </div>
+                          </div>
+                          <div className="flex justify-center items-center w-full p-5">
+                            {/* Editor
+                            <Editor
+                              value={content}
+                              className="w-full h-96"
+                              onChange={(v) => {
+                                console.log(v);
+                                () => setNewContent(v);
+                              }}
+                            />
+                            */}
+                            <input
+                              type="text"
+                              value={content}
+                              placeholder={
+                                task.content === "" ? "Untitled" : task.content
+                              }
+                              onChange={handelUpdateContent}
+                              className="px-5 w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                            />
                           </div>
                         </div>
                       </div>
