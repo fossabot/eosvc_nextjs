@@ -4,6 +4,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import { Roboto } from "@next/font/google";
+
 //import dotenv from "dotenv";
 
 // If loading a variable font, you don't need to specify the font weight

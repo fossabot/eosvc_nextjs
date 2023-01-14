@@ -6,7 +6,7 @@ import connectMongo from "../../../database/conn";
 import Users from "../../../model/User/User";
 import { compare } from "bcryptjs";
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     // Google Provider
     GoogleProvider({
@@ -49,4 +49,6 @@ export default NextAuth({
   session: {
     strategy: "jwt",
   },
-});
+};
+
+export default NextAuth(authOptions);

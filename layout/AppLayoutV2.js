@@ -9,7 +9,7 @@ function AppLayoutV2({ children }) {
       <div>
         <Sidebar />
       </div>
-      <div className="flex flex-col mx-auto w-full h-full ">
+      <div className="flex flex-col mx-auto w-full h-full overflow-hidden ">
         <div className="h-20">
           <Header />
         </div>
