@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { getEmployees } from "../../modules/employee/getEmployees";
 import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../../modules/documents/images/getImages";
-import { getAllBoards } from "../../modules/projects/apiCalls/getAllBoards";
+import { getAllUserBoards } from "../../modules/projects/apiCalls/getAllUserBoards";
 import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";
 import LoadingSpinner from "../loadings/LoadingSpinner";
@@ -30,7 +30,7 @@ function Main() {
 
   const { data: projectsData, isLoading: isLoadingProjects } = useQuery(
     "projects",
-    () => getAllBoards(session._id)
+    () => getAllUserBoards(session._id)
   );
 
   //wait for data to be fetched

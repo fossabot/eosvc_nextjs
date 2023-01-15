@@ -1,8 +1,7 @@
 import connectMongo from "../../../../database/conn";
 import { addBoard } from "../../../../database/controllers/projects/boards/addBoard";
-import { updateBoard } from "../../../../database/controllers/projects/boards/updateBoard";
 import { deleteBoard } from "../../../../database/controllers/projects/boards/deleteBoard";
-import { getBoards } from "../../../../database/controllers/projects/boards/getBoards";
+import { getAllBoards } from "../../../../database/controllers/projects/boards/getAllBoards";
 
 export default async function handler(req, res) {
   connectMongo().catch(() =>
@@ -14,13 +13,10 @@ export default async function handler(req, res) {
 
   switch (method) {
     case "GET":
-      getBoards(req, res);
+      getAllBoards(req, res);
       break;
     case "POST":
       addBoard(req, res);
-      break;
-    case "PUT":
-      updateBoard(req, res);
       break;
     case "DELETE":
       deleteBoard(req, res);

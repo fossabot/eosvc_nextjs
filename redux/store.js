@@ -7,6 +7,7 @@ import sectionReducer from "./projects/sectionSlice";
 import activeBoardReducer from "./projects/activeBoardSlice";
 import favouriteReducer from "./features/favouriteSlice";
 import userReducer from "./userSlice";
+import projectStateSlice from "./toggleProjects";
 import secondBrainReducer from "./secondBrain/secondBrainSlice";
 import sessionReducer from "./sessionSlice";
 import loadingReducer from "./loadingSlice";
@@ -22,6 +23,7 @@ export const store = configureStore({
     activeBoard: activeBoardReducer,
     favourites: favouriteReducer,
     user: userReducer,
+    projectState: projectStateSlice,
     secondBrain: secondBrainReducer,
     session: sessionReducer,
     loading: loadingReducer,

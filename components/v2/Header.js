@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const session = useSelector((state) => state.session);
-  console.log(session, "session Header");
+  //console.log(session, "session Header");
 
   return (
     <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">
       <div className="flex flex-auto justify-center items-center">
-        <div className="flex flex-row gap-2">
+        <div className="hidden md:flex flex-row gap-2">
           <MagnifyingGlassIcon className="text-gray-600 w-5" />
           <input
             className="rounded-md px-2 py-2 mx-auto"
@@ -26,7 +26,6 @@ function Header() {
             alt="User img"
             referrerPolicy="no-referrer"
           />
-          {}
         </Link>
       </div>
       <div className="flex flex-col items-end ">

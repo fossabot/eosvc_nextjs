@@ -1,5 +1,4 @@
 import connectMongo from "../../../../../database/conn";
-import { updateBoard } from "../../../../../database/controllers/projects/boards/updateBoard";
 import { deleteBoard } from "../../../../../database/controllers/projects/boards/deleteBoard";
 import { getBoard } from "../../../../../database/controllers/projects/boards/getBoard";
 
@@ -14,9 +13,6 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       getBoard(req, res);
-      break;
-    case "PUT":
-      updateBoard(req, res);
       break;
     case "DELETE":
       deleteBoard(req, res);
