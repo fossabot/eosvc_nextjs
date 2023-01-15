@@ -12,6 +12,7 @@ export const addTask = async (req, res) => {
     console.log(tasksCount, "taskCount");
     const task = await Tasks.create({
       section: sectionId,
+      createdAt: Date.now(),
       position: tasksCount > 0 ? tasksCount : 0,
     });
     task._doc.section = section;

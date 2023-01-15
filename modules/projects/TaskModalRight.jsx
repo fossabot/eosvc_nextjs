@@ -168,24 +168,80 @@ export default function Example(props) {
                               />
                             </div>
                           </div>
-                          <div className="flex flex-row ">
-                            <div className="px-4 sm:px-6">Vytvořen:</div>
-                            <div>
-                              {Moment(task.createdAt).format(
-                                "YYYY-MM-DD-HH:mm"
-                              )}
+                          <div className="flex flex-col text-sm py-2">
+                            <div className="flex flex-row">
+                              <div className="px-4 sm:px-6 font-bold">
+                                Vytvořen:
+                              </div>
+                              <div>
+                                {Moment(task.createdAt).format(
+                                  "YYYY-MM-DD-HH:mm"
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex flex-row">
+                              <div className="px-4 sm:px-6 font-bold">
+                                Naposledy editováno:
+                              </div>
+                              <div>
+                                {Moment(task.lastEditedAt).format(
+                                  "YYYY-MM-DD-HH:mm"
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex flex-row">
+                              <div className="px-4 sm:px-6 font-bold">
+                                Termín dokončení:
+                              </div>
+                              <div>
+                                {task.dueDateAt === null
+                                  ? "Termín není definován"
+                                  : Moment(task.dueDateAt).format(
+                                      "YYYY-MM-DD-HH:mm"
+                                    )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex flex-col text-sm py-2">
+                            <div className="flex flex-row">
+                              <div className="px-4 sm:px-6 font-bold">
+                                Priorita:
+                              </div>
+                              <div>
+                                <select name="" id="priority">
+                                  <option value="low">low</option>
+                                  <option value="normal" selected>
+                                    normal
+                                  </option>
+                                  <option value="high">high</option>
+                                  <option value="critical">critical</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
 
                           {/* Project description */}
-                          <div className="w-full space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <div className="w-full border border-green-300 space-y-1 px-4">
                             <div>
                               <label
                                 htmlFor="project-description"
-                                className="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2"
+                                className="block text-sm font-bold text-gray-900 sm:mt-px sm:pt-2"
                               >
-                                Popis úkolu
+                                Popis úkolu:
                               </label>
+                            </div>
+                            <div className="w-full">
+                              <textarea
+                                type="text"
+                                value={content}
+                                placeholder={
+                                  task.content === ""
+                                    ? "Untitled"
+                                    : task.content
+                                }
+                                onChange={handelUpdateContent}
+                                className="w-full rounded-md p-2 border border-gray-300 shadow-sm sm:text-sm"
+                              />
                             </div>
                           </div>
                           <div className="flex justify-center items-center w-full p-5">
@@ -199,15 +255,6 @@ export default function Example(props) {
                               }}
                             />
                             */}
-                            <input
-                              type="text"
-                              value={content}
-                              placeholder={
-                                task.content === "" ? "Untitled" : task.content
-                              }
-                              onChange={handelUpdateContent}
-                              className="px-5 w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                            />
                           </div>
                         </div>
                       </div>

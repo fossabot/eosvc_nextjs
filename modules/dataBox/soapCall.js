@@ -1,6 +1,4 @@
-const axios = require("axios");
-
-const getMessageList = async () => {
+export const getMessageList = async () => {
   try {
     // Nastavíme hlavičky požadavku
     const headers = {
@@ -52,7 +50,7 @@ const getMessageList = async () => {
 
     // Odešleme požadavek na API datových schránek pomocí funkce fetch
     const response = await fetch(
-      "https://isds.czechpoint.cz/DataBox/services/REST/GetMessageList/v1",
+      "https://ws1.mojedatovaschranka.cz/DataBox/services/REST/GetMessageList/v1",
       {
         method: "POST",
         headers: headers,

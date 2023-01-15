@@ -26,7 +26,7 @@ const ProjectSidebar = ({ boards }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    const activeItem = boards.findIndex((e) => e.id === boardId);
+    const activeItem = boards.findIndex((e) => e._id === boardId);
     if (boards.length > 0 && boardId === undefined) {
       //navigate(`/boards/${boards[0].id}`);
       dispatch(setActiveBoard(boards[0]));
@@ -40,7 +40,7 @@ const ProjectSidebar = ({ boards }) => {
     const [removed] = newList.splice(source.index, 1);
     newList.splice(destination.index, 0, removed);
 
-    const activeItem = newList.findIndex((e) => e.id === boardId);
+    const activeItem = newList.findIndex((e) => e._id === boardId);
     console.log(activeItem, "ActiveItem");
     setActiveIndex(activeItem);
     console.log(newList, "NewList");

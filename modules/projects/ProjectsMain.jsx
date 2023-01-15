@@ -92,7 +92,7 @@ const ProjectsMain = () => {
           <h1 className="mx-auto py-2">Projekty</h1>
           <ProjectSidebar boards={boards} />
         </div>
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full overflow-hidden">
           <div className="text-xs">
             <div className="flex flex-col justify-start items-start px-2">
               <div className="flex justify-start items-center w-full h-full mx-auto">

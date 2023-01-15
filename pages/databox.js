@@ -2,7 +2,6 @@ import Head from "next/head";
 import { getSession, useSession, signOut } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-import ModulNotReady from "../components/v2/ModulNotReady";
 import PageTemplate from "../components/v2/PageTemplate";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -10,6 +9,8 @@ import { useSelector } from "react-redux";
 import { getSessionAsync } from "../redux/sessionSlice";
 import { getUserSession } from "../modules/user/apiCalls/getUserSession";
 import { loadingState } from "../redux/loadingSlice";
+import DataBoxMain from "../modules/dataBox/DataBoxMain";
+import LoadingSpinner from "../components/loadings/LoadingSpinner";
 
 const pageTitle = "Datová schránka";
 
@@ -55,7 +56,7 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        <ModulNotReady />
+        <DataBoxMain />
       </PageTemplate>
     </AppLayoutV2>
   );

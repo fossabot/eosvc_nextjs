@@ -11,7 +11,11 @@ import { addTask } from "./apiCalls/addTask";
 import TaskModalRight from "./TaskModalRight";
 import { updateTaskPosition } from "./apiCalls/updateTaskPosition";
 import {} from "@heroicons/react/outline/";
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  ExclamationCircleIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { deleteSection } from "./apiCalls/deleteSection";
 import { createSection } from "./apiCalls/createSection";
 import { deleteTask } from "./apiCalls/deleteTask";
@@ -201,7 +205,7 @@ const deleteTask = async () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="flex flex-col  w-full h-full "
+                    className="flex flex-col  w-full h-full z-0"
                   >
                     <div className="flex flex-col items-center justify-center py-2">
                       <div className="flex flex-row w-full border-y">
@@ -262,17 +266,37 @@ const deleteTask = async () => {
                               <h2 className="font-bold text-sm text-slate-900">
                                 {task.title === "" ? "Untitled" : task.title}
                               </h2>
-
+                              {task.dueDateAt > Date.now() && (
+                                <ExclamationCircleIcon className="w-4 h-4 text-red-500" />
+                              )}
                               <TrashIcon
                                 className="w-4 h-4"
                                 onClick={() => handelDeleteTask(task)}
                               />
                             </div>
                             <div>
-                              <p className="">TaskId: {task._id}</p>
+                              <p
+                                className={
+                                  task.priority === "normal"
+                                    ? `text-yellow-500`
+                                    : task.priority === "high"
+                                    ? `text-red-500`
+                                    : task.priority === "low"
+                                    ? `text-green-500`
+                                    : `text-slate-600`
+                                }
+                              >
+                                Priorita: {task.priority}
+                              </p>
                             </div>
                             <div>
-                              <TipTapEditor content={task.content} />
+                              {/*}
+                              <TipTapEditor
+                                content={task.content}
+                                
+                              />
+                              */}
+                              <p className="line-clamp-2">{task.content}</p>
                             </div>
                           </div>
                         )}

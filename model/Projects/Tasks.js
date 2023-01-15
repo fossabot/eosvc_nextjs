@@ -8,6 +8,27 @@ const taskSchema = new Schema(
       ref: "Sections",
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      required: true,
+    },
+    lastEditedAt: {
+      type: Date,
+      default: "",
+    },
+    dueDateAt: {
+      type: Date,
+      default: "",
+    },
+    priority: {
+      type: String,
+      default: "normal",
+    },
+    tags: {
+      type: Array,
+      default: [],
+    },
     title: {
       type: String,
       default: "",

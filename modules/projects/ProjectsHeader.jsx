@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import NewProjectForm from "./NewProjectForm";
-import { createSection } from "./apiCalls/createSection";
 import { deleteProject } from "./apiCalls/deleteProject";
 
 function ProjectsHeader() {
@@ -12,13 +11,6 @@ function ProjectsHeader() {
   //State for addProject Modal
   const [visible, setVisible] = useState(false);
 
-  //Function for adding new section to project
-  /*
-  const addSection = () => {
-    console.log(activeBoard._id, "board id");
-    createSection(activeBoard._id);
-  };
-*/
   const handleDeleteProject = () => {
     console.log(activeBoard._id, "Delete board id");
     deleteProject(activeBoard._id);
