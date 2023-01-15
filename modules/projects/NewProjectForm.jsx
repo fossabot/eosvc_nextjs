@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { createBoard } from "./apiCalls/createBoard";
+import { toggleReloadMenu } from "../../redux/toggleProjects";
+import { useDispatch } from "react-redux";
 
 const NewProjectForm = ({ visible, onFinish }) => {
+  const dispatch = useDispatch();
   const { _id } = useSelector((state) => state.session);
+  const reloadMenu = useSelector((state) => state.projectState.menu.toggleMenu);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -20,6 +24,7 @@ const NewProjectForm = ({ visible, onFinish }) => {
         "handleCreateBoard - inside NewProjectFrom"
       );
       await createBoard(_id, title, description);
+      dispatch(toggleReloadMenu(!reloadMenu));
       onFinish();
     } catch (error) {
       console.log(errors);
