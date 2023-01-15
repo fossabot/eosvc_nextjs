@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { toggleView } from "../../redux/secondBrain/secondBrainSlice";
-import { addTodo } from "./apiCall/addTodo";
+import { addTodos } from "./apiCall/addTodos";
 
 const AddTodo = () => {
   const { _id: userId } = useSelector((state) => state.session);
@@ -16,7 +16,7 @@ const AddTodo = () => {
     e.preventDefault();
     console.log(e, "Submitted");
     dispatch(
-      addTodo({
+      addTodos({
         userId: userId,
         title: title,
         description: description,
