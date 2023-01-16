@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 
@@ -5,13 +6,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function TodoList() {
-  const todos = useSelector((state) => state.secondBrain.todo.todoList);
+export default function TodoList({ todos }) {
   console.log(todos, "todos");
   //return console.log("stop");
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-4 sm:px-6 lg:px-8 overflow-auto">
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -40,7 +40,10 @@ export default function TodoList() {
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300"
-                    ></th>
+                    >
+                      URL
+                    </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300"
@@ -62,7 +65,7 @@ export default function TodoList() {
                         )}
                       >
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {todo.id}
+                          {todo._id}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {todo.title}
@@ -71,7 +74,7 @@ export default function TodoList() {
                           {todo.description}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {todo.completed}
+                          <Link href={todo.url}> {todo.url}</Link>
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                           <a

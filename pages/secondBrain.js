@@ -2,7 +2,7 @@ import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-import ModulNotReady from "../components/v2/ModulNotReady";
+
 import PageTemplate from "../components/v2/PageTemplate";
 import { useDispatch } from "react-redux";
 import { getSessionAsync } from "../redux/sessionSlice";
