@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
-import { QueryClientProvider, QueryClient } from "react-query";
+//import { QueryClientProvider, QueryClient } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import { Roboto } from "@next/font/google";

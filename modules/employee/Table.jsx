@@ -1,6 +1,6 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import { getEmployees } from "./getEmployees";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import {
   toggleChangeAction,
@@ -10,10 +10,10 @@ import {
 
 export default function Table() {
   //Fetch data from API and store in cache
-  const { isLoading, isError, data, error } = useQuery(
-    "employee",
-    getEmployees
-  );
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["employee"],
+    queryFn: getEmployees,
+  });
 
   if (isLoading) return <div>Loading ...</div>;
   if (isError) return <div>Error: {error}</div>;

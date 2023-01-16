@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+//import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getEmployees } from "../../modules/employee/getEmployees";
 import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../../modules/documents/images/getImages";
@@ -15,23 +16,23 @@ function Main() {
   console.log(session._id, "session - Main");
 
   //Fetch data from API backend and store in cache
-  const { data: accountsData, isLoading: isLoadingAccounts } = useQuery(
-    "accounts",
-    getAccounts
-  );
-  const { data: employeesData, isLoading: isLoadingEmployee } = useQuery(
-    "employees",
-    getEmployees
-  );
-  const { data: imgData, isLoading: isLoadingImg } = useQuery(
-    "images",
-    getImages
-  );
+  const { data: accountsData, isLoading: isLoadingAccounts } = useQuery({
+    queryKey: ["accounts"],
+    queryFn: getAccounts,
+  });
+  const { data: employeesData, isLoading: isLoadingEmployee } = useQuery({
+    queryKey: ["employees"],
+    queryFn: getEmployees,
+  });
+  const { data: imgData, isLoading: isLoadingImg } = useQuery({
+    queryKey: ["images"],
+    queryFn: getImages,
+  });
 
-  const { data: projectsData, isLoading: isLoadingProjects } = useQuery(
-    "projects",
-    () => getAllUserBoards(session._id)
-  );
+  const { data: projectsData, isLoading: isLoadingProjects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: () => getAllUserBoards(session._id),
+  });
 
   //wait for data to be fetched
   if (

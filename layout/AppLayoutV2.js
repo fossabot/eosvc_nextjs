@@ -5,19 +5,19 @@ import Breadcrumb from "../utils/breadcrumb";
 
 function AppLayoutV2({ children }) {
   return (
-    <div className="flex flex-row mx-auto w-full h-screen">
+    <div className="flex flex-row mx-auto w-full h-screen justify-between">
       <div>
         <Sidebar />
       </div>
-      <div className="flex flex-col mx-auto w-full h-full overflow-hidden ">
-        <div className="h-20">
+      <div className="flex flex-col mx-auto w-full h-full overflow-hidden  ">
+        <div className="h-20 sticky top-0 ">
           <Header />
         </div>
         <div className="text-gray-400 px-5 py-2">
           <Breadcrumb />
         </div>
-        <div className="px-5 pb-5 h-full"> {children}</div>
-        <div>
+        <div className="px-5 pb-5 h-full overflow-y-auto"> {children}</div>
+        <div className="sticky">
           <Footer />
         </div>
       </div>

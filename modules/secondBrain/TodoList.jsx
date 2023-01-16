@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -9,6 +16,10 @@ function classNames(...classes) {
 export default function TodoList({ todos }) {
   console.log(todos, "todos");
   //return console.log("stop");
+
+  const handelDeleteTodo = (id) => {
+    console.log("Delete TaskID: ", id);
+  };
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 overflow-auto">
@@ -65,24 +76,30 @@ export default function TodoList({ todos }) {
                         )}
                       >
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {todo._id}
+                          {todo._id.substring(0, 3) +
+                            "..." +
+                            todo._id.substring(todo._id.length - 3)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {todo.title}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {todo.description}
+                          {todo.description.substring(0, 60) + " ..."}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          <Link href={todo.url}> {todo.url}</Link>
+                          <Link href={todo.url}>
+                            {" "}
+                            {todo.url.substring(0, 40) + " ..."}
+                          </Link>
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                          </a>
+                          <div className="flex flex-row gap-3">
+                            <PencilSquareIcon className="w-4 h-4" />
+                            <TrashIcon
+                              className="w-4 h-4"
+                              onClick={() => handelDeleteTodo(todo._id)}
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}

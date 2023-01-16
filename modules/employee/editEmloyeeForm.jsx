@@ -2,7 +2,7 @@ import { BiBrush } from "react-icons/bi";
 import Success from "../../components/utils/success";
 import { getEmployee } from "./getEmployee";
 import Error from "../../components/utils/error";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toggleChangeAction } from "../../redux/reducer";
 import { getEmployees } from "./getEmployees";
 import { updateEmployee } from "./updateEmployee";
@@ -12,21 +12,22 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   //Fetch data using React Query
-  const { isLoading, isError, data, error } = useQuery(
-    ["employee", formId],
-    () => getEmployee(formId)
-  );
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["employee", formId],
+    queryFn: () => getEmployee(formId),
+  });
 
-  const UpdateMutation = useMutation(
-    (newData) => updateEmployee(formId, newData),
-    {
-      onSuccess: async (data) => {
-        // queryClient.setQueryData('users', (old) => [data])
-        queryClient.prefetchQuery("employee", getEmployees);
-        dispatch(toggleChangeAction());
-      },
-    }
-  );
+  const UpdateMutation = useMutation({
+    mutationFn: (newData) => updateEmployee(formId, newData),
+    onSuccess: async (data) => {
+      // queryClient.setQueryData('users', (old) => [data])
+      queryClient.prefetchQuery({
+        queryKey: ["employee"],
+        queryFn: getEmployees,
+      });
+      dispatch(toggleChangeAction());
+    },
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <Error>Error</Error>;

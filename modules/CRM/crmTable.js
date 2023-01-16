@@ -1,6 +1,6 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import { getAccounts } from "./Accounts/getAccounts";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import {
   toggleChangeActionAccount,
@@ -10,7 +10,11 @@ import {
 
 export default function CrmTable() {
   //Fetch data from API and store in cache
-  const { isLoading, isError, data, error } = useQuery("accounts", getAccounts);
+  //const { isLoading, isError, data, error } = useQuery("accounts", getAccounts);
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["accounts"],
+    queryFn: getAccounts,
+  });
 
   if (isLoading) return <div>Loading ...</div>;
   if (isError) return <div>Error: {error}</div>;

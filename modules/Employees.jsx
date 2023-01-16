@@ -4,7 +4,7 @@ import Form from "./employee/form";
 import { BiX, BiCheck } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleChangeAction, deleteAction } from "../redux/reducer";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { deleteEmployee } from "./employee/deleteEmployee";
 import { getEmployees } from "./employee/getEmployees";
 
@@ -24,7 +24,10 @@ export default function Employees() {
   const deletehandler = async () => {
     if (deleteId) {
       await deleteEmployee(deleteId);
-      await queryclient.prefetchQuery("employee", getEmployees);
+      await queryclient.prefetchQuery({
+        queryKey: ["employee"],
+        queryFn: getEmployees,
+      });
       await dispatch(deleteAction(null));
     }
   };

@@ -2,7 +2,7 @@ import { BiBrush } from "react-icons/bi";
 import Success from "../../../components/utils/success";
 import { getAccount } from "./getAccount";
 import Error from "../../../components/utils/error";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toggleChangeActionAccount } from "../../../redux/reducer";
 import { getAccounts } from "./getAccounts";
 import { updateAccount } from "./updateAccount";
@@ -13,24 +13,25 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
   const dispatch = useDispatch();
 
   //Fetch data using React Query
-  const { isLoading, isError, data, error } = useQuery(
-    ["accounts", formId],
-    () => getAccount(formId)
-  );
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["accounts", formId],
+    queryFn: () => getAccount(formId),
+  });
 
-  const UpdateMutation = useMutation(
-    (newData) => updateAccount(formId, newData),
-    {
-      onSuccess: async (data) => {
-        // queryClient.setQueryData('users', (old) => [data])
-        await queryClient.prefetchQuery("accounts", getAccounts);
-        dispatch(toggleChangeActionAccount());
-      },
-    }
-  );
+  const UpdateMutation = useMutation({
+    mutationFn: (newData) => updateAccount(formId, newData),
+    onSuccess: async (data) => {
+      // queryClient.setQueryData('users', (old) => [data])
+      await queryClient.prefetchQuery({
+        queryKey: ["accounts"],
+        queryFn: getAccounts,
+      });
+      dispatch(toggleChangeActionAccount());
+    },
+  });
 
   if (isLoading) return <div>Loading...</div>;
-  if (isSuccess) return <Success>Success</Success>;
+  //if (isSuccess) return <Success>Success</Success>;
   if (isError) return <Error>Error</Error>;
 
   const {
@@ -69,7 +70,7 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
   return (
     <div className="w-full flex mx-auto justify-center items-center">
       <form className="gap-4 w-full flex flex-col justify-center items-center">
-        <div className="flex flex-col w-full p-2">
+        <div className="flex flex-col w-full p-2  overflow-x-scroll">
           <div className="flex flex-col p-2 gap-2">
             <h1>Základní údaje</h1>
             <input

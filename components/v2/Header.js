@@ -7,7 +7,7 @@ function Header() {
   //console.log(session, "session Header");
 
   return (
-    <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end">
+    <div className="flex bg-gray-100 h-full mx-auto px-5 space-x-5 border-b w-full items-center justify-end py-2">
       <div className="flex flex-auto justify-center items-center">
         <div className="hidden md:flex flex-row gap-2">
           <MagnifyingGlassIcon className="text-gray-600 w-5" />

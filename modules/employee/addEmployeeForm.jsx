@@ -1,17 +1,21 @@
 import { BiPlus } from "react-icons/bi";
 import Success from "../../components/utils/success";
 import Error from "../../components/utils/error";
-import { useQueryClient, useMutation } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addEmployee } from "./addEmployee";
 import { getEmployees } from "./getEmployees";
 
 function AddEmployeeForm({ formData, setFormData }) {
   const queryClient = useQueryClient();
 
-  const addMutation = useMutation(addEmployee, {
+  const addMutation = useMutation({
+    mutationFn: addEmployee,
     onSuccess: () => {
       //Auto refetch data from database instead of use cached data
-      queryClient.prefetchQuery("employee", getEmployees);
+      queryClient.prefetchQuery({
+        queryKey: ["employee"],
+        queryFn: getEmployees,
+      });
       console.log("Employee inserted successfully!");
     },
   });

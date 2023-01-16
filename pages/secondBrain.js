@@ -2,11 +2,10 @@ import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
 import AppLayoutV2 from "../layout/AppLayoutV2";
 import { useRouter } from "next/router";
-
 import PageTemplate from "../components/v2/PageTemplate";
 import { useDispatch } from "react-redux";
 import { getSessionAsync } from "../redux/sessionSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getUserSession } from "../modules/user/apiCalls/getUserSession";
 import { useSelector } from "react-redux";
 import { loadingState } from "../redux/loadingSlice";

@@ -1,4 +1,5 @@
-import { useQueryClient } from "react-query";
+//import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import CrmTable from "./crmTable";
@@ -31,7 +32,10 @@ export default function CRM() {
       //Run delete function from Accounts/deleteAccount
       await deleteAccount(deleteId);
       //Refresh data in table with reactQuery
-      await queryclient.prefetchQuery("accounts", getAccounts);
+      await queryclient.prefetchQuery({
+        queryKey: ["accounts"],
+        queryFn: getAccounts,
+      });
       //Set global state to null
       await dispatch(deleteAction(null));
     }
@@ -45,7 +49,7 @@ export default function CRM() {
   //console.log(visible);
 
   return (
-    <main className="w-full px-5 space-y-5">
+    <main className="w-full px-5 space-y-5 ">
       <div className="flex justify-between items-start w-full pt-5">
         <div className="flex">
           <button

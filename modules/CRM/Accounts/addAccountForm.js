@@ -1,34 +1,40 @@
 import { BiPlus } from "react-icons/bi";
 import Success from "../../../components/utils/success";
 import Error from "../../../components/utils/error";
-import { useQueryClient, useMutation } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addAccount } from "./addAccount";
 import { getAccounts } from "./getAccounts";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function AddAccountForm({ formData, setFormData }) {
   const [industry, setIndustry] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setIsLoading(true);
-    async function fetchData() {
-      const response = await fetch("/api/setup/industry/");
-      const data = await response.json();
-      setIndustry(data);
+    try {
+      async function fetchData() {
+        const response = await fetch("/api/setup/industry/");
+        const data = await response.json();
+        setIndustry(data);
+      }
+      fetchData();
+    } catch (error) {
+      alert(error);
+    } finally {
       setIsLoading(false);
     }
-
-    fetchData();
   }, []);
 
-  console.log(industry, "ind");
   const queryClient = useQueryClient();
-
-  const addMutation = useMutation(addAccount, {
+  const addMutation = useMutation({
+    mutationFn: addAccount,
     onSuccess: () => {
       //Auto refetch data from database instead of use cached data
-      queryClient.prefetchQuery("accounts", getAccounts);
+      queryClient.prefetchQuery({
+        queryKey: ["accounts"],
+        queryFn: getAccounts,
+      });
       console.log("Account inserted successfully!");
     },
   });
@@ -105,11 +111,11 @@ function AddAccountForm({ formData, setFormData }) {
     return <Success message={"Nová firma byla přidán"}></Success>;
 
   return (
-    <div className="w-full flex mx-auto justify-center items-center">
+    <div className="w-full flex mx-auto justify-center items-center overflow-auto">
       {isLoading ? (
         <div>Loading</div>
       ) : (
-        <form className="gap-4 w-full flex flex-col justify-center items-center">
+        <form className="gap-4 w-full flex flex-col justify-center items-center overflow-y-scroll">
           <div className="flex flex-col w-full p-2">
             <div className="flex flex-col p-2 gap-2">
               <h1>Základní údaje</h1>
