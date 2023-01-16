@@ -1,28 +1,52 @@
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAllTodos } from "./apiCall/getAllTodos";
+import { deleteTodo } from "./apiCall/deleteTodo";
+import ConfirmDelete from "./modals/ConfirmDelete";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function TodoList({ todos }) {
-  console.log(todos, "todos");
-  //return console.log("stop");
+export default function TodoList() {
+  const [modal, setModal] = useState(false);
+  const [taskId, setTaskId] = useState(null);
+  // Access the client
+  const queryClient = useQueryClient();
 
-  const handelDeleteTodo = (id) => {
+  const { data: todos, isLoading } = useQuery({
+    queryKey: ["todos"],
+    queryFn: getAllTodos,
+  });
+
+  // Mutations
+  const deleteMutation = useMutation({
+    mutationFn: (todoId) => deleteTodo(todoId),
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
+  const handelDeleteTodo = async (id) => {
     console.log("Delete TaskID: ", id);
+    await deleteMutation.mutate(id);
+    setTaskId(null);
   };
+
+  if (isLoading) return console.log("loading");
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 overflow-auto">
+      {modal && (
+        <ConfirmDelete
+          taskId={taskId}
+          onClose={() => setModal(false)}
+          onDelete={() => handelDeleteTodo(taskId)}
+        />
+      )}
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -67,7 +91,7 @@ export default function TodoList({ todos }) {
                   <Fragment key={todos.id}>
                     {todos?.map((todo, todoIndex) => (
                       <tr
-                        key={todo.id}
+                        key={todoIndex}
                         className={classNames(
                           todoIndex === 0
                             ? "border-gray-300"
@@ -94,10 +118,16 @@ export default function TodoList({ todos }) {
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                           <div className="flex flex-row gap-3">
-                            <PencilSquareIcon className="w-4 h-4" />
+                            <PencilSquareIcon
+                              className="w-4 h-4"
+                              onClick={() => console.log("edit modal")}
+                            />
                             <TrashIcon
                               className="w-4 h-4"
-                              onClick={() => handelDeleteTodo(todo._id)}
+                              onClick={() => {
+                                setModal(true);
+                                setTaskId(todo._id);
+                              }}
                             />
                           </div>
                         </td>

@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
-//import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
@@ -25,6 +25,7 @@ function MyApp({ Component, pageProps }) {
             <Component {...pageProps} />
           </main>
         </Provider>
+        {/*<ReactQueryDevtools initialIsOpen={false} />*/}
       </QueryClientProvider>
     </SessionProvider>
   );
