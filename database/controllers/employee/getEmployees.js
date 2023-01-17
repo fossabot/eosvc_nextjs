@@ -11,12 +11,12 @@ export async function getEmployees(req, res) {
       if (!employee) return res.status(404).json({ error: "Dta not found" });
       return res.status(200).json(employee);
     } catch (error) {
-      res.status(404).json({ error: "Error While Fetching Data" });
+      return res.status(404).json({ error: "Error While Fetching Data" });
     }
     //res.status(200).json({ content: "Protected content" });
   } else {
     // Not Signed in
-    res.status(401).json({ error: "User not Authenticated" });
+    return res.status(401).json({ error: "User not Authenticated" });
   }
   res.end();
 }

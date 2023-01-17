@@ -9,6 +9,8 @@ const todoListSchema = new Schema(
     },
     createdAt: {
       type: Date,
+      default: Date.now,
+      required: true,
     },
     title: {
       type: String,

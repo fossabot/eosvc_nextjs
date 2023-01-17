@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { addIndustry } from "../../modules/Setup/Industry/addIndustry";
 import { useReducer } from "react";
 
@@ -11,7 +11,9 @@ const formReducer = (state, event) => {
 
 function SetupComponent() {
   const [formData, setFormData] = useReducer(formReducer, {});
-  const addMutation = useMutation(addIndustry, {
+
+  const addMutation = useMutation({
+    mutationFn: addIndustry,
     onSuccess: () => {
       //Auto refetch data from database instead of use cached data
       console.log("Industry inserted successfully!");

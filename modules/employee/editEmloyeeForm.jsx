@@ -12,14 +12,14 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   //Fetch data using React Query
-  const { isLoading, isError, data, error } = useQuery({
+  const { isLoading, isError, data, fetchStatus } = useQuery({
     queryKey: ["employee", formId],
     queryFn: () => getEmployee(formId),
   });
 
   const UpdateMutation = useMutation({
-    mutationFn: (newData) => updateEmployee(formId, newData),
-    onSuccess: async (data) => {
+    mutationFn: async (newData) => await updateEmployee(formId, newData),
+    onSuccess: () => {
       // queryClient.setQueryData('users', (old) => [data])
       queryClient.prefetchQuery({
         queryKey: ["employee"],
@@ -29,9 +29,12 @@ function EditEmployeeForm({ formId, formData, setFormData }) {
     },
   });
 
+  //console.log(fetchStatus, "fetchStatus");
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <Error>Error</Error>;
 
+  console.log(data, "data");
   const { name, avatar, salary, date, email, status } = data;
   const [firstname, lastname] = name ? name.split(" ") : formData;
 
