@@ -135,10 +135,15 @@ export default function Example(props) {
   const handelCreateTaskInProject = async (e) => {
     e.preventDefault();
     await addTaskFroTodoMutation.mutate(selectedProject, selectedSection, todo);
+    wait(5000);
     props.onClose();
   };
 
   if (isLoading) return <div>Loading...</div>;
+  console.log(
+    addTaskFroTodoMutation.isLoading,
+    "addTaskFroTodoMutation - isLoading"
+  );
   /*
   console.log(projects, "projects");
   console.log(sections, "sections");
@@ -334,7 +339,9 @@ export default function Example(props) {
                                 className="my-button-v2"
                                 onClick={handelCreateTaskInProject}
                               >
-                                Vytvořit úkol do modulu Projekty
+                                {addTaskFroTodoMutation.isLoading
+                                  ? "... Loading"
+                                  : "Vytvořit úkol do modulu Projekty"}
                               </button>
                             </div>
                           </div>
