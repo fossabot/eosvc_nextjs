@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { updateUser } from "./updateUser";
 import { updateUserPass } from "./updateUserPass";
