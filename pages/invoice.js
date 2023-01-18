@@ -11,6 +11,7 @@ import { getUserSession } from "../modules/user/apiCalls/getUserSession";
 import { useSelector } from "react-redux";
 import { loadingState } from "../redux/loadingSlice";
 import LoadingSpinner from "../components/loadings/LoadingSpinner";
+import InvoicesMain from "../modules/invoices/DocumentsMain";
 
 const pageTitle = "Fakturace";
 
@@ -55,7 +56,7 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        <ModulNotReady />
+        <InvoicesMain />
       </PageTemplate>
     </AppLayoutV2>
   );

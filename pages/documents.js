@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { getUserSession } from "../modules/user/apiCalls/getUserSession";
 import LoadingSpinner from "../components/loadings/LoadingSpinner";
 import { loadingState } from "../redux/loadingSlice";
+import DocumentsMain from "../modules/documents/DocumentsMain";
 
 const pageTitle = "Dokumenty";
 
@@ -56,7 +57,7 @@ function User() {
   return (
     <AppLayoutV2>
       <PageTemplate pageTitle={pageTitle}>
-        <ModulNotReady />
+        <DocumentsMain />
       </PageTemplate>
     </AppLayoutV2>
   );

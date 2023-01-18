@@ -260,7 +260,7 @@ const deleteTask = async () => {
                               //setOpen(true);
                             }}
                             cursor={snapshot.isDragging ? "grabbing" : "grab"}
-                            className="flex flex-col items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-slate-300 shadow-md"
+                            className="flex flex-col items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-slate-300 shadow-md overflow-hidden "
                           >
                             <div className="flex flex-row justify-between mx-auto w-full">
                               <h2 className="font-bold text-sm text-slate-900">

@@ -41,8 +41,13 @@ export default function Example(props) {
   const { data: projects, isLoading } = useQuery({
     enabled: !!userId,
     queryKey: ["projectsTodoModal", userId],
-    queryFn: async () => await getAllUserBoards(userId),
-    onSuccess: () => setSelectedProject(projects[0]?._id),
+    //queryFn: async () => await getAllUserBoards(userId),
+    queryFn: async () => {
+      const result = await getAllUserBoards(userId);
+      setSelectedProject(result[0]?._id);
+      return result;
+    },
+    //onSuccess: () => setSelectedProject(projects[0]?._id),
   });
 
   const projectId = selectedProject || projects ? projects[0]?._id : "";
@@ -51,8 +56,12 @@ export default function Example(props) {
   const { data: sections, onSuccess } = useQuery({
     enabled: !!projectId,
     queryKey: ["sectionsTodoModal", projectId],
-    queryFn: () => getSections(projectId),
-    onSuccess: () => setSelectedSection(sections[0]?._id),
+    queryFn: async () => {
+      const result = await getSections(projectId);
+      setSelectedSection(result[0]?._id);
+      return result;
+    },
+    //onSuccess: () => setSelectedSection(sections[0]?._id),
     // The query will not execute until the userId exists
   });
 
@@ -135,21 +144,18 @@ export default function Example(props) {
   const handelCreateTaskInProject = async (e) => {
     e.preventDefault();
     await addTaskFroTodoMutation.mutate(selectedProject, selectedSection, todo);
-    wait(5000);
+    //wait(5000);
     props.onClose();
   };
 
   if (isLoading) return <div>Loading...</div>;
-  console.log(
-    addTaskFroTodoMutation.isLoading,
-    "addTaskFroTodoMutation - isLoading"
-  );
+
   /*
   console.log(projects, "projects");
   console.log(sections, "sections");
+  */
   console.log(selectedProject, "selectedProject");
   console.log(selectedSection, "selectedSection");
-*/
 
   if (todo !== undefined)
     return (

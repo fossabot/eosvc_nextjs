@@ -10,6 +10,7 @@ import { updateBoardFavourite } from "./apiCalls/updateBoardFavourite";
 import { setFavouriteList } from "../../redux/features/favouriteSlice";
 import { toggleReloadMenu } from "../../redux/toggleProjects";
 import { updateBoardVisibility } from "./apiCalls/updateBoardVisibility";
+import NewProject from "../../components/emptyStates/NewProject";
 
 const ProjectsMain = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const ProjectsMain = () => {
   const boards = useSelector((state) => state.boards.value);
   const favouriteList = useSelector((state) => state.favourites.value);
   const activeBoard = useSelector((state) => state.activeBoard.value);
+  //const activeBoard = false;
   console.log(activeBoard, "ActiveBoard - ProjectsMain");
   //console.log(activeBoard, "ActiveBoard - ProjectsMain");
   const boardId = activeBoard?._id;
@@ -112,14 +114,7 @@ const ProjectsMain = () => {
   if (!activeBoard)
     return (
       <div className="h-full ">
-        <div>
-          <ProjectsHeader />
-        </div>
-        <div className="flex justify-center items-center pt-5">
-          <button className="my-button-v2" onClick={handleDefaultProject}>
-            Založ první projekt ze šablony
-          </button>
-        </div>
+        <NewProject userId={userId} />
       </div>
     );
   return (

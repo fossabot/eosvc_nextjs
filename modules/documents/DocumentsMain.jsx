@@ -5,7 +5,7 @@ import { convertToBase64 } from "../../utils/convertToBase64";
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json());
 
-function DocumentsPage() {
+function DocumentsMain() {
   const [highlighted, setHighlighted] = useState(false);
   const [image, setImage] = useState(
     "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
@@ -40,7 +40,7 @@ function DocumentsPage() {
     return <div>Loading ...</div>;
   } else {
     return (
-      <div className=" p-5">
+      <div className=" p-5 overflow-auto">
         <div className="flex flex-col items-center justify-center p-5 space-y-5">
           <h1>File drop zone</h1>
           <div
@@ -117,7 +117,7 @@ function DocumentsPage() {
   }
 }
 
-export default DocumentsPage;
+export default DocumentsMain;
 /*
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
