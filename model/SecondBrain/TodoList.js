@@ -28,6 +28,10 @@ const todoListSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    tags: {
+      type: Array,
+      default: [],
+    },
     completed: {
       type: Boolean,
       default: false,

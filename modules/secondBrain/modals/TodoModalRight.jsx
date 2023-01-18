@@ -6,6 +6,11 @@ import Moment from "moment";
 //import { updateTaskTitle } from "./apiCalls/updateTaskTitle";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAllUserBoards } from "../../projects/apiCalls/getAllUserBoards";
+import { getSections } from "../../projects/apiCalls/getSections";
+import { useSelector } from "react-redux";
+import { addTaskFromTodo } from "../apiCall/addTaskFromTodo";
 //import { updateTask } from "./apiCalls/updateTask";
 
 let timer = null;
@@ -14,19 +19,42 @@ let isModalClosed = false;
 
 export default function Example(props) {
   //console.log(props, "props TaskModalRight");
-  const boardId = props.boardId;
+  const { _id: userId } = useSelector((state) => state.session);
+  //const boardId = props.boardId;
   const [todo, setTodo] = useState(props.todo);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  //const [title, setTitle] = useState("");
+  //const [content, setContent] = useState("");
+  const [selectedProject, setSelectedProject] = useState("");
+  const [selectedSection, setSelectedSection] = useState("");
   //const [newContent, setNewContent] = useState("");
   //const editorWrapperRef = useRef();
   const [open, setOpen] = useState(true);
+  /*
   const Editor = dynamic(
     () => import("../../../components/ckEditor/myEditor"),
     {
       ssr: false,
     }
   );
+  */
+
+  const { data: projects, isLoading } = useQuery({
+    enabled: !!userId,
+    queryKey: ["projectsTodoModal", userId],
+    queryFn: async () => await getAllUserBoards(userId),
+    onSuccess: () => setSelectedProject(projects[0]?._id),
+  });
+
+  const projectId = selectedProject || projects ? projects[0]?._id : "";
+
+  // Then get the user's projects
+  const { data: sections, onSuccess } = useQuery({
+    enabled: !!projectId,
+    queryKey: ["sectionsTodoModal", projectId],
+    queryFn: () => getSections(projectId),
+    onSuccess: () => setSelectedSection(sections[0]?._id),
+    // The query will not execute until the userId exists
+  });
 
   useEffect(() => {
     setTodo(props.todo);
@@ -35,6 +63,7 @@ export default function Example(props) {
   }, [props.todo]);
 
   //Done
+  /*
   const handelUpdateContent = async (e) => {
     clearTimeout(timer);
     const newContent = e.target.value;
@@ -51,6 +80,7 @@ export default function Example(props) {
     setContent(newContent);
     props.onUpdate(task);
   };
+  */
 
   //Done
   const onClose = () => {
@@ -60,6 +90,7 @@ export default function Example(props) {
   };
 
   //Done
+  /*
   const handelDeleteTask = async () => {
     console.log(task._id, "task._id to delete");
     try {
@@ -71,6 +102,7 @@ export default function Example(props) {
       alert(err);
     }
   };
+*/
 
   //Done
   const handelUpdateTitle = async (e) => {
@@ -89,6 +121,30 @@ export default function Example(props) {
     setTitle(newTitle);
     props.onUpdate(task);
   };
+
+  // Mutations
+  const addTaskFroTodoMutation = useMutation({
+    mutationFn: () => addTaskFromTodo(selectedProject, selectedSection, todo),
+    onSuccess: () => {
+      // Invalidate and refetch
+      //queryClient.invalidateQueries({ queryKey: ["todos"] });
+      console.log("Task from Todo added successfully");
+    },
+  });
+
+  const handelCreateTaskInProject = async (e) => {
+    e.preventDefault();
+    await addTaskFroTodoMutation.mutate(selectedProject, selectedSection, todo);
+    props.onClose();
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  /*
+  console.log(projects, "projects");
+  console.log(sections, "sections");
+  console.log(selectedProject, "selectedProject");
+  console.log(selectedSection, "selectedSection");
+*/
 
   if (todo !== undefined)
     return (
@@ -123,7 +179,8 @@ export default function Example(props) {
                           <div className="flex items-start justify-between space-x-3">
                             <div className="space-y-1">
                               <Dialog.Title className="text-lg font-medium text-gray-900">
-                                Second Brain Todo ID: - {todo._id}
+                                Second Brain Todo ID: - {todo._id} -{" "}
+                                {/*crypto.randomUUID()*/}
                               </Dialog.Title>
                               <p className="text-sm text-gray-500">
                                 Modal pro editaci todo
@@ -163,7 +220,7 @@ export default function Example(props) {
                             <div className="flex items-center justify-center sm:col-span-2 border border-gray-300 rounded-md p-2">
                               <input
                                 type="text"
-                                value={title}
+                                value={todo.title}
                                 placeholder={
                                   todo.title === "" ? "Untitled" : todo.title
                                 }
@@ -205,18 +262,8 @@ export default function Example(props) {
                                 Popis úkolu:
                               </label>
                             </div>
-                            <div className="w-full">
-                              <textarea
-                                type="text"
-                                value={content}
-                                placeholder={
-                                  todo.description === ""
-                                    ? "Untitled"
-                                    : todo.description
-                                }
-                                onChange={handelUpdateContent}
-                                className="w-full rounded-md p-2 border border-gray-300 shadow-sm sm:text-sm"
-                              />
+                            <div className="w-full py-5">
+                              <p>{todo.description}</p>
                             </div>
                           </div>
                           <div className="w-full border border-green-300 space-y-1 px-4">
@@ -245,6 +292,51 @@ export default function Example(props) {
                               }}
                             />
                             */}
+                          </div>
+                          <div className="flex justify-start items-center w-full p-5 gap-2">
+                            <div>Projekty:</div>
+                            <div>
+                              <select
+                                className="border border-gray-300 rounded-md p-2"
+                                onChange={(e) => {
+                                  //console.log(e.target.value);
+                                  setSelectedProject(e.target.value);
+                                }}
+                                //onChange={handelUpdateProject}
+                              >
+                                {projects.map((project, index) => (
+                                  <option key={index} value={project._id}>
+                                    {project.title}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            {sections && (
+                              <div>
+                                <select
+                                  className="border border-gray-300 rounded-md p-2"
+                                  onChange={(e) => {
+                                    //console.log(e.target.value);
+                                    setSelectedSection(e.target.value);
+                                  }}
+                                  //onChange={handelUpdateProject}
+                                >
+                                  {sections?.map((section, index) => (
+                                    <option key={index} value={section._id}>
+                                      {section.title}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            )}
+                            <div>
+                              <button
+                                className="my-button-v2"
+                                onClick={handelCreateTaskInProject}
+                              >
+                                Vytvořit úkol do modulu Projekty
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
