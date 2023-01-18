@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Template from "../layout/template";
 import TableUi from "../components/tables/TableUi";
-import Test from "../components/modals/test";
-import DocumentsPage from "../modules/documents/documents";
 import LoadingSpinner from "../components/loadings/LoadingSpinner";
 import { useSelector } from "react-redux";
-import { getSessionAsync, selectSession } from "../redux/sessionSlice";
+import { getSessionAsync } from "../redux/sessionSlice";
 import { getUserSession } from "../modules/user/apiCalls/getUserSession";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { loadingState } from "../redux/loadingSlice";
 import { HomeIcon } from "@heroicons/react/20/solid";
@@ -106,7 +104,6 @@ function Demo(props) {
             </ol>
           </nav>
         </div>
-        {/* <DocumentsPage />*/}
         <TableUi />
       </div>
     </Template>
