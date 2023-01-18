@@ -1,44 +1,27 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-//import { deleteTask } from "./apiCalls/deleteTask";
 import Moment from "moment";
-//import { updateTaskTitle } from "./apiCalls/updateTaskTitle";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAllUserBoards } from "../../projects/apiCalls/getAllUserBoards";
-import { getSections } from "../../projects/apiCalls/getSections";
 import { useSelector } from "react-redux";
-import { addTaskFromTodo } from "../apiCall/addTaskFromTodo";
+
 //import { updateTask } from "./apiCalls/updateTask";
 
 let timer = null;
 const timeout = 500;
 let isModalClosed = false;
 
-export default function Example(props) {
+export default function InvoiceModalRight(props) {
   //console.log(props, "props TaskModalRight");
   const { _id: userId } = useSelector((state) => state.session);
-  //const boardId = props.boardId;
   const [todo, setTodo] = useState(props.todo);
-  //const [title, setTitle] = useState("");
-  //const [content, setContent] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
-  //const [newContent, setNewContent] = useState("");
-  //const editorWrapperRef = useRef();
   const [open, setOpen] = useState(true);
-  /*
-  const Editor = dynamic(
-    () => import("../../../components/ckEditor/myEditor"),
-    {
-      ssr: false,
-    }
-  );
-  */
 
-  const { data: projects, isLoading } = useQuery({
+  // Access the client
+  /*   const { data: projects, isLoading } = useQuery({
     enabled: !!userId,
     queryKey: ["projectsTodoModal", userId],
     //queryFn: async () => await getAllUserBoards(userId),
@@ -48,9 +31,9 @@ export default function Example(props) {
       return result;
     },
     //onSuccess: () => setSelectedProject(projects[0]?._id),
-  });
+  }); */
 
-  const projectId = selectedProject || projects ? projects[0]?._id : "";
+  /*   const projectId = selectedProject || projects ? projects[0]?._id : "";
 
   // Then get the user's projects
   const { data: sections, onSuccess } = useQuery({
@@ -63,33 +46,7 @@ export default function Example(props) {
     },
     //onSuccess: () => setSelectedSection(sections[0]?._id),
     // The query will not execute until the userId exists
-  });
-
-  useEffect(() => {
-    setTodo(props.todo);
-    //setTitle(props.todo !== undefined ? props.task.title : "");
-    //setContent(props.task !== undefined ? props.task.content : "");
-  }, [props.todo]);
-
-  //Done
-  /*
-  const handelUpdateContent = async (e) => {
-    clearTimeout(timer);
-    const newContent = e.target.value;
-    timer = setTimeout(async () => {
-      try {
-        //await taskApi.update(boardId, task._id, { title: newTitle });
-        await updateTask(task._id, { content: newContent });
-      } catch (err) {
-        alert(err);
-      }
-    }, timeout);
-
-    task.content = newContent;
-    setContent(newContent);
-    props.onUpdate(task);
-  };
-  */
+  }); */
 
   //Done
   const onClose = () => {
@@ -97,21 +54,6 @@ export default function Example(props) {
     //props.onUpdate(todo);
     props.onClose();
   };
-
-  //Done
-  /*
-  const handelDeleteTask = async () => {
-    console.log(task._id, "task._id to delete");
-    try {
-      await deleteTask(boardId, task._id);
-      props.onDelete(task);
-      setTask(undefined);
-      props.onClose();
-    } catch (err) {
-      alert(err);
-    }
-  };
-*/
 
   //Done
   const handelUpdateTitle = async (e) => {
@@ -148,14 +90,7 @@ export default function Example(props) {
     props.onClose();
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
-  /*
-  console.log(projects, "projects");
-  console.log(sections, "sections");
-  */
-  console.log(selectedProject, "selectedProject");
-  console.log(selectedSection, "selectedSection");
+  /*   if (isLoading) return <div>Loading...</div>; */
 
   if (todo !== undefined)
     return (
@@ -190,11 +125,10 @@ export default function Example(props) {
                           <div className="flex items-start justify-between space-x-3">
                             <div className="space-y-1">
                               <Dialog.Title className="text-lg font-medium text-gray-900">
-                                Second Brain Todo ID: - {todo._id} -{" "}
-                                {/*crypto.randomUUID()*/}
+                                Invoice ID: -{/*crypto.randomUUID()*/}
                               </Dialog.Title>
                               <p className="text-sm text-gray-500">
-                                Modal pro editaci todo
+                                Modal pro editaci faktury
                               </p>
                             </div>
                             <div className="flex h-7 items-center">
@@ -231,11 +165,6 @@ export default function Example(props) {
                             <div className="flex items-center justify-center sm:col-span-2 border border-gray-300 rounded-md p-2">
                               <input
                                 type="text"
-                                value={todo.title}
-                                placeholder={
-                                  todo.title === "" ? "Untitled" : todo.title
-                                }
-                                onChange={handelUpdateTitle}
                                 className="w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                               />
                             </div>
@@ -246,9 +175,9 @@ export default function Example(props) {
                                 Vytvořen:
                               </div>
                               <div>
-                                {Moment(todo.createdAt).format(
+                                {/* Moment(todo.createdAt).format(
                                   "YYYY-MM-DD-HH:mm"
-                                )}
+                                ) */}
                               </div>
                             </div>
                             <div className="flex flex-row">
@@ -274,7 +203,7 @@ export default function Example(props) {
                               </label>
                             </div>
                             <div className="w-full py-5">
-                              <p>{todo.description}</p>
+                              <p>{/* todo.description */}</p>
                             </div>
                           </div>
                           <div className="w-full border border-green-300 space-y-1 px-4">
@@ -287,9 +216,9 @@ export default function Example(props) {
                               </label>
                             </div>
                             <div className="w-full">
-                              <Link href={todo.url} target="_blank">
+                              {/*    <Link href={todo.url} target="_blank">
                                 {todo.url}
-                              </Link>
+                              </Link> */}
                             </div>
                           </div>
                           <div className="flex justify-center items-center w-full p-5">
@@ -309,20 +238,20 @@ export default function Example(props) {
                             <div>
                               <select
                                 className="border border-gray-300 rounded-md p-2"
-                                onChange={(e) => {
+                                /*        onChange={(e) => {
                                   //console.log(e.target.value);
                                   setSelectedProject(e.target.value);
-                                }}
+                                }} */
                                 //onChange={handelUpdateProject}
                               >
-                                {projects.map((project, index) => (
+                                {/*        {projects.map((project, index) => (
                                   <option key={index} value={project._id}>
                                     {project.title}
                                   </option>
-                                ))}
+                                ))} */}
                               </select>
                             </div>
-                            {sections && (
+                            {/*          {sections && (
                               <div>
                                 <select
                                   className="border border-gray-300 rounded-md p-2"
@@ -339,9 +268,9 @@ export default function Example(props) {
                                   ))}
                                 </select>
                               </div>
-                            )}
+                            )} */}
                           </div>
-                          <div className="px-5">
+                          {/*          <div className="px-5">
                             <button
                               className="my-button-v2"
                               onClick={handelCreateTaskInProject}
@@ -350,7 +279,7 @@ export default function Example(props) {
                                 ? "... Loading"
                                 : "Vytvořit úkol do modulu Projekty"}
                             </button>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
 

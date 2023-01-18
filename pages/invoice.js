@@ -11,7 +11,7 @@ import { getUserSession } from "../modules/user/apiCalls/getUserSession";
 import { useSelector } from "react-redux";
 import { loadingState } from "../redux/loadingSlice";
 import LoadingSpinner from "../components/loadings/LoadingSpinner";
-import InvoicesMain from "../modules/invoices/DocumentsMain";
+import InvoicesMain from "../modules/invoices/InvoicesMain";
 
 const pageTitle = "Fakturace";
 
