@@ -5,11 +5,6 @@ import Moment from "moment";
 import Link from "next/link";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { Document, Page } from "react-pdf";
-//import { Buffer } from "buffer";
-//import dynamic from "next/dynamic";
-
-//import { updateTask } from "./apiCalls/updateTask";
 
 let timer = null;
 const timeout = 500;
