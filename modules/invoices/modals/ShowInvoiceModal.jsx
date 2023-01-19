@@ -5,6 +5,9 @@ import Moment from "moment";
 import Link from "next/link";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { Document, Page } from "react-pdf";
+//import { Buffer } from "buffer";
+//import dynamic from "next/dynamic";
 
 //import { updateTask } from "./apiCalls/updateTask";
 
@@ -12,13 +15,19 @@ let timer = null;
 const timeout = 500;
 let isModalClosed = false;
 
+//const Buffer = dynamic(() => import("buffer"), { ssr: false });
+
 export default function InvoiceModalRight(props) {
-  console.log(props, "props ShowInvoiceModal");
+  //console.log(props, "props ShowInvoiceModal");
   const { _id: userId } = useSelector((state) => state.session);
   const [invoice, setInvoice] = useState(props.invoice);
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
   const [open, setOpen] = useState(true);
+  console.log(invoice, "invoice");
+  console.log(typeof invoice.invoice_file, "invoice.invoice_file");
+
+  //const decoded = Buffer.from(invoice.invoice_file, "base64");
 
   // Access the client
   /*   const { data: projects, isLoading } = useQuery({
@@ -50,7 +59,7 @@ export default function InvoiceModalRight(props) {
 
   //Done
   const onClose = () => {
-    isModalClosed = true;
+    //isModalClosed = true;
     //props.onUpdate(todo);
     props.onClose();
   };
@@ -109,9 +118,9 @@ export default function InvoiceModalRight(props) {
         >
           <div className="fixed inset-0" />
 
-          <div className="fixed inset-0 overflow-hidden">
+          <div className="fixed inset-0 overflow-hidden border border-black">
             <div className="absolute inset-0 overflow-hidden">
-              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
+              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16 ">
                 <Transition.Child
                   as={Fragment}
                   enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -159,20 +168,7 @@ export default function InvoiceModalRight(props) {
                         <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
                           {/* Project name */}
                           <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5 ">
-                            <div className="flex items-center justify-center">
-                              <label
-                                htmlFor="project-name"
-                                className=" text-sm font-bold text-gray-900  "
-                              >
-                                Název úkolu
-                              </label>
-                            </div>
-                            <div className="flex items-center justify-center sm:col-span-2 border border-gray-300 rounded-md p-2">
-                              <input
-                                type="text"
-                                className="w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                              />
-                            </div>
+                            <h1>Detail faktury</h1>
                           </div>
                           <div className="flex flex-col text-sm py-2">
                             <div className="flex flex-row">
@@ -185,6 +181,7 @@ export default function InvoiceModalRight(props) {
                                 ) */}
                               </div>
                             </div>
+
                             <div className="flex flex-row">
                               <div className="px-4 sm:px-6 font-bold">
                                 Naposledy editováno:
@@ -196,50 +193,14 @@ export default function InvoiceModalRight(props) {
                               </div>
                             </div>
                           </div>
-
-                          {/* Project description */}
-                          <div className="w-full border border-green-300 space-y-1 px-4">
-                            <div>
-                              <label
-                                htmlFor="project-description"
-                                className="block text-sm font-bold text-gray-900 sm:mt-px sm:pt-2"
-                              >
-                                Popis úkolu:
-                              </label>
-                            </div>
-                            <div className="w-full py-5">
-                              <p>{invoice.description}</p>
-                            </div>
-                          </div>
-                          <div className="w-full border border-green-300 space-y-1 px-4">
-                            <div>
-                              <label
-                                htmlFor="project-description"
-                                className="block text-sm font-bold text-gray-900 sm:mt-px sm:pt-2"
-                              >
-                                Odkaz na zdroj:
-                              </label>
-                            </div>
-                            <div className="w-full">
-                              {/*    <Link href={todo.url} target="_blank">
-                                {todo.url}
-                              </Link> */}
-                            </div>
-                          </div>
-                          <div className="flex justify-center items-center w-full p-5">
-                            {/* Editor
-                            <Editor
-                              value={content}
-                              className="w-full h-96"
-                              onChange={(v) => {
-                                console.log(v);
-                                () => setNewContent(v);
-                              }}
-                            />
-                            */}
+                          <div className="w-full">
+                            <iFrame
+                              className="w-full h-[800px]"
+                              src={invoice.invoice_file}
+                            ></iFrame>
                           </div>
                           <div className="flex justify-start items-center w-full p-5 gap-2">
-                            <div>Projekty:</div>
+                            <div>Vytovřit úkol z faktury:</div>
                             <div>
                               <select
                                 className="border border-gray-300 rounded-md p-2"

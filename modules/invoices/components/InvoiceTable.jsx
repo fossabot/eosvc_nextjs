@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { Fragment, useState } from "react";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  PencilSquareIcon,
+  TrashIcon,
+  EyeIcon,
+} from "@heroicons/react/24/outline";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ConfirmDelete from "../modals/ConfirmDelete";
 import InvoiceModalRight from "../modals/InvoiceModalRight";
@@ -19,6 +23,8 @@ export default function TodoList() {
   const [selectedInvoice, setSelectedInvoice] = useState(undefined);
   const [filter, setFilter] = useState("");
   const [filterLink, setFilterLink] = useState("");
+  console.log(selectedInvoice, "selectedInvoice");
+  console.log(showModal, "showModal");
   // Access the client
   const queryClient = useQueryClient();
 
@@ -74,7 +80,10 @@ export default function TodoList() {
           invoice={selectedInvoice}
           show={true}
           //boardId={boardId}
-          onClose={() => setSelectedInvoice(undefined)}
+          onClose={() => {
+            setSelectedInvoice(undefined);
+            setShowModal(false);
+          }}
           //onUpdate={onUpdateTask}
           //onDelete={onDeleteTask}
         />
@@ -197,10 +206,19 @@ export default function TodoList() {
                             </td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                               <div className="flex flex-row gap-3">
+                                <EyeIcon
+                                  className="w-4 h-4"
+                                  onClick={() => {
+                                    setSelectedInvoice(invoice);
+                                    setShowModal(true);
+                                    //setOpen(true);
+                                  }}
+                                />
                                 <PencilSquareIcon
                                   className="w-4 h-4"
                                   onClick={() => {
                                     setSelectedInvoice(invoice);
+                                    setShowModal(true);
                                     //setOpen(true);
                                   }}
                                 />
