@@ -14,6 +14,7 @@ function classNames(...classes) {
 
 export default function TodoList() {
   const [modal, setModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [invoiceId, setInvoiceId] = useState(null);
   const [selectedInvoice, setSelectedInvoice] = useState(undefined);
   const [filter, setFilter] = useState("");
@@ -24,9 +25,11 @@ export default function TodoList() {
   const { data: invoices, isLoading } = useQuery({
     queryKey: ["invoices"],
     queryFn: getAllInvoices,
+    //refetch invoices every 1 second
     refetchInterval: 1000,
   });
-  console.log(invoices, "invoices");
+  //console.log(invoices, "invoices");
+
   // Mutations
   const deleteMutation = useMutation({
     mutationFn: (invoiceId) => deleteInvoice(invoiceId),
@@ -36,9 +39,10 @@ export default function TodoList() {
     },
   });
 
+  /* 
   const refetchInvoices = () => {
     queryClient.invalidateQueries({ queryKey: ["invoices"] });
-  };
+  }; */
 
   const handelDeleteTodo = async (id) => {
     console.log("Delete invoiceID: ", id);
@@ -65,14 +69,16 @@ export default function TodoList() {
         //onUpdate={onUpdateTask}
         //onDelete={onDeleteTask}
       />
-      <ShowInvoiceModal
-        invoice={selectedInvoice}
-        show={true}
-        //boardId={boardId}
-        onClose={() => setSelectedInvoice(undefined)}
-        //onUpdate={onUpdateTask}
-        //onDelete={onDeleteTask}
-      />
+      {showModal && (
+        <ShowInvoiceModal
+          invoice={selectedInvoice}
+          show={true}
+          //boardId={boardId}
+          onClose={() => setSelectedInvoice(undefined)}
+          //onUpdate={onUpdateTask}
+          //onDelete={onDeleteTask}
+        />
+      )}
       <div className="mt-8 flex flex-col">
         <div className="flex flex-row">
           <div className="flex justify-start items-center gap-5 p-5">

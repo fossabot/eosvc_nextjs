@@ -13,7 +13,7 @@ const timeout = 500;
 let isModalClosed = false;
 
 export default function InvoiceModalRight(props) {
-  //console.log(props, "props TaskModalRight");
+  console.log(props, "props ShowInvoiceModal");
   const { _id: userId } = useSelector((state) => state.session);
   const [invoice, setInvoice] = useState(props.invoice);
   const [selectedProject, setSelectedProject] = useState("");

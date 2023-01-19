@@ -1,7 +1,7 @@
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 
-import Invoice from "../../../model/Invoices/invoice";
+import Invoice from "../../../model/Invoices/Invoice";
 
 export async function addInvoice(req, res) {
   //const session = await unstable_getServerSession(req, res, authOptions);
