@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { toggleView } from "../../redux/secondBrain/secondBrainSlice";
-import { addTodos } from "./apiCall/addTodos";
+import { addTodos } from "./apiCalls/addTodos";
 
 const AddTodo = () => {
   const { _id: userId } = useSelector((state) => state.session);

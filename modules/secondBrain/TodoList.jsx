@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Fragment, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAllTodos } from "./apiCall/getAllTodos";
-import { deleteTodo } from "./apiCall/deleteTodo";
+import { getAllTodos } from "./apiCalls/getAllTodos";
+import { deleteTodo } from "./apiCalls/deleteTodo";
 import ConfirmDelete from "./modals/ConfirmDelete";
 import TodoModalRight from "./modals/TodoModalRight";
 

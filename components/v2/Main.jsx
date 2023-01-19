@@ -5,6 +5,7 @@ import { getEmployees } from "../../modules/employee/getEmployees";
 import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../../modules/documents/images/getImages";
 import { getAllUserBoards } from "../../modules/projects/apiCalls/getAllUserBoards";
+import { getAllTodos } from "../../modules/secondBrain/apiCalls/getAllTodos";
 import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";
 import LoadingSpinner from "../loadings/LoadingSpinner";
@@ -32,6 +33,11 @@ function Main() {
   const { data: projectsData, isLoading: isLoadingProjects } = useQuery({
     queryKey: ["projects"],
     queryFn: () => getAllUserBoards(session._id),
+  });
+
+  const { data: secondBrainData } = useQuery({
+    queryKey: ["secondBrain"],
+    queryFn: getAllTodos,
   });
 
   //wait for data to be fetched
@@ -125,7 +131,17 @@ function Main() {
               </span>
             </div>
           </DashboardBox>
-          <DashboardBox></DashboardBox>
+          <DashboardBox>
+            <div className="flex mx-auto items-center">
+              <h1 className="font-bold pb-5">Second Brain:</h1>
+            </div>
+            <div>
+              Počet bookmarků:
+              <span className="font-bold">
+                {secondBrainData ? secondBrainData.length : "Nemám data"}
+              </span>
+            </div>
+          </DashboardBox>
         </div>
       </div>
     </main>

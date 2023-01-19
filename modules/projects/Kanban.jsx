@@ -194,7 +194,7 @@ const deleteTask = async () => {
         <p>{data.length} Sections</p>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-row items-start h-full  overflow-scroll">
+        <div className="flex flex-row items-start h-full  overflow-auto ">
           {data?.map((section, index) => (
             <div
               className="flex flex-col items-center justify-center text-gray-600 h-full w-80"

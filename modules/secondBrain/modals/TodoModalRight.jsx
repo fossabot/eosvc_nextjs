@@ -10,7 +10,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllUserBoards } from "../../projects/apiCalls/getAllUserBoards";
 import { getSections } from "../../projects/apiCalls/getSections";
 import { useSelector } from "react-redux";
-import { addTaskFromTodo } from "../apiCall/addTaskFromTodo";
+import { addTaskFromTodo } from "../apiCalls/addTaskFromTodo";
 //import { updateTask } from "./apiCalls/updateTask";
 
 let timer = null;
