@@ -193,7 +193,7 @@ export default function TodoList() {
                                 invoice._id.substring(invoice._id.length - 3)}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {invoice.type}
+                              {invoice.invoice_type}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {invoice.description.substring(0, 60) + " ..."}
