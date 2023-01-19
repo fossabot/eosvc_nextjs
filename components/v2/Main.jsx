@@ -6,6 +6,7 @@ import { getAccounts } from "../../modules/CRM/Accounts/getAccounts";
 import { getImages } from "../../modules/documents/images/getImages";
 import { getAllUserBoards } from "../../modules/projects/apiCalls/getAllUserBoards";
 import { getAllTodos } from "../../modules/secondBrain/apiCalls/getAllTodos";
+import { getAllInvoices } from "../../modules/invoices/apiCalls/getAllInvoices";
 import { MyResponsivePie } from "../nivo/PieChart";
 import DashboardBox from "../dashboard/box";
 import LoadingSpinner from "../loadings/LoadingSpinner";
@@ -40,6 +41,10 @@ function Main() {
     queryFn: getAllTodos,
   });
 
+  const { data: invoicesData } = useQuery({
+    queryKey: ["invoices"],
+    queryFn: getAllInvoices,
+  });
   //wait for data to be fetched
   if (
     isLoadingAccounts ||
@@ -142,6 +147,20 @@ function Main() {
               </span>
             </div>
           </DashboardBox>
+        </div>
+        <div className="flex flex-row">
+          <DashboardBox>
+            <div className="flex mx-auto items-center">
+              <h1 className="font-bold pb-5">Faktruy:</h1>
+            </div>
+            <div>
+              Počet faktur:
+              <span className="font-bold">
+                {invoicesData ? invoicesData.length : "Nemám data"}
+              </span>
+            </div>
+          </DashboardBox>
+          <DashboardBox></DashboardBox>
         </div>
       </div>
     </main>

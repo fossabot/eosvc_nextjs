@@ -58,7 +58,7 @@ export default function ConfirmDelete(props) {
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          (TaskID: {props.taskId}) ?
+                          (TaskID: {props.invoiceId}) ?
                         </p>
                       </div>
                     </div>
