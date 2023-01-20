@@ -189,10 +189,22 @@ export default function InvoiceModalRight(props) {
                             </div>
                           </div>
                           <div className="w-full">
-                            <iFrame
-                              className="w-full h-[800px]"
-                              src={invoice.invoice_file}
-                            ></iFrame>
+                            {invoice.invoice_file.includes("pdf") && (
+                              <div>
+                                <iFrame
+                                  className="w-full h-[800px]"
+                                  src={invoice.invoice_file}
+                                ></iFrame>
+                              </div>
+                            )}
+                            {invoice.invoice_file.includes("data:image") && (
+                              <div>
+                                <img
+                                  src={invoice.invoice_file}
+                                  className="object-fill"
+                                />
+                              </div>
+                            )}
                           </div>
                           <div className="flex justify-start items-center w-full p-5 gap-2">
                             <div>Vytovřit úkol z faktury:</div>

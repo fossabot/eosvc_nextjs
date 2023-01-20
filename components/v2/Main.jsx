@@ -65,7 +65,7 @@ function Main() {
   const employeeProxSalary = employeesSum / employeesData.length;
 
   return (
-    <main className="bg-gray-100 rounded-sm  h-full">
+    <main className="bg-gray-100 rounded-sm  h-full w-full">
       <div className="flex flex-col w-full mx-auto gap-2 place-content-start">
         <div className="flex flex-row ">
           <DashboardBox>

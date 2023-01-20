@@ -32,6 +32,7 @@ const invoiceSchema = new Schema(
     },
     date_created: {
       type: Date,
+      default: Date.now,
     },
     date_received: {
       type: Date,

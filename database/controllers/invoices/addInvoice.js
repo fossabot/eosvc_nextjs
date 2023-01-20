@@ -13,7 +13,7 @@ export async function addInvoice(req, res) {
       const invoiceData = {
         invoice_file: body.invoice_file,
       };
-      // console.log(invoiceData, "invoiceData");
+      console.log(invoiceData, "invoiceData");
       console.log(invoiceData.invoice_file, "invoiceData.invoice_file");
       const invoice = await Invoice.create({
         invoice_file: invoiceData.invoice_file,

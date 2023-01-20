@@ -1,11 +1,7 @@
 import TodoList from "./TodoList";
 
 const SecondBrainMain = () => {
-  return (
-    <div className="space-y-2">
-      <TodoList />
-    </div>
-  );
+  return <TodoList />;
 };
 
 export default SecondBrainMain;

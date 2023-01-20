@@ -45,7 +45,7 @@ const Template = (props) => {
   //return console.log("stop");
 
   return (
-    <div className="w-full">
+    <div className="w-screen">
       <Head>
         <title>{pageTitle}</title>
       </Head>

@@ -189,15 +189,15 @@ const deleteTask = async () => {
 
 */
   return (
-    <div className="flex flex-col space-y-2 h-full">
+    <div className="overflow-scroll flex flex-col space-y-2  ">
       <div className="p-2 text-xs">
         <p>{data.length} Sections</p>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-row items-start h-full  overflow-auto ">
+        <div className="flex flex-row items-start  ">
           {data?.map((section, index) => (
             <div
-              className="flex flex-col items-center justify-center text-gray-600 h-full w-80"
+              className="flex flex-col items-center justify-center text-gray-600 h-full w-80 "
               key={section._id}
             >
               <Droppable key={section._id} droppableId={section._id}>
@@ -205,9 +205,9 @@ const deleteTask = async () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="flex flex-col  w-full h-full z-0"
+                    className="flex flex-col  w-full h-full"
                   >
-                    <div className="flex flex-col items-center justify-center py-2">
+                    <div className="flex flex-col items-center justify-center py-2   ">
                       <div className="flex flex-row w-full border-y">
                         <input
                           type="text"
@@ -244,65 +244,61 @@ const deleteTask = async () => {
                         </div>
                       </div>
                     </div>
-                    {section.tasks.map((task, index) => (
-                      <Draggable
-                        key={task._id}
-                        draggableId={task._id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            onClick={() => {
-                              setSelectedTask(task);
-                              //setOpen(true);
-                            }}
-                            cursor={snapshot.isDragging ? "grabbing" : "grab"}
-                            className="flex flex-col items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-slate-300 shadow-md overflow-hidden "
-                          >
-                            <div className="flex flex-row justify-between mx-auto w-full">
-                              <h2 className="font-bold text-sm text-slate-900">
-                                {task.title === "" ? "Untitled" : task.title}
-                              </h2>
-                              {task.dueDateAt > Date.now() && (
-                                <ExclamationCircleIcon className="w-4 h-4 text-red-500" />
-                              )}
-                              <TrashIcon
-                                className="w-4 h-4"
-                                onClick={() => handelDeleteTask(task)}
-                              />
+                    <div className="">
+                      {section.tasks.map((task, index) => (
+                        <Draggable
+                          key={task._id}
+                          draggableId={task._id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              onClick={() => {
+                                setSelectedTask(task);
+                                //setOpen(true);
+                              }}
+                              cursor={snapshot.isDragging ? "grabbing" : "grab"}
+                              className="flex flex-col overflow-hidden items-start justify-center text-xs p-2 m-2 bg-orange-50 rounded-md border border-slate-300 shadow-md "
+                            >
+                              <div className="flex flex-row justify-between mx-auto w-full">
+                                <h2 className="font-bold text-sm text-slate-900">
+                                  {task.title === "" ? "Untitled" : task.title}
+                                </h2>
+                                {task.dueDateAt > Date.now() && (
+                                  <ExclamationCircleIcon className="w-4 h-4 text-red-500" />
+                                )}
+                                <TrashIcon
+                                  className="w-4 h-4"
+                                  onClick={() => handelDeleteTask(task)}
+                                />
+                              </div>
+                              <div>
+                                <p
+                                  className={
+                                    task.priority === "normal"
+                                      ? `text-yellow-500`
+                                      : task.priority === "high"
+                                      ? `text-red-500`
+                                      : task.priority === "low"
+                                      ? `text-green-500`
+                                      : `text-slate-600`
+                                  }
+                                >
+                                  Priorita: {task.priority}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="line-clamp-2">{task.content}</p>
+                              </div>
                             </div>
-                            <div>
-                              <p
-                                className={
-                                  task.priority === "normal"
-                                    ? `text-yellow-500`
-                                    : task.priority === "high"
-                                    ? `text-red-500`
-                                    : task.priority === "low"
-                                    ? `text-green-500`
-                                    : `text-slate-600`
-                                }
-                              >
-                                Priorita: {task.priority}
-                              </p>
-                            </div>
-                            <div>
-                              {/*}
-                              <TipTapEditor
-                                content={task.content}
-                                
-                              />
-                              */}
-                              <p className="line-clamp-2">{task.content}</p>
-                            </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
                   </div>
                 )}
               </Droppable>

@@ -43,7 +43,7 @@ export default function TodoList() {
   if (isLoading) return console.log("loading");
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 overflow-auto">
+    <div className="px-4 sm:px-6 lg:px-8 w-full">
       {modal && (
         <ConfirmDelete
           taskId={taskId}
@@ -76,23 +76,6 @@ export default function TodoList() {
               />
             </div>
           </div>
-          {/*
-          <div className="flex justify-start items-center gap-5 p-5">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Filter (in link):
-            </h3>
-            <div className="flex items-center justify-center">
-              <input
-                type="text"
-                className="p-2 rounded-md"
-                placeholder="filter ..."
-                onChange={(e) => {
-                  setFilterLink(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          */}
         </div>
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
