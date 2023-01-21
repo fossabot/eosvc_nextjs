@@ -30,6 +30,7 @@ export default function TodoList() {
   const [selectedInvoice, setSelectedInvoice] = useState(undefined);
   const [filter, setFilter] = useState("");
   const [filterLink, setFilterLink] = useState("");
+  const [hasData, setHasData] = useState(false);
   console.log(selectedInvoice, "selectedInvoice");
   console.log(showModal, "showModal");
   // Access the client
@@ -39,7 +40,15 @@ export default function TodoList() {
     queryKey: ["invoices"],
     queryFn: getAllInvoices,
     //refetch invoices every 1 second
-    //refetchInterval: 1000,
+    refetchInterval: 1000,
+    onSuccess: (data) => {
+      console.log(data, "data");
+      setHasData(true);
+    },
+    onError: (error) => {
+      console.log(error, "error");
+      setHasData(false);
+    },
   });
   //console.log(invoices, "invoices");
 
@@ -194,7 +203,7 @@ export default function TodoList() {
               <tbody className="bg-white">
                 {
                   <Fragment key={invoices.id}>
-                    {invoices &&
+                    {hasData &&
                       invoices
                         ?.filter((invoice) => {
                           if (filter === "") {
@@ -278,6 +287,13 @@ export default function TodoList() {
                             </td>
                           </tr>
                         ))}
+                    {!hasData && (
+                      <tr>
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                          No data
+                        </td>
+                      </tr>
+                    )}
                   </Fragment>
                 }
               </tbody>

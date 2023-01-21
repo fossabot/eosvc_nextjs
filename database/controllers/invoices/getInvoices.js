@@ -4,8 +4,8 @@ import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 import Invoices from "../../../model/Invoices/Invoice";
 
 export async function getInvoices(req, res) {
-  //const session = await unstable_getServerSession(req, res, authOptions);
-  const session = true;
+  const session = await unstable_getServerSession(req, res, authOptions);
+  //const session = true;
   if (session) {
     try {
       const invoices = await Invoices.find({});
