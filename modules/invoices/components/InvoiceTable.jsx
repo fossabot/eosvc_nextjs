@@ -6,7 +6,10 @@ import {
   EyeIcon,
   PhotoIcon,
   DocumentIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Moment from "moment";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ConfirmDelete from "../modals/ConfirmDelete";
@@ -42,6 +45,7 @@ export default function TodoList() {
   // Mutations
   const deleteMutation = useMutation({
     mutationFn: (invoiceId) => deleteInvoice(invoiceId),
+    //isLoading: () => toast("Wow so easy!"),
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
@@ -67,7 +71,10 @@ export default function TodoList() {
         <ConfirmDelete
           invoiceId={invoiceId}
           onClose={() => setModal(false)}
-          onDelete={() => handelDeleteTodo(invoiceId)}
+          onDelete={() => {
+            toast.success("Faktura smazána!");
+            handelDeleteTodo(invoiceId);
+          }}
         />
       )}
       <InvoiceModalRight
@@ -92,6 +99,18 @@ export default function TodoList() {
         />
       )}
       <div className="flex flex-col w-full ">
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <div className="flex flex-row">
           <div className="flex justify-start items-center gap-2 p-2">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -174,85 +193,90 @@ export default function TodoList() {
               <tbody className="bg-white">
                 {
                   <Fragment key={invoices.id}>
-                    {invoices
-                      ?.filter((invoice) => {
-                        if (filter === "") {
-                          return invoice;
-                        } else if (
-                          todo.description
-                            .toLowerCase()
-                            .includes(filter.toLowerCase())
-                        ) {
-                          return invoice;
-                        }
-                      })
-                      ?.map((invoice, invoiceIndex) => (
-                        <tr
-                          key={invoiceIndex}
-                          className={classNames(
-                            invoiceIndex === 0
-                              ? "border-gray-300"
-                              : "border-gray-200",
-                            "border-t"
-                          )}
-                        >
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                            {invoice._id.substring(0, 3) +
-                              "..." +
-                              invoice._id.substring(invoice._id.length - 3)}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {Moment(invoice.createdAt).format(
-                              "YYYY-MM-DD-HH:mm"
+                    {invoices &&
+                      invoices
+                        ?.filter((invoice) => {
+                          if (filter === "") {
+                            return invoice;
+                          } else if (
+                            invoice.description
+                              .toLowerCase()
+                              .includes(filter.toLowerCase())
+                          ) {
+                            return invoice;
+                          }
+                        })
+                        ?.map((invoice, invoiceIndex) => (
+                          <tr
+                            key={invoiceIndex}
+                            className={classNames(
+                              invoiceIndex === 0
+                                ? "border-gray-300"
+                                : "border-gray-200",
+                              "border-t"
                             )}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {invoice.invoice_type}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {invoice.description.substring(0, 60) + " ..."}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <Link href={"#"} target="_blank">
-                              {" link to invoice"}
-                              {/*todo.url.substring(0, 40) + " ..."*/}
-                            </Link>
-                          </td>
-                          <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div className="flex flex-row gap-3">
-                              <EyeIcon
-                                className="w-4 h-4"
-                                onClick={() => {
-                                  setSelectedInvoice(invoice);
-                                  setShowModal(true);
-                                  //setOpen(true);
-                                }}
-                              />
-                              {invoice.invoice_file.includes("data:image") && (
-                                <PhotoIcon className="w-4 h-4" />
+                          >
+                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                              {invoice._id.substring(0, 3) +
+                                "..." +
+                                invoice._id.substring(invoice._id.length - 3)}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {Moment(invoice.createdAt).format(
+                                "YYYY-MM-DD-HH:mm"
                               )}
-                              {invoice.invoice_file.includes("pdf") && (
-                                <DocumentIcon className="w-4 h-4" />
-                              )}
-                              <PencilSquareIcon
-                                className="w-4 h-4"
-                                onClick={() => {
-                                  setSelectedInvoice(invoice);
-                                  setShowModal(true);
-                                  //setOpen(true);
-                                }}
-                              />
-                              <TrashIcon
-                                className="w-4 h-4"
-                                onClick={() => {
-                                  setModal(true);
-                                  setInvoiceId(invoice._id);
-                                }}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {invoice.invoice_type}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {invoice.description.substring(0, 60) + " ..."}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              <Link href={"#"} target="_blank">
+                                {" link to invoice"}
+                                {/*todo.url.substring(0, 40) + " ..."*/}
+                              </Link>
+                            </td>
+                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                              <div className="flex flex-row gap-3 items-end justify-end">
+                                <ExclamationTriangleIcon
+                                  className="w-4 h-4"
+                                  onClick={() => toast.success("Test")}
+                                />
+                                <EyeIcon
+                                  className="w-4 h-4"
+                                  onClick={() => {
+                                    setSelectedInvoice(invoice);
+                                    setShowModal(true);
+                                    //setOpen(true);
+                                  }}
+                                />
+                                {invoice.invoice_file.includes(
+                                  "data:image"
+                                ) && <PhotoIcon className="w-4 h-4" />}
+                                {invoice.invoice_file.includes(
+                                  "application/pdf"
+                                ) && <DocumentIcon className="w-4 h-4" />}
+                                <PencilSquareIcon
+                                  className="w-4 h-4"
+                                  onClick={() => {
+                                    setSelectedInvoice(invoice);
+                                    setShowModal(true);
+                                    //setOpen(true);
+                                  }}
+                                />
+                                <TrashIcon
+                                  className="w-4 h-4"
+                                  onClick={() => {
+                                    setModal(true);
+                                    setInvoiceId(invoice._id);
+                                  }}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                   </Fragment>
                 }
               </tbody>

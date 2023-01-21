@@ -1,88 +1,54 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Moment from "moment";
-import Link from "next/link";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAllUserBoards } from "../../projects/apiCalls/getAllUserBoards";
+import { getSections } from "../../projects/apiCalls/getSections";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-
-let timer = null;
-const timeout = 500;
-let isModalClosed = false;
-
-//const Buffer = dynamic(() => import("buffer"), { ssr: false });
+import { addTaskFromInvoice } from "../apiCalls/addTaskFromInvoice";
 
 export default function InvoiceModalRight(props) {
-  //console.log(props, "props ShowInvoiceModal");
   const { _id: userId } = useSelector((state) => state.session);
   const [invoice, setInvoice] = useState(props.invoice);
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
   const [open, setOpen] = useState(true);
-  console.log(invoice, "invoice");
-  console.log(typeof invoice.invoice_file, "invoice.invoice_file");
-
-  //const decoded = Buffer.from(invoice.invoice_file, "base64");
 
   // Access the client
-  /*   const { data: projects, isLoading } = useQuery({
+  const { data: projects, isLoading } = useQuery({
     enabled: !!userId,
-    queryKey: ["projectsTodoModal", userId],
-    //queryFn: async () => await getAllUserBoards(userId),
+    queryKey: ["projectsInvoiceModal", userId],
     queryFn: async () => {
       const result = await getAllUserBoards(userId);
       setSelectedProject(result[0]?._id);
       return result;
     },
-    //onSuccess: () => setSelectedProject(projects[0]?._id),
-  }); */
+  });
 
-  /*   const projectId = selectedProject || projects ? projects[0]?._id : "";
+  const projectId = selectedProject || projects ? projects[0]?._id : "";
 
   // Then get the user's projects
   const { data: sections, onSuccess } = useQuery({
     enabled: !!projectId,
-    queryKey: ["sectionsTodoModal", projectId],
+    queryKey: ["sectionsInvoiceModal", projectId],
     queryFn: async () => {
       const result = await getSections(projectId);
       setSelectedSection(result[0]?._id);
       return result;
     },
-    //onSuccess: () => setSelectedSection(sections[0]?._id),
-    // The query will not execute until the userId exists
-  }); */
+  });
 
   //Done
   const onClose = () => {
-    //isModalClosed = true;
-    //props.onUpdate(todo);
     props.onClose();
   };
 
-  /*   //Done
-  const handelUpdateTitle = async (e) => {
-    clearTimeout(timer);
-    const newTitle = e.target.value;
-    timer = setTimeout(async () => {
-      try {
-        //await taskApi.update(boardId, task._id, { title: newTitle });
-        await updateTaskTitle(task._id, { title: newTitle });
-      } catch (err) {
-        alert(err);
-      }
-    }, timeout);
-
-    task.title = newTitle;
-    setTitle(newTitle);
-    props.onUpdate(task);
-  }; */
-
   // Mutations
   const addTaskFroInvoiceMutation = useMutation({
-    mutationFn: () => addTaskFromTodo(selectedProject, selectedSection, todo),
+    mutationFn: () =>
+      addTaskFromInvoice(selectedProject, selectedSection, todo),
     onSuccess: () => {
-      // Invalidate and refetch
-      //queryClient.invalidateQueries({ queryKey: ["todos"] });
       console.log("Task from Todo added successfully");
     },
   });
@@ -94,11 +60,10 @@ export default function InvoiceModalRight(props) {
       selectedSection,
       invoice
     );
-    //wait(5000);
     props.onClose();
   };
 
-  /*   if (isLoading) return <div>Loading...</div>; */
+  if (isLoading) return <div>Loading...</div>;
 
   if (invoice !== undefined)
     return (
@@ -171,9 +136,9 @@ export default function InvoiceModalRight(props) {
                                 Vytvořen:
                               </div>
                               <div>
-                                {/* Moment(todo.createdAt).format(
+                                {Moment(invoice.createdAt).format(
                                   "YYYY-MM-DD-HH:mm"
-                                ) */}
+                                )}
                               </div>
                             </div>
 
@@ -211,20 +176,20 @@ export default function InvoiceModalRight(props) {
                             <div>
                               <select
                                 className="border border-gray-300 rounded-md p-2"
-                                /*        onChange={(e) => {
+                                onChange={(e) => {
                                   //console.log(e.target.value);
                                   setSelectedProject(e.target.value);
-                                }} */
+                                }}
                                 //onChange={handelUpdateProject}
                               >
-                                {/*        {projects.map((project, index) => (
+                                {projects.map((project, index) => (
                                   <option key={index} value={project._id}>
                                     {project.title}
                                   </option>
-                                ))} */}
+                                ))}
                               </select>
                             </div>
-                            {/*          {sections && (
+                            {sections && (
                               <div>
                                 <select
                                   className="border border-gray-300 rounded-md p-2"
@@ -241,18 +206,18 @@ export default function InvoiceModalRight(props) {
                                   ))}
                                 </select>
                               </div>
-                            )} */}
+                            )}
                           </div>
-                          {/*          <div className="px-5">
+                          <div className="px-5">
                             <button
                               className="my-button-v2"
                               onClick={handelCreateTaskInProject}
                             >
-                              {addTaskFroTodoMutation.isLoading
+                              {isLoading
                                 ? "... Loading"
                                 : "Vytvořit úkol do modulu Projekty"}
                             </button>
-                          </div> */}
+                          </div>
                         </div>
                       </div>
 
@@ -268,20 +233,6 @@ export default function InvoiceModalRight(props) {
                             }}
                           >
                             Cancel
-                          </button>
-                          <button
-                            type="button"
-                            className="rounded-md border border-gray-300 bg-red-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            onClick={() => {
-                              setOpen;
-                              handelDeleteTask(task._id);
-                              onClose();
-                            }}
-                          >
-                            Smazat
-                          </button>
-                          <button type="submit" className="my-button-v2">
-                            Uložit
                           </button>
                         </div>
                       </div>

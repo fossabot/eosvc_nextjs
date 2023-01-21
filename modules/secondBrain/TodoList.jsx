@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllTodos } from "./apiCalls/getAllTodos";
 import { deleteTodo } from "./apiCalls/deleteTodo";
@@ -22,6 +24,7 @@ export default function TodoList() {
 
   const { data: todos, isLoading } = useQuery({
     queryKey: ["todos"],
+    refetchInterval: 5000,
     queryFn: getAllTodos,
   });
 
@@ -48,7 +51,10 @@ export default function TodoList() {
         <ConfirmDelete
           taskId={taskId}
           onClose={() => setModal(false)}
-          onDelete={() => handelDeleteTodo(taskId)}
+          onDelete={() => {
+            handelDeleteTodo(taskId);
+            toast.success("Bookmark položka smazána!");
+          }}
         />
       )}
       <TodoModalRight
@@ -58,6 +64,18 @@ export default function TodoList() {
         onClose={() => setSelectedTodo(undefined)}
         //onUpdate={onUpdateTask}
         //onDelete={onDeleteTask}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
       <div className="mt-8 flex flex-col">
         <div className="flex flex-row">
