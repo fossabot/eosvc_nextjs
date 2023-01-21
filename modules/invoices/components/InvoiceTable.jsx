@@ -15,6 +15,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ConfirmDelete from "../modals/ConfirmDelete";
 import InvoiceModalRight from "../modals/InvoiceModalRight";
 import ShowInvoiceModal from "../modals/ShowInvoiceModal";
+import LoadingSpinner from "../../../components/loadings/LoadingSpinner";
 import { getAllInvoices } from "../apiCalls/getAllInvoices";
 import { deleteInvoice } from "../apiCalls/deleteInvoice";
 
@@ -38,7 +39,7 @@ export default function TodoList() {
     queryKey: ["invoices"],
     queryFn: getAllInvoices,
     //refetch invoices every 1 second
-    refetchInterval: 1000,
+    //refetchInterval: 1000,
   });
   //console.log(invoices, "invoices");
 
@@ -63,7 +64,7 @@ export default function TodoList() {
     setInvoiceId(null);
   };
 
-  if (isLoading) return console.log("loading");
+  if (isLoading) return <LoadingSpinner message={"Načítám faktury ..."} />;
 
   return (
     <div className="flex overflow-y-auto  ">

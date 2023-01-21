@@ -1,9 +1,9 @@
 import React from "react";
-import { getMessageList } from "./soapCall";
+//import { getMessageList } from "./soapCall";
 
 const DataBoxMain = () => {
-  const message = getMessageList();
-  console.log(message, "Message");
+  /*   const message = getMessageList();
+  console.log(message, "Message"); */
   return (
     <div>
       <h1>Datová schránka</h1>
