@@ -27,22 +27,24 @@ export default function TodoList() {
   const [modal, setModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [invoiceId, setInvoiceId] = useState(null);
+  const [invoiceFileUrl, setInvoiceFileUrl] = useState(null);
   const [selectedInvoice, setSelectedInvoice] = useState(undefined);
   const [filter, setFilter] = useState("");
   const [filterLink, setFilterLink] = useState("");
   const [hasData, setHasData] = useState(false);
-  console.log(selectedInvoice, "selectedInvoice");
-  console.log(showModal, "showModal");
+  // console.log(selectedInvoice, "selectedInvoice");
+  // console.log(showModal, "showModal");
+  console.log(invoiceFileUrl, "invoiceFileUrl");
   // Access the client
   const queryClient = useQueryClient();
 
   const { data: invoices, isLoading } = useQuery({
     queryKey: ["invoices"],
     queryFn: getAllInvoices,
-    //refetch invoices every 1 second
-    refetchInterval: 1000,
+    //refetch invoices every 5 second
+    refetchInterval: 5000,
     onSuccess: (data) => {
-      console.log(data, "data");
+      //console.log(data, "data");
       setHasData(true);
     },
     onError: (error) => {
@@ -54,23 +56,22 @@ export default function TodoList() {
 
   // Mutations
   const deleteMutation = useMutation({
-    mutationFn: (invoiceId) => deleteInvoice(invoiceId),
+    mutationFn: (invoiceFileUrl, invoiceId) => {
+      deleteInvoice(invoiceFileUrl, invoiceId);
+    },
+    onMutate: () => toast("Mažu fakturu!"),
     //isLoading: () => toast("Wow so easy!"),
     onSuccess: () => {
+      setInvoiceId(null);
+      setInvoiceFileUrl(null);
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
   });
 
-  /* 
-  const refetchInvoices = () => {
-    queryClient.invalidateQueries({ queryKey: ["invoices"] });
-  }; */
-
-  const handelDeleteTodo = async (id) => {
-    console.log("Delete invoiceID: ", id);
-    await deleteMutation.mutate(id);
-    setInvoiceId(null);
+  const handelDeleteTodo = async (invoiceFileUrl, invoiceId) => {
+    console.log("Delete invoiceID: ", invoiceFileUrl, invoiceId);
+    await deleteMutation.mutate({ invoiceFileUrl, invoiceId });
   };
 
   if (isLoading) return <LoadingSpinner message={"Načítám faktury ..."} />;
@@ -83,7 +84,7 @@ export default function TodoList() {
           onClose={() => setModal(false)}
           onDelete={() => {
             toast.success("Faktura smazána!");
-            handelDeleteTodo(invoiceId);
+            handelDeleteTodo(invoiceFileUrl, invoiceId);
           }}
         />
       )}
@@ -243,7 +244,7 @@ export default function TodoList() {
                               {invoice.description.substring(0, 60) + " ..."}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              <Link href={"#"} target="_blank">
+                              <Link href={""} target="_blank">
                                 {" link to invoice"}
                                 {/*todo.url.substring(0, 40) + " ..."*/}
                               </Link>
@@ -262,12 +263,14 @@ export default function TodoList() {
                                     //setOpen(true);
                                   }}
                                 />
-                                {invoice.invoice_file.includes(
-                                  "data:image"
-                                ) && <PhotoIcon className="w-4 h-4" />}
-                                {invoice.invoice_file.includes(
-                                  "application/pdf"
-                                ) && <DocumentIcon className="w-4 h-4" />}
+                                {invoice.invoice_file_mimeType ===
+                                  "image/png" && (
+                                  <PhotoIcon className="w-4 h-4" />
+                                )}
+                                {invoice.invoice_file_mimeType ===
+                                  "application/pdf" && (
+                                  <DocumentIcon className="w-4 h-4" />
+                                )}
                                 <PencilSquareIcon
                                   className="w-4 h-4"
                                   onClick={() => {
@@ -281,6 +284,7 @@ export default function TodoList() {
                                   onClick={() => {
                                     setModal(true);
                                     setInvoiceId(invoice._id);
+                                    setInvoiceFileUrl(invoice.invoice_file_url);
                                   }}
                                 />
                               </div>
@@ -290,7 +294,8 @@ export default function TodoList() {
                     {!hasData && (
                       <tr>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          No data
+                          Dafa faktur se nanačetla z mongoDB, proveďte reload
+                          stránky (ctrl+F5) pro nové načtení dat.
                         </td>
                       </tr>
                     )}

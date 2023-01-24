@@ -112,6 +112,12 @@ const invoiceSchema = new Schema(
     invoice_file: {
       type: String,
     },
+    invoice_file_url: {
+      type: String,
+    },
+    invoice_file_mimeType: {
+      type: String,
+    },
     position: {
       type: Number,
     },

@@ -2,12 +2,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { setSection } from "../../redux/projects/sectionSlice";
-import LoadingSpinner from "../../components/loadings/LoadingSpinner";
 import { updateSection } from "./apiCalls/updateSection";
 import { addTask } from "./apiCalls/addTask";
-//import Task from "./bck/Task";
 import TaskModalRight from "./TaskModalRight";
 import { updateTaskPosition } from "./apiCalls/updateTaskPosition";
 import {} from "@heroicons/react/outline/";
@@ -19,7 +15,7 @@ import {
 import { deleteSection } from "./apiCalls/deleteSection";
 import { createSection } from "./apiCalls/createSection";
 import { deleteTask } from "./apiCalls/deleteTask";
-import TipTapEditor from "../../components/tipTapEditor/TipTapEditor";
+//import TipTapEditor from "../../components/tipTapEditor/TipTapEditor";
 
 let timer;
 const timeout = 500;

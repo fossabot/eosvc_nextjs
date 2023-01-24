@@ -7,6 +7,17 @@ import { getSections } from "../../projects/apiCalls/getSections";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { addTaskFromInvoice } from "../apiCalls/addTaskFromInvoice";
+import { Document, Page } from "react-pdf";
+//import { Document, Page, View } from "@react-pdf/renderer";
+
+import dynamic from "next/dynamic";
+
+const PDFViewer = dynamic(
+  () => import("../../../components/pdfViewer/pdfViewer"),
+  {
+    ssr: false,
+  }
+);
 
 export default function InvoiceModalRight(props) {
   const { _id: userId } = useSelector((state) => state.session);
@@ -14,6 +25,13 @@ export default function InvoiceModalRight(props) {
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
   const [open, setOpen] = useState(true);
+
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
 
   // Access the client
   const { data: projects, isLoading } = useQuery({
@@ -154,18 +172,26 @@ export default function InvoiceModalRight(props) {
                             </div>
                           </div>
                           <div className="w-full">
-                            {invoice.invoice_file.includes("pdf") && (
+                            {invoice.invoice_file_mimeType ===
+                              "application/pdf" && (
                               <div>
-                                <iFrame
-                                  className="w-full h-[800px]"
-                                  src={invoice.invoice_file}
-                                ></iFrame>
+                                {/*      <iFrame
+                                    className="w-full h-[800px]"
+                                    src={invoice.invoice_file_url}
+                                  ></iFrame> 
+                                  //how to render pdf in react js
+                                  //PDFViewer(invoice.invoice_file_url)
+                                  <PDFViewer />
+                                  */}
+
+                                <PDFViewer />
+                                {invoice.invoice_file_url}
                               </div>
                             )}
-                            {invoice.invoice_file.includes("data:image") && (
+                            {invoice.invoice_file_mimeType === "image/png" && (
                               <div>
                                 <img
-                                  src={invoice.invoice_file}
+                                  src={invoice.invoice_file_url}
                                   className="object-fill"
                                 />
                               </div>
