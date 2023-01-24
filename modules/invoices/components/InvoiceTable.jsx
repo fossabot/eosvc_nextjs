@@ -83,7 +83,7 @@ export default function TodoList() {
           invoiceId={invoiceId}
           onClose={() => setModal(false)}
           onDelete={() => {
-            toast.success("Faktura smazána!");
+            //toast.success("Faktura smazána!");
             handelDeleteTodo(invoiceFileUrl, invoiceId);
           }}
         />
@@ -112,7 +112,7 @@ export default function TodoList() {
       <div className="flex flex-col w-full ">
         <ToastContainer
           position="top-right"
-          autoClose={1000}
+          autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -233,7 +233,7 @@ export default function TodoList() {
                                 invoice._id.substring(invoice._id.length - 3)}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {Moment(invoice.createdAt).format(
+                              {Moment(invoice.date_created).format(
                                 "YYYY-MM-DD-HH:mm"
                               )}
                             </td>
@@ -264,8 +264,10 @@ export default function TodoList() {
                                   }}
                                 />
                                 {invoice.invoice_file_mimeType ===
-                                  "image/png" && (
+                                  "image/png" || "image/jpeg" ? (
                                   <PhotoIcon className="w-4 h-4" />
+                                ) : (
+                                  ""
                                 )}
                                 {invoice.invoice_file_mimeType ===
                                   "application/pdf" && (
@@ -294,7 +296,7 @@ export default function TodoList() {
                     {!hasData && (
                       <tr>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          Dafa faktur se nanačetla z mongoDB, proveďte reload
+                          Data faktur se nanačetla z mongoDB, proveďte reload
                           stránky (ctrl+F5) pro nové načtení dat.
                         </td>
                       </tr>

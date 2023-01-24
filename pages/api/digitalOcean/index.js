@@ -38,11 +38,6 @@ export default async function handler(req, res) {
         })
         .promise();
 
-      /*       const url = s3.getSignedUrl("getObject", {
-        Bucket: process.env.DO_BUCKET,
-        Key: filename,
-        Expires: 0, // URL will never expire
-      }); */
       const url = `https://${process.env.DO_BUCKET}.${process.env.DO_REGION}.digitaloceanspaces.com/${filename}`;
 
       console.log(url, "url");

@@ -188,7 +188,10 @@ export default function InvoiceModalRight(props) {
                                 {invoice.invoice_file_url}
                               </div>
                             )}
-                            {invoice.invoice_file_mimeType === "image/png" && (
+
+                            {invoice.invoice_file_mimeType.includes(
+                              "image"
+                            ) && (
                               <div>
                                 <img
                                   src={invoice.invoice_file_url}

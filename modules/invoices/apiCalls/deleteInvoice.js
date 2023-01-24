@@ -16,6 +16,6 @@ export const deleteInvoice = async (mutationData) => {
   } catch (err) {
     alert(err);
   } finally {
-    console.log("Todo delete successfully");
+    console.log("Invoice delete successfully");
   }
 };

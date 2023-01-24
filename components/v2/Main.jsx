@@ -151,7 +151,7 @@ function Main() {
         <div className="flex flex-row">
           <DashboardBox>
             <div className="flex mx-auto items-center">
-              <h1 className="font-bold pb-5">Faktruy:</h1>
+              <h1 className="font-bold pb-5">Faktury:</h1>
             </div>
             <div>
               Počet faktur:
