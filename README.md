@@ -33,8 +33,14 @@ GITHUB_SECRET=
 JWT_SECRET=
 
 #openssl rand -base64 32
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpdovhomilja%2Feosvc_nextjs.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpdovhomilja%2Feosvc_nextjs?ref=badge_shield)
+
 
 #NEXT ENV for Client part of App
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_USER_DEFAULT_PASS="DefaultPassword for creating new user in local user storage"
 NEXT_PUBLIC_OPENAI_API_KEY=sk-xxxxxx
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpdovhomilja%2Feosvc_nextjs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpdovhomilja%2Feosvc_nextjs?ref=badge_large)
